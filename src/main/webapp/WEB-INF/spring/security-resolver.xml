@@ -11,7 +11,7 @@
 
 	<context:annotation-config />
 
-	<context:component-scan base-package="org.xmlconfig.service" />
+	<context:component-scan base-package="org.construccion.service" />
 
 	<http pattern="/resources" security="none" />
 

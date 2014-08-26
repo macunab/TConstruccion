@@ -10,6 +10,7 @@
 		<config>src/main/webapp/WEB-INF/spring/spring-servlet.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/persistence-resolver.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/security-resolver.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appContext.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
