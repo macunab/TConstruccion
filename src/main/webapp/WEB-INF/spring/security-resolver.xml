@@ -22,7 +22,7 @@
 		<intercept-url pattern="/denied" access="hasRole('ROLE_CLIENTE')" />
 		<intercept-url pattern="/" access="permitAll" />
 
-		<form-login login-page="/login" authentication-failure-url="/login/failure"
+		<form-login login-page="/login" authentication-failure-url="/login_error"
 			default-target-url="/" />
 
 		<access-denied-handler error-page="/denied" />
