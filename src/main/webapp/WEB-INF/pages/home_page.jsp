@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page
+	import="org.springframework.security.core.context.SecurityContextHolder"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -80,14 +82,22 @@
 						class="glyphicon glyphicon-shopping-cart"></span> <span
 						class="badge pull-right">0</span></a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">Username <span class="caret"></span></a>
+					data-toggle="dropdown">Bienvenido, <strong><%=SecurityContextHolder.getContext().getAuthentication()
+					.getName()%></strong> <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="#">Mis Pedidos</a></li>
 						<li><a href="#">Perfil</a></li>
 						<li><a href="#">Change password</a></li>
 						<li class="divider"></li>
-						<li><a href="#">Logout</a></li>
+						<li><a href="j_spring_security_logout">Logout</a></li>
 					</ul></li>
+					</sec:authorize>
+						<sec:authorize access="isAnonymous()">
+					<li ><a href="login"><strong>Sing in</strong></a></li>
+					<li ><a > or </a></li>
+					<li ><a href="#"><strong>Sing up</strong></a></li>
+				
+					
 					</sec:authorize>
 			</ul>
 		</div>
