@@ -33,16 +33,11 @@
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="customUserDetailsService">
-			<!-- <password-encoder ref="encoder" /> -->
+			 <password-encoder hash="bcrypt" />  
 		</authentication-provider>
 	</authentication-manager>
 
 	<beans:bean id="customUserDetailsService"
 		class="org.construccion.service.CustomUserDetailsService" />
-
-	<beans:bean id="encoder"
-		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-		<beans:constructor-arg name="strength" value="10" />
-	</beans:bean>
 
 </beans:beans>

@@ -30,8 +30,9 @@ public class Grupo {
 
 	}
 
-	public Grupo(int permiso) {
+	public Grupo(int permiso, Usuario usuario) {
 		this.permiso = permiso;
+		this.usuario = usuario;
 	}
 
 	public Integer getIdgrupo() {
