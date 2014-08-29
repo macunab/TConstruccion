@@ -53,8 +53,6 @@ public class HomeController {
 	@Transactional
 	public String postSaveUsuario(@ModelAttribute("Usuario") Usuario usuario) {
 		
-		
-
 		System.out.println("USUARIO : " + usuario.getUsername() + " ++++ " + usuario.getPassword());
 		usuario.setEnable(true);
 		usuario.setRol(new Grupo(1, usuario));

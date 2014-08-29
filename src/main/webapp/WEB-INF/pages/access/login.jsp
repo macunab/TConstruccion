@@ -30,6 +30,8 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
       </div>
+      
+      <div>${error }</div>
 
     <!-- </div>
 	<form action="j_spring_security_check" method="POST">

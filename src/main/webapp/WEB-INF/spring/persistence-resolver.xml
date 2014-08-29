@@ -8,7 +8,7 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/construccion_ferreteria" />
+			value="jdbc:mysql://localhost:3306/ferreteria_construccion" />
 		<property name="username" value="dbferreteria" />
 		<property name="password" value="ferreteria" />
 	</bean>

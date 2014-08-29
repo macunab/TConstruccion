@@ -111,27 +111,30 @@
 
 		<div class="row">
 
+
+<c:forEach items="${productos }" var="producto">
 			<div class="col-xs-3">
 
-				<a href="#" class="thumbnail"> <img src="herramienta1.jpg"
+				<a href="#" class="thumbnail"> <img src="/../../imagenes/1.jpg"
 					alt="125x125">
 
 				</a>
 				<div class="caption">
-					<h3>Thumbnail label</h3>
-					<p>... Cras sit amet nibh libero, in gravida nulla. Nulla vel
-						metus scelerisque ante sollicitudin commodo. Cras purus odio,
-						vestibulum in vulputate at, tempus viverra turpis. Fusce
-						condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-						felis in faucibus.</p>
+					<h3>${producto.nombre }</h3>
+					<p>${producto.descripcion}</p>
 					<p>
-						<a href="#" class="btn btn-primary" role="button">Button</a> <a
-							href="#" class="btn btn-default" role="button">Button</a>
+						<a href="#" class="btn btn-primary" role="button">Detalle</a> 
+						
+						<a
+							href="#" class="btn btn-default" role="button"><span
+						class="glyphicon glyphicon-shopping-cart"></span></a>
 					</p>
 				</div>
 
 			</div>
-			<div class="col-xs-3">
+			
+			</c:forEach>
+			<!-- <div class="col-xs-3">
 
 				<a href="#" class="thumbnail"> <img src="herramienta2.png"
 					alt="125x125">
@@ -253,8 +256,8 @@
 					</p>
 				</div>
 
-			</div>
-			<div class="col-xs-3">
+			</div> -->
+			<!-- <div class="col-xs-3">
 
 				<a href="#" class="thumbnail"> <img src="herramienta2.png"
 					alt="125x125">
@@ -273,7 +276,7 @@
 					</p>
 				</div>
 
-			</div>
+			</div>-->
 		</div>
 	</div>
 
