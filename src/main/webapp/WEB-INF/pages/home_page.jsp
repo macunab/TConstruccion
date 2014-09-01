@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="org.springframework.security.core.context.SecurityContextHolder"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,24 +10,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Home Page</title>
+<!-- Estilo Css -->
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-
-<!-- Optional theme -->
 <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
 
-<!-- Latest compiled and minified JavaScript -->
+<!-- Javascripts -->
 <script src="resources/js/jquery-1.2.11.0.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
 
+<style>
+.blue {
+	color: #99C7F4;
+}
+</style>
+
 </head>
 <body>
-	<!-- <a href="save_usuario">Sign up</a>
-<a href="secure/empleado">Secure</a>
-<h1>Home page</h1>
-<p>-------------------------------------------------</p>
-<c:forEach items="${productos }" var="producto">
-<p>${producto.nombre }</p>
-</c:forEach> -->
 
 	<div class="container">
 		<div class="page-header">
@@ -35,7 +34,6 @@
 			</h1>
 		</div>
 	</div>
-
 
 	<nav class="navbar navbar-default" role="navigation">
 	<div class="container">
@@ -50,22 +48,17 @@
 			<a class="navbar-brand" href="#">inicio</a>
 		</div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
+		<!-- NAVBAR Derecha CONTACTO/CATEGORIA/BUSQUEDA -->
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="#">Contacto</a></li>
-				<li><a href="#">Link</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Categorias <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
+						<c:forEach items="${categorias }" var="categoria">
+							<li><a href="#">${categoria.nombre }</a>
+						</c:forEach>
 					</ul></li>
 			</ul>
 			<form class="navbar-form navbar-left" role="search">
@@ -76,207 +69,86 @@
 					<span class="glyphicon glyphicon-search"></span>
 				</button>
 			</form>
+
+			<!-- NAVBAR Izquierda LOGIN/CARRITO -->
 			<ul class="nav navbar-nav navbar-right">
-			<sec:authorize access="hasRole('ROLE_CLIENTE')">
-				<li><a href="#"><span
-						class="glyphicon glyphicon-shopping-cart"></span> <span
-						class="badge pull-right">0</span></a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">Bienvenido, <strong><%=SecurityContextHolder.getContext().getAuthentication()
-					.getName()%></strong> <span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Mis Pedidos</a></li>
-						<li><a href="#">Perfil</a></li>
-						<li><a href="#">Change password</a></li>
-						<li class="divider"></li>
-						<li><a href="j_spring_security_logout">Logout</a></li>
-					</ul></li>
-					</sec:authorize>
-						<sec:authorize access="isAnonymous()">
-					<li ><a href="login"><strong>Sing in</strong></a></li>
-					<li ><a > or </a></li>
-					<li ><a href="#"><strong>Sing up</strong></a></li>
-				
-					
-					</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_CLIENTE')">
+					<li><a href="#"><span
+							class="glyphicon glyphicon-shopping-cart blue"></span> <span>
+								&nbsp</span> <span class="badge pull-right">0</span></a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">Bienvenido, <strong><%=SecurityContextHolder.getContext()
+						.getAuthentication().getName()%></strong> <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Mis Pedidos</a></li>
+							<li><a href="#">Perfil</a></li>
+							<li><a href="#">Change password</a></li>
+							<li class="divider"></li>
+							<li><a href="j_spring_security_logout">Logout</a></li>
+						</ul></li>
+				</sec:authorize>
+				<!--<sec:authorize access="isAnonymous()">
+					<li><a href="login"><strong>Sing in</strong></a></li>
+					<li><a> or </a></li>
+					<li><a href="#"><strong>Sing up</strong></a></li>
+
+
+				</sec:authorize>-->
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid --> </nav>
 
+
+
 	<div class="container">
+
+		<sec:authorize access="isAnonymous()">
+			<div class="jumbotron">
+				<h1>Vamos de compras,</h1>
+				<p>Consiga todo lo que necesita para la construccion o las
+					labores cotidianas e indispensables del hogas desde nuestro e-shop,
+					si ya dispone de una cuenta ingrese desde Sing in, sino creese una
+					facilmente desde Sign up!</p>
+				<div class="form-group">
+					<div class="col-md-8">
+						<a href="login" class="btn btn-success">Sign in</a>
+						<button id="button2id" name="button2id" class="btn btn-primary">Sign
+							up</button>
+					</div>
+				</div>
+			</div>
+		</sec:authorize>
 
 		<h2>Articulos destacados:</h2>
 
 		<div class="row">
 
 
-<c:forEach items="${productos }" var="producto">
-			<div class="col-xs-3">
+			<c:forEach items="${productos }" var="producto">
+				<div class="col-xs-3">
 
-				<a href="#" class="thumbnail"> <img src="/../../imagenes/1.jpg"
-					alt="125x125">
+					<a href="#" class="thumbnail"> <img src="${producto.urlImage}"
+						alt="125x125">
 
-				</a>
-				<div class="caption">
-					<h3>${producto.nombre }</h3>
-					<p>${producto.descripcion}</p>
-					<p>
-						<a href="#" class="btn btn-primary" role="button">Detalle</a> 
-						
-						<a
-							href="#" class="btn btn-default" role="button"><span
-						class="glyphicon glyphicon-shopping-cart"></span></a>
-					</p>
+					</a>
+					<div class="caption">
+						<h3>${producto.nombre }</h3>
+						<p>${producto.descripcion}</p>
+						<p>
+							<a href="#" class="btn btn-primary" role="button">Detalle</a>
+							<sec:authorize access="hasRole('ROLE_CLIENTE')">
+								<a href="#" class="btn btn-default" role="button"><span
+									class="glyphicon glyphicon-shopping-cart"></span></a>
+							</sec:authorize>
+						</p>
+					</div>
+
 				</div>
 
-			</div>
-			
 			</c:forEach>
-			<!-- <div class="col-xs-3">
 
-				<a href="#" class="thumbnail"> <img src="herramienta2.png"
-					alt="125x125">
-
-				</a>
-				<div class="caption">
-					<h3>Thumbnail label</h3>
-					<p>... Cras sit amet nibh libero, in gravida nulla. Nulla vel
-						metus scelerisque ante sollicitudin commodo. Cras purus odio,
-						vestibulum in vulputate at, tempus viverra turpis. Fusce
-						condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-						felis in faucibus.</p>
-					<p>
-						<a href="#" class="btn btn-primary" role="button">Button</a> <a
-							href="#" class="btn btn-default" role="button">Button</a>
-					</p>
-				</div>
-
-			</div>
-
-			<div class="col-xs-3">
-
-				<a href="#" class="thumbnail"> <img src="herramienta1sa.jpg"
-					alt="125x125">
-
-				</a>
-				<div class="caption">
-					<h3>Thumbnail label</h3>
-					<p>... Cras sit amet nibh libero, in gravida nulla. Nulla vel
-						metus scelerisque ante sollicitudin commodo. Cras purus odio,
-						vestibulum in vulputate at, tempus viverra turpis. Fusce
-						condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-						felis in faucibus.</p>
-					<p>
-						<a href="#" class="btn btn-primary" role="button">Button</a> <a
-							href="#" class="btn btn-default" role="button">Button</a>
-					</p>
-				</div>
-
-			</div>
-			<div class="col-xs-3">
-
-				<a href="#" class="thumbnail"> <img src="herramienta2.png"
-					alt="125x125">
-
-				</a>
-				<div class="caption">
-					<h3>Thumbnail label</h3>
-					<p>... Cras sit amet nibh libero, in gravida nulla. Nulla vel
-						metus scelerisque ante sollicitudin commodo. Cras purus odio,
-						vestibulum in vulputate at, tempus viverra turpis. Fusce
-						condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-						felis in faucibus.</p>
-					<p>
-						<a href="#" class="btn btn-primary" role="button">Button</a> <a
-							href="#" class="btn btn-default" role="button">Button</a>
-					</p>
-				</div>
-
-			</div>
-
-			<div class="col-xs-3">
-
-				<a href="#" class="thumbnail"> <img src="herramienta5.jpg"
-					alt="125x125">
-
-				</a>
-				<div class="caption">
-					<h3>Thumbnail label</h3>
-					<p>... Cras sit amet nibh libero, in gravida nulla. Nulla vel
-						metus scelerisque ante sollicitudin commodo. Cras purus odio,
-						vestibulum in vulputate at, tempus viverra turpis. Fusce
-						condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-						felis in faucibus.</p>
-					<p>
-						<a href="#" class="btn btn-primary" role="button">Button</a> <a
-							href="#" class="btn btn-default" role="button">Button</a>
-					</p>
-				</div>
-
-			</div>
-			<div class="col-xs-3">
-
-				<a href="#" class="thumbnail"> <img src="herramienta2.png"
-					alt="125x125">
-
-				</a>
-				<div class="caption">
-					<h3>Thumbnail label</h3>
-					<p>... Cras sit amet nibh libero, in gravida nulla. Nulla vel
-						metus scelerisque ante sollicitudin commodo. Cras purus odio,
-						vestibulum in vulputate at, tempus viverra turpis. Fusce
-						condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-						felis in faucibus.</p>
-					<p>
-						<a href="#" class="btn btn-primary" role="button">Button</a> <a
-							href="#" class="btn btn-default" role="button">Button</a>
-					</p>
-				</div>
-
-			</div>
-
-			<div class="col-xs-3">
-
-				<a href="#" class="thumbnail"> <img src="herramienta1.jpg"
-					alt="125x125">
-
-				</a>
-				<div class="caption">
-					<h3>Thumbnail label</h3>
-					<p>... Cras sit amet nibh libero, in gravida nulla. Nulla vel
-						metus scelerisque ante sollicitudin commodo. Cras purus odio,
-						vestibulum in vulputate at, tempus viverra turpis. Fusce
-						condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-						felis in faucibus.</p>
-					<p>
-						<a href="#" class="btn btn-primary" role="button">Button</a> <a
-							href="#" class="btn btn-default" role="button">Button</a>
-					</p>
-				</div>
-
-			</div> -->
-			<!-- <div class="col-xs-3">
-
-				<a href="#" class="thumbnail"> <img src="herramienta2.png"
-					alt="125x125">
-
-				</a>
-				<div class="caption">
-					<h3>Thumbnail label</h3>
-					<p>... Cras sit amet nibh libero, in gravida nulla. Nulla vel
-						metus scelerisque ante sollicitudin commodo. Cras purus odio,
-						vestibulum in vulputate at, tempus viverra turpis. Fusce
-						condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
-						felis in faucibus.</p>
-					<p>
-						<a href="#" class="btn btn-primary" role="button">Button</a> <a
-							href="#" class="btn btn-default" role="button">Button</a>
-					</p>
-				</div>
-
-			</div>-->
 		</div>
 	</div>
 
