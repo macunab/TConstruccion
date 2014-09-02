@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping()
@@ -33,6 +34,9 @@ public class HomeController {
 
 	static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+	/*
+	 * Devuelve la pagina principal para clientes.
+	 * */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getHome(Model model) {
 
@@ -63,6 +67,31 @@ public class HomeController {
 		usuarioRepo.save(usuario);
 
 		return "redirect:/";
+	}
+
+	/*
+	 * Busqueda de Productos.
+	 * */
+	@RequestMapping(value = "/busqueda_producto", method = RequestMethod.GET)
+	public String getBusqueda(@RequestParam("busqueda") String busqueda,
+			Model model) {
+
+		List<Producto> productos = productoRepo.busquedaByTag(busqueda);
+		model.addAttribute("productos", productos);
+		return "busqueda_page";
+	}
+	
+	/*
+	 * 
+	 * Detalle de Producto.
+	 * */
+	@RequestMapping(value = "/get_producto", method = RequestMethod.GET)
+	public String getProductoDetalle(@RequestParam("codigo") Integer codigoProducto, Model model){
+		
+		Producto producto = productoRepo.findOne(codigoProducto);
+		model.addAttribute("producto", producto);
+		
+		return "producto_detalle";
 	}
 
 }

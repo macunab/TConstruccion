@@ -18,6 +18,14 @@
 </head>
 <body>
 	<div class="container">
+		<div class="page-header">
+			<h1>
+				UnClick <small>.com</small>
+			</h1>
+		</div>
+	</div>
+
+	<div class="container">
 
 		<form:form class="form-horizontal" action="save_producto"
 			method="POST" modelAttribute="Producto" enctype="multipart/form-data">
@@ -53,8 +61,7 @@
 					<label class="col-md-4 control-label" for="precio">Precio</label>
 					<div class="col-md-4">
 						<form:input id="precio" path="precio" name="precio"
-							placeholder="precio" class="form-control input-md" type="number"
-							onKeyPress="return numbersonly(this, event)" />
+							placeholder="precio" class="form-control input-md" type="number" />
 						<span class="help-block">precio del producto</span>
 					</div>
 				</div>
@@ -87,12 +94,12 @@
 				</div>
 
 				<!-- Imagen del Producto -->
-				 <div class="form-group">
-				<label class="col-md-4 control-label" for="imagen">Imagen</label>
-				<div class="col-md-4">
-					<input id="imagen" name="imagen" class="input-file" type="file">
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="imagen">Imagen</label>
+					<div class="col-md-4">
+						<input id="imagen" name="imagen" class="input-file" type="file">
+					</div>
 				</div>
-			</div> 
 
 				<!-- Select Multiple -->
 				<div class="form-group">
@@ -102,7 +109,7 @@
 							items="${tags}" itemLabel="nombre" itemValue="idAsString" />
 
 					</div>
-					<a href="#"><span class="glyphicon glyphicon-plus"></span></a>
+					<a href="#" id="tag"><span class="glyphicon glyphicon-plus"></span></a>
 				</div>
 
 				<!-- Textarea -->
@@ -155,10 +162,11 @@
 			// decimal point jump
 			else if (dec && (keychar == ".")) {
 				myfield.form.elements[dec].focus();
-				return true;
+				return false;
 			} else
 				return false;
 		}
+
 	</script>
 </body>
 </html>

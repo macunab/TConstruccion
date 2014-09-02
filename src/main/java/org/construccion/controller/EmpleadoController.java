@@ -43,6 +43,12 @@ public class EmpleadoController {
 	// Guardo el id(String) junto a su clase.
 	private Map<String, Tag> tagCache;
 
+	@RequestMapping(value = "secure/home_page", method = RequestMethod.GET)
+	public String getAdminHomePage() {
+
+		return "secure/empleado/home_admin";
+	}
+
 	@RequestMapping(value = "secure/save_producto", method = RequestMethod.GET)
 	public String getSaveProducto(Model model) {
 

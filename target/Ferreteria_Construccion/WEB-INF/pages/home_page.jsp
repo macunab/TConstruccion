@@ -24,6 +24,20 @@
 }
 </style>
 
+<script type="text/javascript">
+	function buscar() {
+		$.ajax({
+			type : "get",
+			url : "busqueda_producto",
+			cache : false,
+			data : 'busqueda=' + $('#busqueda').val(),
+			success : function(data) {
+				$('#main-container').html(data);
+			},
+		});
+	}
+</script>
+
 </head>
 <body>
 
@@ -45,14 +59,16 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">inicio</a>
+			<a class="navbar-brand" href="">inicio</a>
 		</div>
 
 		<!-- NAVBAR Derecha CONTACTO/CATEGORIA/BUSQUEDA -->
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Contacto</a></li>
+				<!-- class="active" en los li los deja marcados -->
+				<!-- ****************************************** -->
+				<li><a href="#">Contacto</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Categorias <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
@@ -63,9 +79,10 @@
 			</ul>
 			<form class="navbar-form navbar-left" role="search">
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
+					<input id="busqueda" type="text" class="form-control"
+						placeholder="busqueda">
 				</div>
-				<button type="submit" class="btn btn-default">
+				<button type="button" class="btn btn-default" onClick="buscar()">
 					<span class="glyphicon glyphicon-search"></span>
 				</button>
 			</form>
@@ -87,13 +104,10 @@
 							<li><a href="j_spring_security_logout">Logout</a></li>
 						</ul></li>
 				</sec:authorize>
-				<!--<sec:authorize access="isAnonymous()">
-					<li><a href="login"><strong>Sing in</strong></a></li>
-					<li><a> or </a></li>
-					<li><a href="#"><strong>Sing up</strong></a></li>
+				<sec:authorize access="isAnonymous()">
+					<li><a href="#"><strong>Sing in</strong></a></li>
+				</sec:authorize>
 
-
-				</sec:authorize>-->
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
@@ -102,7 +116,7 @@
 
 
 
-	<div class="container">
+	<div id="main-container" class="container">
 
 		<sec:authorize access="isAnonymous()">
 			<div class="jumbotron">
@@ -123,7 +137,7 @@
 
 		<h2>Articulos destacados:</h2>
 
-		<div class="row">
+		<!-- <div class="row">
 
 
 			<c:forEach items="${productos }" var="producto">
@@ -136,8 +150,10 @@
 					<div class="caption">
 						<h3>${producto.nombre }</h3>
 						<p>${producto.descripcion}</p>
+						<p>$ ${producto.precio }</p>
 						<p>
-							<a href="#" class="btn btn-primary" role="button">Detalle</a>
+							<a href="get_producto?codigo=${producto.codigo }"
+								class="btn btn-primary" role="button">Detalle</a>
 							<sec:authorize access="hasRole('ROLE_CLIENTE')">
 								<a href="#" class="btn btn-default" role="button"><span
 									class="glyphicon glyphicon-shopping-cart"></span></a>
@@ -149,7 +165,66 @@
 
 			</c:forEach>
 
+		</div> -->
+
+		<!--  <div class="row">
+			<c:forEach items="${productos }" var="producto">
+				<div class="col-sm-6 col-md-4">
+					<div class="thumbnail">
+						<img class="img-thumbnail img-responsive" src="${producto.urlImage}" alt="...">
+						<div class="caption">
+							<h3>${producto.nombre }</h3>
+							<p>${producto.descripcion }</p>
+							<p>
+								<a href="#" class="btn btn-primary" role="button">Detalle</a> <a
+									href="#" class="btn btn-default" role="button"><span
+									class="glyphicon glyphicon-shopping-cart"></span></a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>-->
+		<!--<c:forEach items="${productos }" var="producto">
+			<ul class="thumbnails">
+				<li class="span3">
+					<div class="thumbnail">
+						<img src="${producto.urlImage }" alt="Ups">
+						<h5>${producto.nombre }</h5>
+						<p>${producto.descripcion }</p>
+					</div>
+				</li>
+			</ul>
+		</c:forEach>-->
+
+		<div class="row">
+			<c:forEach items="${productos }" var="producto">
+				<div class="col-xs-3">
+
+					<a href="#" class="thumbnail"> <img src="${producto.urlImage }"
+						alt="125x125">
+
+
+					</a>
+					<div class="caption">
+
+						<h3>${producto.nombre }</h3>
+
+						<p>${producto.descripcion }</p>
+
+						<p>
+							<a href="#" class="btn btn-primary">Detalle</a> <a href="#"
+								class="btn btn-default">Carrito</a>
+						</p>
+
+					</div>
+
+				</div>
+			</c:forEach>
 		</div>
+
+
+
 	</div>
 
 	<ul class="pager">

@@ -9,8 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="favicon.png" type="image/png" />
-<title>Home Page</title>
+<title>Producto Detalle</title>
 <!-- Estilo Css -->
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
@@ -18,13 +17,6 @@
 <!-- Javascripts -->
 <script src="resources/js/jquery-1.2.11.0.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
-
-<style>
-.blue {
-	color: #99C7F4;
-}
-</style>
-
 <script type="text/javascript">
 	function buscar() {
 		$.ajax({
@@ -38,7 +30,11 @@
 		});
 	}
 </script>
-
+<style>
+.blue {
+	color: #0080FF;
+}
+</style>
 </head>
 <body>
 
@@ -60,15 +56,13 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="">inicio</a>
+			<a class="navbar-brand" href="/Ferreteria_Construccion/">inicio</a>
 		</div>
 
 		<!-- NAVBAR Derecha CONTACTO/CATEGORIA/BUSQUEDA -->
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<!-- class="active" en los li los deja marcados -->
-				<!-- ****************************************** -->
 				<li><a href="#">Contacto</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Categorias <span class="caret"></span></a>
@@ -105,9 +99,6 @@
 							<li><a href="j_spring_security_logout">Logout</a></li>
 						</ul></li>
 				</sec:authorize>
-				<sec:authorize access="isAnonymous()">
-					<li><a href="#"><strong>Registrarse</strong></a></li>
-				</sec:authorize>
 
 			</ul>
 		</div>
@@ -118,62 +109,23 @@
 
 
 	<div id="main-container" class="container">
-
-		<sec:authorize access="isAnonymous()">
-			<div class="jumbotron">
-				<h1>Vamos de compras,</h1>
-				<p>Consiga todo lo que necesita para la construccion o las
-					labores cotidianas e indispensables del hogas desde nuestro e-shop,
-					si ya dispone de una cuenta ingrese desde Sing in, sino creese una
-					facilmente desde Sign up!</p>
-				<div class="form-group">
-					<div class="col-md-8">
-						<a href="login" class="btn btn-success">Sign in</a>
-						<button id="button2id" name="button2id" class="btn btn-primary">Sign
-							up</button>
-					</div>
-				</div>
-			</div>
-		</sec:authorize>
-
-		<h2>Articulos destacados:</h2>
-
-
 		<div class="row">
-			<c:forEach items="${productos }" var="producto">
-				<div class="col-xs-3">
-
-					<a href="#" class="thumbnail"> <img src="${producto.urlImage }"
-						alt="125x125">
-
-
-					</a>
-					<div class="caption">
-
-						<h3>${producto.nombre }</h3>
-
-						<p>${producto.descripcion }</p>
-
-						<p>
-							<a href="get_producto?codigo=${producto.codigo }"
-								class="btn btn-primary">Detalle</a> <a href="#"
-								class="btn btn-default">Carrito</a>
-						</p>
-
-					</div>
-
-				</div>
-			</c:forEach>
+			<div class="col-lg-2">
+				<a href="#" class="thumbnail"> <img alt="120x120"
+					src="${producto.urlImage }"></a>
+			</div>
+			<div class="col-lg-4">
+				<h2>${producto.nombre }</h2>
+				<p>${producto.descripcion }</p>
+				<p>
+					<input value="1" type="text"><a class="btn btn-danger"
+						href="#" role="button"><span
+						class="glyphicon glyphicon-shopping-cart"></span></a> <a
+						class="btn btn-success" href="#" role="button">Comprar ahora</a>
+				</p>
+			</div>
 		</div>
-
-
-
 	</div>
-
-	<ul class="pager">
-		<li class="disabled"><a href="#">Previous</a></li>
-		<li><a href="#">Next</a></li>
-	</ul>
 
 </body>
 </html>
