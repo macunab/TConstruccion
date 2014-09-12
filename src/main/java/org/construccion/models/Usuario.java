@@ -7,6 +7,10 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "usuario")
@@ -14,9 +18,11 @@ public class Usuario {
 
 	@Id
 	@Column(name = "username")
+	@NotEmpty
 	private String username;
 
 	@Column(name = "password")
+	@NotEmpty
 	private String password;
 
 	@Column(name = "enable")
@@ -28,17 +34,39 @@ public class Usuario {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Grupo rol;
 
+	@Column(name = "nombre")
+	@NotEmpty
+	private String nombre;
+
+	@Column(name = "apellido")
+	@NotEmpty
+	private String apellido;
+
+	@Column(name = "email")
+	@NotEmpty
+	private String email;
+
+	@Column(name = "domicilio")
+	@NotEmpty
+	private String domicilio;
+
 	public Usuario() {
 
 	}
 
 	public Usuario(String username, String password, boolean enable,
-			String urlAvatar, Grupo rol) {
+			String urlAvatar, Grupo rol, String nombre, String apellido,
+			String email, String domicilio) {
 		this.username = username;
 		this.password = password;
 		this.enable = enable;
 		this.urlAvatar = urlAvatar;
 		this.rol = rol;
+		this.apellido = apellido;
+		this.nombre = nombre;
+		this.email = email;
+		this.domicilio = domicilio;
+
 	}
 
 	public String getUsername() {
@@ -79,6 +107,38 @@ public class Usuario {
 
 	public void setRol(Grupo rol) {
 		this.rol = rol;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getDomicilio() {
+		return domicilio;
+	}
+
+	public void setDomicilio(String domicilio) {
+		this.domicilio = domicilio;
 	}
 
 }

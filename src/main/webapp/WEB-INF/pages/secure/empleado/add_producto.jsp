@@ -28,7 +28,7 @@
 	<div class="container">
 
 		<form:form class="form-horizontal" action="save_producto"
-			method="POST" modelAttribute="Producto" enctype="multipart/form-data">
+			method="POST" modelAttribute="producto" enctype="multipart/form-data">
 			<fieldset>
 
 				<!-- Form Name -->
@@ -44,6 +44,7 @@
 						<span class="help-block">ingrese el codigo de barra del
 							productoo</span>
 					</div>
+					<form:errors path="codigo" class="label label-danger" />
 				</div>
 
 				<!-- Text input-->
@@ -54,16 +55,31 @@
 							placeholder="nombre" class="form-control input-md" type="text" />
 						<span class="help-block">ingrese el nombre del producto</span>
 					</div>
+					<form:errors path="nombre" class="label label-danger" />
 				</div>
 
-				<!-- Text input-->
+				<!-- Precio de venta-->
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="precio">Precio</label>
 					<div class="col-md-4">
 						<form:input id="precio" path="precio" name="precio"
-							placeholder="precio" class="form-control input-md" type="number" />
+							placeholder="precio" class="form-control input-md" />
 						<span class="help-block">precio del producto</span>
 					</div>
+					<form:errors path="precio" class="label label-danger" />
+				</div>
+
+				<!-- Precio de compra-->
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="precio_compra">Precio
+						compra</label>
+					<div class="col-md-4">
+						<form:input id="precio_compra" path="precioCompra"
+							name="precio_compra" placeholder="precio de compra"
+							class="form-control input-md" />
+						<span class="help-block">precio neto del producto</span>
+					</div>
+					<form:errors path="precioCompra" class="label label-danger" />
 				</div>
 
 				<!-- Text input-->
@@ -71,10 +87,11 @@
 					<label class="col-md-4 control-label" for="stock">Stock</label>
 					<div class="col-md-4">
 						<form:input id="stock" path="stock" name="stock"
-							placeholder="stock" class="form-control input-md" type="number"
+							placeholder="stock" type="number" class="form-control input-md" 
 							onKeyPress="return numbersonly(this, event)" />
 						<span class="help-block">stock inicial</span>
 					</div>
+					<form:errors path="stock" class="label label-danger" />
 				</div>
 
 
@@ -90,7 +107,7 @@
 							</c:forEach>
 						</select>
 					</div>
-					<a href="#"><span class="glyphicon glyphicon-plus"></span></a>
+					<!-- <a href="#"><span class="glyphicon glyphicon-plus"></span></a> -->
 				</div>
 
 				<!-- Imagen del Producto -->
@@ -166,7 +183,6 @@
 			} else
 				return false;
 		}
-
 	</script>
 </body>
 </html>

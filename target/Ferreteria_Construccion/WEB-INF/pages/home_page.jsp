@@ -9,7 +9,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Home Page</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png" />
+<title>OneClick | Home</title>
 <!-- Estilo Css -->
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
@@ -105,7 +106,7 @@
 						</ul></li>
 				</sec:authorize>
 				<sec:authorize access="isAnonymous()">
-					<li><a href="#"><strong>Sing in</strong></a></li>
+					<li><a href="login"><strong>Ingresar</strong></a></li>
 				</sec:authorize>
 
 			</ul>
@@ -113,8 +114,6 @@
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid --> </nav>
-
-
 
 	<div id="main-container" class="container">
 
@@ -127,9 +126,8 @@
 					facilmente desde Sign up!</p>
 				<div class="form-group">
 					<div class="col-md-8">
-						<a href="login" class="btn btn-success">Sign in</a>
-						<button id="button2id" name="button2id" class="btn btn-primary">Sign
-							up</button>
+						<!-- <a href="login" class="btn btn-success">Ingresar</a> -->
+						<button id="button2id" name="button2id" class="btn btn-primary">Registrarse</button>
 					</div>
 				</div>
 			</div>
@@ -137,65 +135,6 @@
 
 		<h2>Articulos destacados:</h2>
 
-		<!-- <div class="row">
-
-
-			<c:forEach items="${productos }" var="producto">
-				<div class="col-xs-3">
-
-					<a href="#" class="thumbnail"> <img src="${producto.urlImage}"
-						alt="125x125">
-
-					</a>
-					<div class="caption">
-						<h3>${producto.nombre }</h3>
-						<p>${producto.descripcion}</p>
-						<p>$ ${producto.precio }</p>
-						<p>
-							<a href="get_producto?codigo=${producto.codigo }"
-								class="btn btn-primary" role="button">Detalle</a>
-							<sec:authorize access="hasRole('ROLE_CLIENTE')">
-								<a href="#" class="btn btn-default" role="button"><span
-									class="glyphicon glyphicon-shopping-cart"></span></a>
-							</sec:authorize>
-						</p>
-					</div>
-
-				</div>
-
-			</c:forEach>
-
-		</div> -->
-
-		<!--  <div class="row">
-			<c:forEach items="${productos }" var="producto">
-				<div class="col-sm-6 col-md-4">
-					<div class="thumbnail">
-						<img class="img-thumbnail img-responsive" src="${producto.urlImage}" alt="...">
-						<div class="caption">
-							<h3>${producto.nombre }</h3>
-							<p>${producto.descripcion }</p>
-							<p>
-								<a href="#" class="btn btn-primary" role="button">Detalle</a> <a
-									href="#" class="btn btn-default" role="button"><span
-									class="glyphicon glyphicon-shopping-cart"></span></a>
-							</p>
-						</div>
-					</div>
-				</div>
-			</c:forEach>
-		</div>-->
-		<!--<c:forEach items="${productos }" var="producto">
-			<ul class="thumbnails">
-				<li class="span3">
-					<div class="thumbnail">
-						<img src="${producto.urlImage }" alt="Ups">
-						<h5>${producto.nombre }</h5>
-						<p>${producto.descripcion }</p>
-					</div>
-				</li>
-			</ul>
-		</c:forEach>-->
 
 		<div class="row">
 			<c:forEach items="${productos }" var="producto">
@@ -213,8 +152,11 @@
 						<p>${producto.descripcion }</p>
 
 						<p>
-							<a href="#" class="btn btn-primary">Detalle</a> <a href="#"
-								class="btn btn-default">Carrito</a>
+							<a href="get_producto?codigo=${producto.codigo }"
+								class="btn btn-primary">Detalle</a>
+							<sec:authorize access="hasRole('ROLE_CLIENTE')">
+								<a href="#" class="btn btn-default">Carrito</a>
+							</sec:authorize>
 						</p>
 
 					</div>

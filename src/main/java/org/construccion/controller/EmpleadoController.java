@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.construccion.models.Categoria;
 import org.construccion.models.Producto;
 import org.construccion.models.Tag;
@@ -15,11 +17,15 @@ import org.construccion.repository.ProductoRepository;
 import org.construccion.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,23 +68,37 @@ public class EmpleadoController {
 
 		model.addAttribute("categorias", categorias);
 		model.addAttribute("tags", tags);
-		model.addAttribute("Producto", new Producto());
+		model.addAttribute("producto", new Producto());
 
 		return "secure/empleado/add_producto";
 	}
 
 	@RequestMapping(value = "secure/save_producto", method = RequestMethod.POST)
-	public String postSaveProducto(
-			@RequestParam("categorias[]") String categorias,
+	public String postSaveProducto(@RequestParam("categorias[]") String cate,
 			@RequestParam("imagen") CommonsMultipartFile imagen,
-			@ModelAttribute("Producto") Producto producto) throws IOException {
+			@Valid Producto producto, BindingResult result, Model model)
+			throws IOException {
 
-		Categoria categoria = categoriaRepo.findByNombre(categorias);
-		producto.setCategoria(categoria);
-		producto.setUrlImage("../pictures/" + imageResolver(imagen));
-		productoRepo.save(producto);
+		if (result.hasErrors()) {
+			List<Categoria> categorias = categoriaRepo.findAll();
+			List<Tag> tags = tagRepo.findAll();
+			tagCache = new HashMap<String, Tag>();
+			for (Tag tag : tags) {
+				tagCache.put(tag.getIdAsString(), tag);
+			}
 
-		return "redirect:/";
+			model.addAttribute("categorias", categorias);
+			model.addAttribute("tags", tags);
+			return "secure/empleado/add_producto";
+		} else {
+
+			Categoria categoria = categoriaRepo.findByNombre(cate);
+			producto.setCategoria(categoria);
+			producto.setUrlImage("../pictures/" + imageResolver(imagen));
+			productoRepo.save(producto);
+
+			return "redirect:/";
+		}
 	}
 
 	// Custom initBinder para obtener un multiple select que maneje los id como
@@ -143,4 +163,36 @@ public class EmpleadoController {
 
 		return filename;
 	}
+
+	@RequestMapping(value = "secure/producto_home/{pageNumber}", method = RequestMethod.GET)
+	public String getHomeProducto(@PathVariable Integer pageNumber, Model model) {
+
+		PageRequest request = new PageRequest(pageNumber - 1, 5,
+				Sort.Direction.DESC, "nombre");
+
+		Page<Producto> page = productoRepo.findAll(request);
+
+		int current = page.getNumber() + 1;
+		int begin = Math.max(1, current - 5);
+		int end = Math.min(begin + 10, page.getTotalPages());
+
+		model.addAttribute("page", page);
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("currentIndex", current);
+		model.addAttribute("productos", page.getContent());
+
+		return "secure/empleado/home_producto";
+	}
+
+	@RequestMapping(value = "secure/delete_producto/{codigo}", method = RequestMethod.GET)
+	public String getDeleteProducto(@PathVariable Integer codigo) {
+
+		//productoRepo.delete(codigo);
+	
+		System.out.println("###############################################");
+		return "redirect:/secure/producto_home/1";
+
+	}
+
 }

@@ -1,5 +1,6 @@
 package org.construccion.models;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,9 +12,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "producto")
@@ -21,24 +24,32 @@ public class Producto {
 
 	@Id
 	@Column(name = "idproducto")
+	@NotNull
 	private Integer codigo;
 
 	@Column(name = "nombre")
+	@NotEmpty
 	private String nombre;
 
 	@Column(name = "descripcion")
 	private String descripcion;
 
-	@Column(name = "precio")
-	private double precio;
+	@Column(name = "precio_venta")
+	@NotNull
+	private BigDecimal precio;
+
+	@Column(name = "precio_compra")
+	@NotNull
+	private BigDecimal precioCompra;
 
 	@Column(name = "stock")
-	private int stock;
+	@NotNull
+	private Integer stock;
 
 	@Column(name = "url_image")
 	private String urlImage;
 
-	//@ManyToMany(mappedBy = "productos", fetch = FetchType.EAGER)
+	// @ManyToMany(mappedBy = "productos", fetch = FetchType.EAGER)
 	@ManyToMany(cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name = "producto_tag", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = { @JoinColumn(name = "tag_id") })
@@ -53,7 +64,8 @@ public class Producto {
 	}
 
 	public Producto(Integer codigo, String nombre, String descripcion,
-			double precio, int stock, String urlImage) {
+			BigDecimal precio, Integer stock, String urlImage,
+			BigDecimal precioCompra) {
 
 		this.codigo = codigo;
 		this.nombre = nombre;
@@ -61,6 +73,7 @@ public class Producto {
 		this.precio = precio;
 		this.stock = stock;
 		this.urlImage = urlImage;
+		this.precioCompra = precioCompra;
 
 	}
 
@@ -88,19 +101,19 @@ public class Producto {
 		this.descripcion = descripcion;
 	}
 
-	public double getPrecio() {
+	public BigDecimal getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(double precio) {
+	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
 
-	public int getStock() {
+	public Integer getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
 
@@ -126,6 +139,14 @@ public class Producto {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public BigDecimal getPrecioCompra() {
+		return precioCompra;
+	}
+
+	public void setPrecioCompra(BigDecimal precioCompra) {
+		this.precioCompra = precioCompra;
 	}
 
 }

@@ -61,7 +61,7 @@
 					<label class="col-md-4 control-label" for="precio">Precio</label>
 					<div class="col-md-4">
 						<form:input id="precio" path="precio" name="precio"
-							placeholder="precio" class="form-control input-md" type="number" />
+							placeholder="precio" class="form-control input-md" />
 						<span class="help-block">precio del producto</span>
 					</div>
 				</div>
@@ -90,7 +90,7 @@
 							</c:forEach>
 						</select>
 					</div>
-					<a href="#"><span class="glyphicon glyphicon-plus"></span></a>
+					<!-- <a href="#"><span class="glyphicon glyphicon-plus"></span></a> -->
 				</div>
 
 				<!-- Imagen del Producto -->
