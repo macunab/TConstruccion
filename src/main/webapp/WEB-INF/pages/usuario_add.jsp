@@ -22,6 +22,26 @@
 <body>
 
 	<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#repassword").keyup(function(e){
+			var pass = $("#password").val();
+			var repass = $("#repassword").val();
+
+		    console.log("Post pass: '" + pass + "'");
+
+		    console.log("Post repass: '" + repass + "'");
+		     
+		     if(pass == repass){
+		    	 $("#error").text("");
+		     }else{
+		    	 $("#error").text("No coincide con la contraseña");
+		     }
+		   
+		  });
+
+	});
+	
 		function buscar() {
 			$.ajax({
 				type : "get",
@@ -33,6 +53,8 @@
 				},
 			});
 		}
+		
+		
 	</script>
 </head>
 <body>
@@ -178,7 +200,7 @@
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="passwordinput">Password</label>
 					<div class="col-md-4">
-						<form:input id="passwordinput" path="password"
+						<form:input id="password" path="password"
 							name="passwordinput" placeholder="placeholder"
 							class="form-control input-md" type="password" />
 						<span class="help-block">help</span>
@@ -191,10 +213,11 @@
 					<label class="col-md-4 control-label" for="passwordinput">Re
 						Password</label>
 					<div class="col-md-4">
-						<input id="passwordinput" name="passwordinput"
+						<input id="repassword" name="passwordinput"
 							placeholder="placeholder" class="form-control input-md"
 							type="password" /> <span class="help-block">help</span>
 					</div>
+					<label id="error" class="label label-danger"></label>
 				</div>
 
 				<!-- Button (Double) -->

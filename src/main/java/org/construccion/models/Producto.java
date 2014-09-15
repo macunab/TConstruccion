@@ -59,6 +59,9 @@ public class Producto {
 	@JoinColumn(name = "categoria")
 	private Categoria categoria;
 
+	@Column(name = "active")
+	private boolean activo;
+
 	public Producto() {
 
 	}
@@ -147,6 +150,14 @@ public class Producto {
 
 	public void setPrecioCompra(BigDecimal precioCompra) {
 		this.precioCompra = precioCompra;
+	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 
 }

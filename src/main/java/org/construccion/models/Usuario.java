@@ -7,9 +7,9 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
+import org.construccion.validation.ValidUsername;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -19,6 +19,7 @@ public class Usuario {
 	@Id
 	@Column(name = "username")
 	@NotEmpty
+	@ValidUsername(message = "El nombre de usuario ya se encuentra registrado, intente con otro.")
 	private String username;
 
 	@Column(name = "password")
@@ -44,6 +45,7 @@ public class Usuario {
 
 	@Column(name = "email")
 	@NotEmpty
+	@Email
 	private String email;
 
 	@Column(name = "domicilio")

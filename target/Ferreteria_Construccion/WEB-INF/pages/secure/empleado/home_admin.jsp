@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>OneClick | Admin</title>
 <!-- Estilo Css -->
 <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="../resources/css/bootstrap-theme.min.css">
@@ -46,7 +46,7 @@
 				<ul class="nav nav-sidebar">
 					<li class="active"><a href="#">Principal</a></li>
 					<li><a href="#">Usuarios</a></li>
-					<li><a href="#">Productos</a></li>
+					<li><a href="producto_home/1">Productos</a></li>
 					<li><a href="#">Pedidos</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">

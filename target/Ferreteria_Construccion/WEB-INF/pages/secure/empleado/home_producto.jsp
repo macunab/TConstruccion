@@ -66,21 +66,35 @@
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header">Metricas</h1>
 
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="input-group">
-							<input type="text" class="form-control"> <span
-								class="input-group-btn">
-								<button class="btn btn-default" type="button">Buscar</button>
-							</span>
-						</div>
+				<!-- <div class="row placeholders">
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<img data-src="holder.js/200x200/auto/sky" class="img-responsive"
+							alt="Generic placeholder thumbnail">
+						<h4>Pedidos</h4>
+						<span class="text-muted">Cantidad de pedidos</span>
 					</div>
-					<div class="col-lg-6">
-						<a href="/Ferreteria_Construccion/secure/save_producto"
-							class="btn btn-default">Nuevo</a>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<img data-src="holder.js/200x200/auto/vine" class="img-responsive"
+							alt="Generic placeholder thumbnail">
+						<h4>Cuentas</h4>
+						<span class="text-muted">Numero de cuentas creadas</span>
 					</div>
-				</div>
-				<h1 class="sub-header"></h1>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<img data-src="holder.js/200x200/auto/sky" class="img-responsive"
+							alt="Generic placeholder thumbnail">
+						<h4>Productos</h4>
+						<span class="text-muted">Listado de productos con
+							stock/activos</span>
+					</div>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<img data-src="holder.js/200x200/auto/vine" class="img-responsive"
+							alt="Generic placeholder thumbnail">
+						<h4>Productos sin stock</h4>
+						<span class="text-muted">Something else</span>
+					</div>
+				</div> -->
+
+				<a href="/Ferreteria_Construccion/secure/save_producto" class="btn btn-default">Nuevo</a>
 
 				<h2 class="sub-header">Lista de productos</h2>
 
@@ -99,42 +113,16 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${productos }" var="producto">
-								<!-- Popup de confirmacion - Boostrap modal -->
-								<div class="modal face" id="confirmacion${producto.codigo }" tabindex="-1"
-									role="dialog" aria-labelledby="modal" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h4 class="model-title">Eliminar producto</h4>
-											</div>
-											<div class="modal-body">
-												<p>Realmente desea eliminar el producto
-													${producto.codigo } seleccionado?</p>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">No</button>
-												<a class="btn btn-primary"
-													href="/Ferreteria_Construccion/secure/delete_producto/${producto.codigo}">Si</a>
-											</div>
-										</div>
-									</div>
-
-								</div>
-								<!-- Fin del popup -->
 								<tr>
 									<td>${producto.codigo }</td>
 									<td>${producto.nombre }</td>
 									<td>${producto.precioCompra }</td>
 									<td>${producto.precio }</td>
 									<td><a href="" class="btn btn-default"><span
-											class="glyphicon glyphicon-pencil"></span></a>
-										<button data-toggle="modal" data-target="#confirmacion${producto.codigo }"
-											class="btn btn-default">
-											<span class="glyphicon glyphicon-remove"></span>
-										</button></td>
+											class="glyphicon glyphicon-pencil"></span></a> <a href="/Ferreteria_Construccion/secure/delete_producto/${producto.codigo}"
+										class="btn btn-default"><span
+											class="glyphicon glyphicon-remove"></span></a></td>
 								</tr>
-
 							</c:forEach>
 
 						</tbody>
@@ -179,7 +167,6 @@
 			</div>
 		</div>
 	</div>
-	
-	
+
 </body>
 </html>

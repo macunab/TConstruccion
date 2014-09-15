@@ -170,7 +170,7 @@ public class EmpleadoController {
 		PageRequest request = new PageRequest(pageNumber - 1, 5,
 				Sort.Direction.DESC, "nombre");
 
-		Page<Producto> page = productoRepo.findAll(request);
+		Page<Producto> page = productoRepo.findAllActive(request);
 
 		int current = page.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
@@ -188,8 +188,12 @@ public class EmpleadoController {
 	@RequestMapping(value = "secure/delete_producto/{codigo}", method = RequestMethod.GET)
 	public String getDeleteProducto(@PathVariable Integer codigo) {
 
-		//productoRepo.delete(codigo);
-	
+		// productoRepo.delete(codigo);
+		Producto producto = productoRepo.findOne(codigo);
+
+		producto.setActivo(false);
+		productoRepo.save(producto);
+
 		System.out.println("###############################################");
 		return "redirect:/secure/producto_home/1";
 

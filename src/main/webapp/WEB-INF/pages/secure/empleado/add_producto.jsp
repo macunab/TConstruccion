@@ -63,7 +63,8 @@
 					<label class="col-md-4 control-label" for="precio">Precio</label>
 					<div class="col-md-4">
 						<form:input id="precio" path="precio" name="precio"
-							placeholder="precio" class="form-control input-md" />
+							placeholder="precio" class="form-control input-md"
+							onKeyPress="return isNumberDecimal(event)" />
 						<span class="help-block">precio del producto</span>
 					</div>
 					<form:errors path="precio" class="label label-danger" />
@@ -76,7 +77,8 @@
 					<div class="col-md-4">
 						<form:input id="precio_compra" path="precioCompra"
 							name="precio_compra" placeholder="precio de compra"
-							class="form-control input-md" />
+							class="form-control input-md"
+							onKeyPress="return isNumberDecimal(event)" />
 						<span class="help-block">precio neto del producto</span>
 					</div>
 					<form:errors path="precioCompra" class="label label-danger" />
@@ -87,7 +89,7 @@
 					<label class="col-md-4 control-label" for="stock">Stock</label>
 					<div class="col-md-4">
 						<form:input id="stock" path="stock" name="stock"
-							placeholder="stock" type="number" class="form-control input-md" 
+							placeholder="stock" type="number" class="form-control input-md"
 							onKeyPress="return numbersonly(this, event)" />
 						<span class="help-block">stock inicial</span>
 					</div>
@@ -179,10 +181,21 @@
 			// decimal point jump
 			else if (dec && (keychar == ".")) {
 				myfield.form.elements[dec].focus();
-				return false;
+				return true;
 			} else
 				return false;
 		}
+		
+		 function isNumberDecimal(evt)
+		    {
+		       var charCode = (evt.which) ? evt.which : evt.keyCode;
+		       if (charCode != 46 && charCode > 31 
+		         && (charCode < 48 || charCode > 57))
+		          return false;
+
+		       return true;
+		    }
+		    
 	</script>
 </body>
 </html>

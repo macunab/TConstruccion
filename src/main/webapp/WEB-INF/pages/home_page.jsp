@@ -115,7 +115,7 @@
 	</div>
 	<!-- /.container-fluid --> </nav>
 
-	<div class="container">
+	<div id="main-container" class="container">
 
 		<sec:authorize access="isAnonymous()">
 			<div class="jumbotron">
@@ -127,7 +127,7 @@
 				<div class="form-group">
 					<div class="col-md-8">
 						<!-- <a href="login" class="btn btn-success">Ingresar</a> -->
-						<button id="button2id" name="button2id" class="btn btn-primary">Registrarse</button>
+						<a href="save_usuario" id="button2id" name="button2id" class="btn btn-primary">Registrarse</a>
 					</div>
 				</div>
 			</div>
