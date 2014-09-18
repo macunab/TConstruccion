@@ -10,6 +10,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Producto Detalle</title>
+<link rel="shortcut icon" href="resources/img/icono_oneclick.png"
+	type="image/png" />
 <!-- Estilo Css -->
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
@@ -40,9 +42,8 @@
 
 	<div class="container">
 		<div class="page-header">
-			<h1>
-				UnClick <small>.com</small>
-			</h1>
+			<img width="400" alt="No se encontro"
+				src="resources/img/OneClick.png">
 		</div>
 	</div>
 
@@ -56,7 +57,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/Ferreteria_Construccion/">inicio</a>
+			<a class="navbar-brand" href="/Ferreteria_Construccion/1">inicio</a>
 		</div>
 
 		<!-- NAVBAR Derecha CONTACTO/CATEGORIA/BUSQUEDA -->
@@ -117,6 +118,7 @@
 			<div class="col-lg-4">
 				<h2>${producto.nombre }</h2>
 				<p>${producto.descripcion }</p>
+				<p>Precio :$ ${producto.precio }</p>
 				<p>
 					<input value="1" type="text"><a class="btn btn-danger"
 						href="#" role="button"><span

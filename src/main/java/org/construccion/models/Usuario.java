@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.construccion.validation.ValidUsername;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -19,7 +18,6 @@ public class Usuario {
 	@Id
 	@Column(name = "username")
 	@NotEmpty
-	@ValidUsername(message = "El nombre de usuario ya se encuentra registrado, intente con otro.")
 	private String username;
 
 	@Column(name = "password")

@@ -11,147 +11,185 @@
 
 <!-- Optional theme -->
 <link rel="stylesheet" href="../resources/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../resources/css/dashboard.css">
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="../resources/js/jquery-1.2.11.0.js"></script>
 <script src="../resources/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div class="container">
-		<div class="page-header">
-			<h1>
-				UnClick <small>.com</small>
-			</h1>
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"> Administracion</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Dashboard</a></li>
+					<li><a href="#">Settings</a></li>
+					<li><a href="#">Profile</a></li>
+					<li><a
+						href="/Ferreteria_Construccion/j_spring_security_logout">Logout</a></li>
+				</ul>
+				<!--<form class="navbar-form navbar-right">
+					<input type="text" class="form-control" placeholder="Search...">
+				</form>-->
+			</div>
 		</div>
 	</div>
 
-	<div class="container">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li><div class="thumbnail">
+							<img width="150" src="../resources/img/OneClick.png"
+								alt="oneClick">
+						</div></li>
+					<li><a href="/Ferreteria_Construccion/secure/home_page">Principal</a></li>
+					<li><a href="#">Usuarios</a></li>
+					<li class="active"><a href="#">Productos</a></li>
+					<li><a href="#">Pedidos</a></li>
+				</ul>
 
-		<form:form class="form-horizontal" action="save_producto"
-			method="POST" modelAttribute="producto" enctype="multipart/form-data">
-			<fieldset>
+				<ul class="nav nav-sidebar">
+					<li><a href="">Reportes</a></li>
+				</ul>
+			</div>
 
-				<!-- Form Name -->
-				<legend>Nuevo Producto</legend>
+			<form:form class="form-horizontal" action="save_producto"
+				method="POST" modelAttribute="producto"
+				enctype="multipart/form-data">
+				<fieldset>
 
-				<!-- Text input-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="codigo">Codigo</label>
-					<div class="col-md-5">
-						<form:input id="codigo" path="codigo" name="codigo"
-							placeholder="Codigo de barra" class="form-control input-md"
-							type="text" onKeyPress="return numbersonly(this, event)" />
-						<span class="help-block">ingrese el codigo de barra del
-							productoo</span>
+					<!-- Form Name -->
+					<legend>Nuevo Producto</legend>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="codigo">Codigo</label>
+						<div class="col-md-5">
+							<form:input id="codigo" path="codigo" name="codigo"
+								placeholder="Codigo de barra" class="form-control input-md"
+								type="text" onKeyPress="return numbersonly(this, event)" />
+							<span class="help-block">ingrese el codigo de barra del
+								productoo</span>
+						</div>
+						<form:errors path="codigo" class="label label-danger" />
 					</div>
-					<form:errors path="codigo" class="label label-danger" />
-				</div>
 
-				<!-- Text input-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="nombre">Nombre</label>
-					<div class="col-md-5">
-						<form:input id="nombre" path="nombre" name="nombre"
-							placeholder="nombre" class="form-control input-md" type="text" />
-						<span class="help-block">ingrese el nombre del producto</span>
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="nombre">Nombre</label>
+						<div class="col-md-5">
+							<form:input id="nombre" path="nombre" name="nombre"
+								placeholder="nombre" class="form-control input-md" type="text" />
+							<span class="help-block">ingrese el nombre del producto</span>
+						</div>
+						<form:errors path="nombre" class="label label-danger" />
 					</div>
-					<form:errors path="nombre" class="label label-danger" />
-				</div>
 
-				<!-- Precio de venta-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="precio">Precio</label>
-					<div class="col-md-4">
-						<form:input id="precio" path="precio" name="precio"
-							placeholder="precio" class="form-control input-md"
-							onKeyPress="return isNumberDecimal(event)" />
-						<span class="help-block">precio del producto</span>
+					<!-- Precio de venta-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="precio">Precio</label>
+						<div class="col-md-4">
+							<form:input id="precio" path="precio" name="precio"
+								placeholder="precio" class="form-control input-md"
+								onKeyPress="return isNumberDecimal(event)" />
+							<span class="help-block">precio del producto</span>
+						</div>
+						<form:errors path="precio" class="label label-danger" />
 					</div>
-					<form:errors path="precio" class="label label-danger" />
-				</div>
 
-				<!-- Precio de compra-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="precio_compra">Precio
-						compra</label>
-					<div class="col-md-4">
-						<form:input id="precio_compra" path="precioCompra"
-							name="precio_compra" placeholder="precio de compra"
-							class="form-control input-md"
-							onKeyPress="return isNumberDecimal(event)" />
-						<span class="help-block">precio neto del producto</span>
+					<!-- Precio de compra-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="precio_compra">Precio
+							compra</label>
+						<div class="col-md-4">
+							<form:input id="precio_compra" path="precioCompra"
+								name="precio_compra" placeholder="precio de compra"
+								class="form-control input-md"
+								onKeyPress="return isNumberDecimal(event)" />
+							<span class="help-block">precio neto del producto</span>
+						</div>
+						<form:errors path="precioCompra" class="label label-danger" />
 					</div>
-					<form:errors path="precioCompra" class="label label-danger" />
-				</div>
 
-				<!-- Text input-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="stock">Stock</label>
-					<div class="col-md-4">
-						<form:input id="stock" path="stock" name="stock"
-							placeholder="stock" type="number" class="form-control input-md"
-							onKeyPress="return numbersonly(this, event)" />
-						<span class="help-block">stock inicial</span>
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="stock">Stock</label>
+						<div class="col-md-4">
+							<form:input id="stock" path="stock" name="stock"
+								placeholder="stock" type="number" class="form-control input-md"
+								onKeyPress="return numbersonly(this, event)" />
+							<span class="help-block">stock inicial</span>
+						</div>
+						<form:errors path="stock" class="label label-danger" />
 					</div>
-					<form:errors path="stock" class="label label-danger" />
-				</div>
 
 
-				<!-- Select Basic -->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="categoria">Categoria</label>
-					<div class="col-md-4">
+					<!-- Select Basic -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="categoria">Categoria</label>
+						<div class="col-md-4">
 
-						<select id="categoria" name="categorias[]" class="form-control">
-							<c:forEach items="${categorias}" var="categoria">
+							<select id="categoria" name="categorias[]" class="form-control">
+								<c:forEach items="${categorias}" var="categoria">
 
-								<option value="${categoria.nombre}">${categoria.nombre }</option>
-							</c:forEach>
-						</select>
+									<option value="${categoria.nombre}">${categoria.nombre }</option>
+								</c:forEach>
+							</select>
+						</div>
+						<!-- <a href="#"><span class="glyphicon glyphicon-plus"></span></a> -->
 					</div>
-					<!-- <a href="#"><span class="glyphicon glyphicon-plus"></span></a> -->
-				</div>
 
-				<!-- Imagen del Producto -->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="imagen">Imagen</label>
-					<div class="col-md-4">
-						<input id="imagen" name="imagen" class="input-file" type="file">
+					<!-- Imagen del Producto -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="imagen">Imagen</label>
+						<div class="col-md-4">
+							<input id="imagen" name="imagen" class="input-file" type="file">
+						</div>
 					</div>
-				</div>
 
-				<!-- Select Multiple -->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="tags">Tags</label>
-					<div class="col-md-4">
-						<form:select class="form-control" path="tags" multiple="true"
-							items="${tags}" itemLabel="nombre" itemValue="idAsString" />
+					<!-- Select Multiple -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="tags">Tags</label>
+						<div class="col-md-4">
+							<form:select class="form-control" path="tags" multiple="true"
+								items="${tags}" itemLabel="nombre" itemValue="idAsString" />
 
+						</div>
+						<a href="#" id="tag"><span class="glyphicon glyphicon-plus"></span></a>
 					</div>
-					<a href="#" id="tag"><span class="glyphicon glyphicon-plus"></span></a>
-				</div>
 
-				<!-- Textarea -->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="descripcion">Descripcion</label>
-					<div class="col-md-4">
-						<form:textarea path="descripcion" class="form-control"
-							id="descripcion" name="descripcion"></form:textarea>
+					<!-- Textarea -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="descripcion">Descripcion</label>
+						<div class="col-md-4">
+							<form:textarea path="descripcion" class="form-control"
+								id="descripcion" name="descripcion"></form:textarea>
+						</div>
 					</div>
-				</div>
 
-				<!-- Button (Double) -->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="button1id"></label>
-					<div class="col-md-8">
-						<input type="submit" id="button1id" name="button1id"
-							class="btn btn-success">
-						<button id="button2id" name="button2id" class="btn btn-danger">Cancelar</button>
+					<!-- Button (Double) -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="button1id"></label>
+						<div class="col-md-8">
+							<input type="submit" id="button1id" name="button1id"
+								class="btn btn-success" value="Guardar">
+							<button id="button2id" name="button2id" class="btn btn-danger">Cancelar</button>
+						</div>
 					</div>
-				</div>
 
-			</fieldset>
-		</form:form>
+				</fieldset>
+			</form:form>
+		</div>
 	</div>
 
 	<script TYPE="text/javascript">

@@ -11,12 +11,17 @@ import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
 import org.construccion.repository.ProductoRepository;
 import org.construccion.repository.UsuarioRepository;
+import org.construccion.validation.UsuarioValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +29,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping()
 public class HomeController {
+
+	UsuarioValidator validator = null;
+
+	public UsuarioValidator getValidator() {
+		return validator;
+	}
+
+	@Autowired
+	public void setValidator(UsuarioValidator validator) {
+		this.validator = validator;
+	}
 
 	@Autowired
 	ProductoRepository productoRepo;
@@ -39,13 +55,26 @@ public class HomeController {
 	/*
 	 * Devuelve la pagina principal para clientes.
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String getHome(Model model) {
+	@RequestMapping(value = "/{pageNumber}", method = RequestMethod.GET)
+	public String getHome(@PathVariable Integer pageNumber, Model model) {
 
-		List<Producto> productos = productoRepo.findAll();
+		PageRequest request = new PageRequest(pageNumber - 1, 8,
+				Sort.Direction.DESC, "nombre");
+
+		Page<Producto> productos = productoRepo.findAllActive(request);
 		List<Categoria> categorias = categoriaRepo.findAll();
-		model.addAttribute("productos", productos);
+
+		int current = productos.getNumber() + 1;
+		int begin = Math.max(1, current - 5);
+		int end = Math.min(begin + 10, productos.getTotalPages());
+
+		model.addAttribute("page", productos);
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("currentIndex", current);
+		model.addAttribute("productos", productos.getContent());
 		model.addAttribute("categorias", categorias);
+
 		return "home_page";
 	}
 
@@ -59,15 +88,16 @@ public class HomeController {
 	@RequestMapping(value = "/save_usuario", method = RequestMethod.POST)
 	@Transactional
 	public String postSaveUsuario(@Valid Usuario usuario, BindingResult result) {
-
+		validator.validate(usuario, result);
 		if (result.hasErrors()) {
 			return "usuario_add";
 		} else {
 			usuario.setEnable(true);
-			usuario.setRol(new Grupo(1, usuario));
+			usuario.setRol(new Grupo(2, usuario));
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
 			usuarioRepo.save(usuario);
+			System.out.println(usuario.getPassword() + "###################3");
 
 			return "redirect:/";
 

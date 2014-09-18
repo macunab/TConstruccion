@@ -32,7 +32,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">OC Administracion</a>
+				<a class="navbar-brand" href="#"> Administracion</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -42,9 +42,9 @@
 					<li><a
 						href="/Ferreteria_Construccion/j_spring_security_logout">Logout</a></li>
 				</ul>
-				<form class="navbar-form navbar-right">
+				<!-- <form class="navbar-form navbar-right">
 					<input type="text" class="form-control" placeholder="Search...">
-				</form>
+				</form> -->
 			</div>
 		</div>
 	</div>
@@ -53,9 +53,13 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
+					<li><div class="thumbnail">
+							<img width="150" src="../../resources/img/OneClick.png"
+								alt="oneClick">
+						</div></li>
 					<li><a href="/Ferreteria_Construccion/secure/home_page">Principal</a></li>
 					<li><a href="#">Usuarios</a></li>
-					<li class="active"><a href="#">Productos</a></li>
+					<li class="active"><a href="">Productos</a></li>
 					<li><a href="#">Pedidos</a></li>
 				</ul>
 
@@ -64,7 +68,7 @@
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Metricas</h1>
+				<h1 class="page-header">Productos</h1>
 
 				<div class="row">
 					<div class="col-lg-6">
@@ -100,8 +104,9 @@
 						<tbody>
 							<c:forEach items="${productos }" var="producto">
 								<!-- Popup de confirmacion - Boostrap modal -->
-								<div class="modal face" id="confirmacion${producto.codigo }" tabindex="-1"
-									role="dialog" aria-labelledby="modal" aria-hidden="true">
+								<div class="modal face" id="confirmacion${producto.codigo }"
+									tabindex="-1" role="dialog" aria-labelledby="modal"
+									aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -129,7 +134,8 @@
 									<td>${producto.precio }</td>
 									<td><a href="" class="btn btn-default"><span
 											class="glyphicon glyphicon-pencil"></span></a>
-										<button data-toggle="modal" data-target="#confirmacion${producto.codigo }"
+										<button data-toggle="modal"
+											data-target="#confirmacion${producto.codigo }"
 											class="btn btn-default">
 											<span class="glyphicon glyphicon-remove"></span>
 										</button></td>
@@ -175,11 +181,12 @@
 							</c:otherwise>
 						</c:choose>
 					</ul>
+					<!-- Fin de paginacion -->
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 </body>
 </html>

@@ -10,6 +10,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OneClick | Alta usuario</title>
+<link rel="shortcut icon" href="resources/img/icono_oneclick.png"
+	type="image/png" />
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
 
 <!-- Optional theme -->
@@ -22,6 +24,26 @@
 <body>
 
 	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$("#repassword").keyup(function(e) {
+				var pass = $("#password").val();
+				var repass = $("#repassword").val();
+
+				console.log("Post pass: '" + pass + "'");
+
+				console.log("Post repass: '" + repass + "'");
+
+				if (pass == repass) {
+					$("#error").text("");
+				} else {
+					$("#error").text("No coincide con la contraseña");
+				}
+
+			});
+
+		});
+
 		function buscar() {
 			$.ajax({
 				type : "get",
@@ -39,9 +61,8 @@
 
 	<div class="container">
 		<div class="page-header">
-			<h1>
-				UnClick <small>.com</small>
-			</h1>
+			<img width="400" alt="No se encontro"
+				src="resources/img/OneClick.png">
 		</div>
 	</div>
 
@@ -55,7 +76,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/Ferreteria_Construccion/">inicio</a>
+			<a class="navbar-brand" href="/Ferreteria_Construccion/1">inicio</a>
 		</div>
 
 		<!-- NAVBAR Derecha CONTACTO/CATEGORIA/BUSQUEDA -->
@@ -124,7 +145,7 @@
 					<div class="col-md-4">
 						<form:input id="textinput" path="nombre" name="textinput"
 							placeholder="Nombre" class="form-control input-md" type="text" />
-						<span class="help-block">help</span>
+						<span class="help-block">Ingrese su nombre</span>
 					</div>
 					<form:errors path="nombre" class="label label-danger" />
 				</div>
@@ -135,7 +156,7 @@
 					<div class="col-md-4">
 						<form:input id="textinput" path="apellido" name="textinput"
 							placeholder="Apellido" class="form-control input-md" type="text" />
-						<span class="help-block">help</span>
+						<span class="help-block">Ingrese su apellido</span>
 					</div>
 					<form:errors path="apellido" class="label label-danger" />
 				</div>
@@ -146,7 +167,7 @@
 					<div class="col-md-4">
 						<form:input id="textinput" path="domicilio" name="textinput"
 							placeholder="Domicilio" class="form-control input-md" type="text" />
-						<span class="help-block">help</span>
+						<span class="help-block">Ingrese su domicilio</span>
 					</div>
 					<form:errors path="domicilio" class="label label-danger" />
 				</div>
@@ -157,7 +178,7 @@
 					<div class="col-md-4">
 						<form:input id="textinput" path="email" name="textinput"
 							placeholder="E-Mail" class="form-control input-md" type="text" />
-						<span class="help-block">help</span>
+						<span class="help-block">Ingrese un email valido</span>
 					</div>
 					<form:errors path="email" class="label label-danger" />
 				</div>
@@ -169,7 +190,7 @@
 						<form:input id="textinput" path="username" name="textinput"
 							placeholder="Nombre de Usuario" class="form-control input-md"
 							type="text" />
-						<span class="help-block">help</span>
+						<span class="help-block">Ingrese un nombre de usuario</span>
 					</div>
 					<form:errors path="username" class="label label-danger" />
 				</div>
@@ -178,10 +199,10 @@
 				<div class="form-group">
 					<label class="col-md-4 control-label" for="passwordinput">Password</label>
 					<div class="col-md-4">
-						<form:input id="passwordinput" path="password"
-							name="passwordinput" placeholder="placeholder"
-							class="form-control input-md" type="password" />
-						<span class="help-block">help</span>
+						<form:input id="password" path="password" name="passwordinput"
+							placeholder="placeholder" class="form-control input-md"
+							type="password" />
+						<span class="help-block">Ingrese la contraseña</span>
 					</div>
 					<form:errors path="password" class="label label-danger" />
 				</div>
@@ -191,10 +212,11 @@
 					<label class="col-md-4 control-label" for="passwordinput">Re
 						Password</label>
 					<div class="col-md-4">
-						<input id="passwordinput" name="passwordinput"
+						<input id="repassword" name="passwordinput"
 							placeholder="placeholder" class="form-control input-md"
-							type="password" /> <span class="help-block">help</span>
+							type="password" /> <span class="help-block">Vuelva a ingresar la contraseña</span>
 					</div>
+					<label id="error" class="label label-danger"></label>
 				</div>
 
 				<!-- Button (Double) -->
@@ -202,7 +224,7 @@
 					<label class="col-md-4 control-label" for="button1id"></label>
 					<div class="col-md-8">
 						<input type="submit" id="button1id" name="button1id"
-							class="btn btn-success" />
+							class="btn btn-success" value="Guardar"/>
 						<button id="button2id" name="button2id" class="btn btn-danger">Cancelar</button>
 					</div>
 				</div>

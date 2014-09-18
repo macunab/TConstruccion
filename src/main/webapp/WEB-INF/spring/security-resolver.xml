@@ -23,11 +23,11 @@
 		<intercept-url pattern="/" access="permitAll" />
 
 		<form-login login-page="/login" authentication-failure-url="/login_error"
-			default-target-url="/" />
+			default-target-url="/1" />
 
 		<access-denied-handler error-page="/denied" />
 
-		<logout invalidate-session="true" logout-success-url="/"
+		<logout invalidate-session="true" logout-success-url="/1"
 			delete-cookies="JSESSIONID" />
 	</http>
 

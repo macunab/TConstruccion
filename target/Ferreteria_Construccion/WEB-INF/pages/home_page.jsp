@@ -9,7 +9,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="favicon.png" type="image/png" />
+<link rel="shortcut icon" href="resources/img/icono_oneclick.png"
+	type="image/png" />
 <title>OneClick | Home</title>
 <!-- Estilo Css -->
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
@@ -42,11 +43,18 @@
 </head>
 <body>
 
+	<c:url var="firstUrl" value="/1" />
+	<c:url var="lastUrl" value="/${page.totalPages}" />
+	<c:url var="prevUrl" value="/${currentIndex - 1}" />
+	<c:url var="nextUrl" value="/${currentIndex + 1}" />
+
 	<div class="container">
 		<div class="page-header">
-			<h1>
-				UnClick <small>.com</small>
-			</h1>
+
+
+			<img width="400" alt="No se encontro"
+				src="resources/img/OneClick.png">
+
 		</div>
 	</div>
 
@@ -127,7 +135,8 @@
 				<div class="form-group">
 					<div class="col-md-8">
 						<!-- <a href="login" class="btn btn-success">Ingresar</a> -->
-						<a href="save_usuario" id="button2id" name="button2id" class="btn btn-primary">Registrarse</a>
+						<a href="save_usuario" id="button2id" name="button2id"
+							class="btn btn-primary">Registrarse</a>
 					</div>
 				</div>
 			</div>
@@ -138,10 +147,10 @@
 
 		<div class="row">
 			<c:forEach items="${productos }" var="producto">
-				<div class="col-xs-3">
+				<div class="col-xs-4">
 
-					<a href="#" class="thumbnail"> <img src="${producto.urlImage }"
-						alt="125x125">
+					<a href="get_producto?codigo=${producto.codigo }" class="thumbnail">
+						<img src="${producto.urlImage }" alt="125x125">
 
 
 					</a>
@@ -149,7 +158,7 @@
 
 						<h3>${producto.nombre }</h3>
 
-						<p>${producto.descripcion }</p>
+						<!-- <p>${producto.descripcion }</p> -->
 
 						<p>
 							<a href="get_producto?codigo=${producto.codigo }"
@@ -165,14 +174,48 @@
 			</c:forEach>
 		</div>
 
-
+		<!-- Paginacion -->
+		<div class="container">
+			<ul class="pagination">
+				<c:choose>
+					<c:when test="${currentIndex == 1}">
+						<li class="disabled"><a href="#">&lt;&lt;</a></li>
+						<li class="disabled"><a href="#">&lt;</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="${firstUrl}">&lt;&lt;</a></li>
+						<li><a href="${prevUrl}">&lt;</a></li>
+					</c:otherwise>
+				</c:choose>
+				<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
+					<c:url var="pageUrl" value="/${i}" />
+					<c:choose>
+						<c:when test="${i == currentIndex}">
+							<li class="active"><a href="${pageUrl}"><c:out
+										value="${i}" /></a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="${pageUrl}"><c:out value="${i}" /></a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<c:choose>
+					<c:when test="${currentIndex == page.totalPages}">
+						<li class="disabled"><a href="#">&gt;</a></li>
+						<li class="disabled"><a href="#">&gt;&gt;</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="${nextUrl}">&gt;</a></li>
+						<li><a href="${lastUrl}">&gt;&gt;</a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+		<!-- Fin de paginacion -->
 
 	</div>
 
-	<ul class="pager">
-		<li class="disabled"><a href="#">Previous</a></li>
-		<li><a href="#">Next</a></li>
-	</ul>
+
 
 </body>
 </html>

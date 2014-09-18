@@ -31,11 +31,12 @@
 					<li><a href="#">Dashboard</a></li>
 					<li><a href="#">Settings</a></li>
 					<li><a href="#">Profile</a></li>
-					<li><a href="/Ferreteria_Construccion/j_spring_security_logout">Logout</a></li>
+					<li><a
+						href="/Ferreteria_Construccion/j_spring_security_logout">Logout</a></li>
 				</ul>
-				<form class="navbar-form navbar-right">
+				<!-- <form class="navbar-form navbar-right">
 					<input type="text" class="form-control" placeholder="Search...">
-				</form>
+				</form> -->
 			</div>
 		</div>
 	</div>
@@ -44,6 +45,10 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
+					<li><div class="thumbnail">
+							<img width="150" src="../resources/img/OneClick.png"
+								alt="oneClick">
+						</div></li>
 					<li class="active"><a href="#">Principal</a></li>
 					<li><a href="#">Usuarios</a></li>
 					<li><a href="producto_home/1">Productos</a></li>

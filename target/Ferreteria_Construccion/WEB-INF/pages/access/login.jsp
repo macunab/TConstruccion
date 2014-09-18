@@ -5,6 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Login</title>
+<link rel="shortcut icon" href="resources/img/icono_oneclick.png"
+	type="image/png" />
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
 
 <!-- Optional theme -->
@@ -18,9 +20,8 @@
 
 	<div class="container">
 		<div class="page-header">
-			<h1>
-				UnClick <small>.com</small>
-			</h1>
+			<img width="400" alt="No se encontro"
+				src="resources/img/OneClick.png">
 		</div>
 	</div>
 
@@ -31,7 +32,7 @@
 
 				<form action="j_spring_security_check" method="POST"
 					class="form-signin" role="form">
-					<h2 class="form-signin-heading">Please sign in</h2>
+					<h2 class="form-signin-heading">Ingrese</h2>
 					<input name="j_username" type="text" class="form-control"
 						placeholder="Username" required autofocus> <input
 						name="j_password" type="password" class="form-control"
@@ -41,8 +42,7 @@
 							Remember me
 						</label>
 					</div>
-					<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-						in</button>
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 				</form>
 
 

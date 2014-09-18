@@ -95,9 +95,10 @@ public class EmpleadoController {
 			Categoria categoria = categoriaRepo.findByNombre(cate);
 			producto.setCategoria(categoria);
 			producto.setUrlImage("../pictures/" + imageResolver(imagen));
+			producto.setActivo(true);
 			productoRepo.save(producto);
 
-			return "redirect:/";
+			return "redirect:/secure/producto_home/1";
 		}
 	}
 
@@ -185,16 +186,15 @@ public class EmpleadoController {
 		return "secure/empleado/home_producto";
 	}
 
+	/* ELIMINAR PRODUCTO */
 	@RequestMapping(value = "secure/delete_producto/{codigo}", method = RequestMethod.GET)
 	public String getDeleteProducto(@PathVariable Integer codigo) {
 
-		// productoRepo.delete(codigo);
 		Producto producto = productoRepo.findOne(codigo);
 
 		producto.setActivo(false);
 		productoRepo.save(producto);
 
-		System.out.println("###############################################");
 		return "redirect:/secure/producto_home/1";
 
 	}
