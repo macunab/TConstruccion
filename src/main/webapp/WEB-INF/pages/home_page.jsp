@@ -27,6 +27,19 @@
 </style>
 
 <script type="text/javascript">
+$(document).ready(function() {
+	
+	$.ajax({
+		type : "get",
+		url : "cantidad_carrito",
+		cache : false,
+		data : 'usuario=marco',
+		success : function(data) {
+			$('#cantidad').val(data);
+		},
+	});
+	
+});
 	function buscar() {
 		$.ajax({
 			type : "get",
@@ -99,11 +112,13 @@
 			<!-- NAVBAR Izquierda LOGIN/CARRITO -->
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="hasRole('ROLE_CLIENTE')">
-					<li><a href="#"><span
+					<li><a
+						href="get_carrito?username=<%=SecurityContextHolder.getContext()
+						.getAuthentication().getName()%>"><span
 							class="glyphicon glyphicon-shopping-cart blue"></span> <span>
-								&nbsp</span> <span class="badge pull-right">0</span></a></li>
+								&nbsp</span> <span id="cantidad" class="badge pull-right">0</span></a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">Bienvenido, <strong><%=SecurityContextHolder.getContext()
+						data-toggle="dropdown">Bienvenido, <strong id="usuario"><%=SecurityContextHolder.getContext()
 						.getAuthentication().getName()%></strong> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#">Mis Pedidos</a></li>
@@ -123,6 +138,8 @@
 	</div>
 	<!-- /.container-fluid --> </nav>
 
+
+	<!-- CONTENIDO PRINCIPAL -->
 	<div id="main-container" class="container">
 
 		<sec:authorize access="isAnonymous()">
@@ -147,10 +164,45 @@
 
 		<div class="row">
 			<c:forEach items="${productos }" var="producto">
+
+				<!-- Popup de confirmacion - Boostrap modal -->
+				<div class="modal face" id="confirmacion${producto.codigo }"
+					tabindex="-1" role="dialog" aria-labelledby="modal"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="model-title">Cuantos ${producto.nombre } desea
+									sumar a su carrito.</h4>
+							</div>
+							<div class="modal-body">
+
+								<!-- Text input-->
+								<div>
+									<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
+
+									<input id="cantidad" name="cantidad"
+										placeholder="cantidad de articulos" class="form-control"
+										type="text" />
+
+
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Cancelar</button>
+								<a class="btn btn-primary" href="">Agregar</a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- Fin del popup -->
+
 				<div class="col-xs-4">
 
 					<a href="get_producto?codigo=${producto.codigo }" class="thumbnail">
-						<img src="${producto.urlImage }" alt="125x125">
+						<img width="200" src="${producto.urlImage }" alt="125x125">
 
 
 					</a>
@@ -164,7 +216,9 @@
 							<a href="get_producto?codigo=${producto.codigo }"
 								class="btn btn-primary">Detalle</a>
 							<sec:authorize access="hasRole('ROLE_CLIENTE')">
-								<a href="#" class="btn btn-default">Carrito</a>
+								<button data-toggle="modal"
+									data-target="#confirmacion${producto.codigo }"
+									class="btn btn-default">Carrito</button>
 							</sec:authorize>
 						</p>
 

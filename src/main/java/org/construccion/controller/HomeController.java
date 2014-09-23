@@ -6,11 +6,13 @@ import javax.validation.Valid;
 
 import org.construccion.models.Categoria;
 import org.construccion.models.Grupo;
+import org.construccion.models.Pedido;
 import org.construccion.models.Producto;
 import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
 import org.construccion.repository.ProductoRepository;
 import org.construccion.repository.UsuarioRepository;
+import org.construccion.service.PersistenceService;
 import org.construccion.validation.UsuarioValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping()
@@ -50,6 +53,9 @@ public class HomeController {
 	@Autowired
 	UsuarioRepository usuarioRepo;
 
+	@Autowired
+	PersistenceService service;
+
 	static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	/*
@@ -58,7 +64,7 @@ public class HomeController {
 	@RequestMapping(value = "/{pageNumber}", method = RequestMethod.GET)
 	public String getHome(@PathVariable Integer pageNumber, Model model) {
 
-		PageRequest request = new PageRequest(pageNumber - 1, 8,
+		PageRequest request = new PageRequest(pageNumber - 1, 6,
 				Sort.Direction.DESC, "nombre");
 
 		Page<Producto> productos = productoRepo.findAllActive(request);
@@ -99,7 +105,7 @@ public class HomeController {
 			usuarioRepo.save(usuario);
 			System.out.println(usuario.getPassword() + "###################3");
 
-			return "redirect:/";
+			return "redirect:/1";
 
 		}
 
@@ -131,6 +137,40 @@ public class HomeController {
 		model.addAttribute("categorias", categorias);
 
 		return "producto_detalle";
+	}
+
+	// ##############################################################################################
+	@RequestMapping(value = "/get_carrito", method = RequestMethod.GET)
+	public String getCarrito(@RequestParam("username") String username,
+			Model model) {
+
+		Pedido pedido = service.getCarrito(username);
+
+		model.addAttribute("productos", pedido.getPedidoProductos());
+		model.addAttribute("pedido", pedido);
+
+		return "carrito_cliente";
+	}
+
+	@RequestMapping(value = "/generar_pedido", method = RequestMethod.GET)
+	public String postCarrito(@RequestParam("pedido") Integer id) {
+
+		Pedido pedido = service.getPedido(id);
+		System.out.println("#####################################3"
+				+ pedido.getUsuario().getUsername());
+
+		return "redirect:/1";
+	}
+
+	
+	//################ VEREMOS
+	@RequestMapping(value = "/cantidad_carrito", method = RequestMethod.GET)
+	public @ResponseBody String cantidadCarrito(@RequestParam("usuario") String username) {
+
+		Pedido pedido = service.getCarrito(username);
+		System.out.println("########################################################3  " + pedido.getPedidoProductos().size());
+
+		return "" + pedido.getPedidoProductos().size();
 	}
 
 }

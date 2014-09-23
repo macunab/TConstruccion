@@ -147,10 +147,45 @@
 
 		<div class="row">
 			<c:forEach items="${productos }" var="producto">
+
+				<!-- Popup de confirmacion - Boostrap modal -->
+				<div class="modal face" id="confirmacion${producto.codigo }"
+					tabindex="-1" role="dialog" aria-labelledby="modal"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="model-title">Cuantos ${producto.nombre } desea
+									sumar a su carrito.</h4>
+							</div>
+							<div class="modal-body">
+
+								<!-- Text input-->
+								<div>
+									<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
+
+									<input id="cantidad" name="cantidad"
+										placeholder="cantidad de articulos" class="form-control"
+										type="text" />
+
+
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Cancelar</button>
+								<a class="btn btn-primary" href="">Agregar</a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- Fin del popup -->
+
 				<div class="col-xs-4">
 
 					<a href="get_producto?codigo=${producto.codigo }" class="thumbnail">
-						<img src="${producto.urlImage }" alt="125x125">
+						<img width="200" src="${producto.urlImage }" alt="125x125">
 
 
 					</a>
@@ -164,7 +199,9 @@
 							<a href="get_producto?codigo=${producto.codigo }"
 								class="btn btn-primary">Detalle</a>
 							<sec:authorize access="hasRole('ROLE_CLIENTE')">
-								<a href="#" class="btn btn-default">Carrito</a>
+								<button data-toggle="modal"
+									data-target="#confirmacion${producto.codigo }"
+									class="btn btn-default">Carrito</button>
 							</sec:authorize>
 						</p>
 
