@@ -20,13 +20,20 @@
 <script src="resources/js/jquery-1.2.11.0.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
 
-<style>
-.blue {
-	color: #99C7F4;
-}
-</style>
-
 <script type="text/javascript">
+$(document).ready(function() {
+	
+	/*$.ajax({
+		type : "get",
+		url : "cantidad_carrito",
+		cache : false,
+		data : 'usuario=marco',
+		success : function(data) {
+			$('#cantidad').val(data);
+		},
+	});*/
+	
+});
 	function buscar() {
 		$.ajax({
 			type : "get",
@@ -77,7 +84,7 @@
 			<ul class="nav navbar-nav">
 				<!-- class="active" en los li los deja marcados -->
 				<!-- ****************************************** -->
-				<li><a href="#">Contacto</a></li>
+				<li><a href="contacto">Contacto</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Categorias <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
@@ -99,11 +106,13 @@
 			<!-- NAVBAR Izquierda LOGIN/CARRITO -->
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="hasRole('ROLE_CLIENTE')">
-					<li><a href="#"><span
+					<li><a
+						href="get_carrito?username=<%=SecurityContextHolder.getContext()
+						.getAuthentication().getName()%>"><span
 							class="glyphicon glyphicon-shopping-cart blue"></span> <span>
-								&nbsp</span> <span class="badge pull-right">0</span></a></li>
+								&nbsp</span> <span id="cantidad" class="badge pull-right">0</span></a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">Bienvenido, <strong><%=SecurityContextHolder.getContext()
+						data-toggle="dropdown">Bienvenido, <strong id="usuario"><%=SecurityContextHolder.getContext()
 						.getAuthentication().getName()%></strong> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#">Mis Pedidos</a></li>
@@ -123,6 +132,8 @@
 	</div>
 	<!-- /.container-fluid --> </nav>
 
+
+	<!-- CONTENIDO PRINCIPAL -->
 	<div id="main-container" class="container">
 
 		<sec:authorize access="isAnonymous()">

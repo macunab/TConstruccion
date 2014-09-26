@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.construccion.models.Categoria;
 import org.construccion.models.Grupo;
+import org.construccion.models.MensajeDto;
 import org.construccion.models.Pedido;
 import org.construccion.models.Producto;
 import org.construccion.models.Usuario;
@@ -139,14 +140,41 @@ public class HomeController {
 		return "producto_detalle";
 	}
 
+	/*
+	 * 
+	 * Formulario de contacto - GET
+	 */
+	@RequestMapping(value = "/contacto", method = RequestMethod.GET)
+	public String getContacto(Model model) {
+
+		model.addAttribute("mensaje", new MensajeDto());
+		return "contacto_form";
+	}
+
+	@RequestMapping(value = "/contacto", method = RequestMethod.POST)
+	public String postContacto(@Valid MensajeDto mensaje, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return "contacto";
+		} else {
+			
+			System.out.println("PASO POR EL POST EXITOSAMENTE");
+			service.sendMail(mensaje);
+
+			return "redirect:/1";
+		}
+	}
+
 	// ##############################################################################################
 	@RequestMapping(value = "/get_carrito", method = RequestMethod.GET)
 	public String getCarrito(@RequestParam("username") String username,
 			Model model) {
 
 		Pedido pedido = service.getCarrito(username);
+		if (pedido != null) {
+			model.addAttribute("productos", pedido.getPedidoProductos());
 
-		model.addAttribute("productos", pedido.getPedidoProductos());
+		}
 		model.addAttribute("pedido", pedido);
 
 		return "carrito_cliente";
@@ -162,13 +190,15 @@ public class HomeController {
 		return "redirect:/1";
 	}
 
-	
-	//################ VEREMOS
+	// ################ VEREMOS
 	@RequestMapping(value = "/cantidad_carrito", method = RequestMethod.GET)
-	public @ResponseBody String cantidadCarrito(@RequestParam("usuario") String username) {
+	public @ResponseBody String cantidadCarrito(
+			@RequestParam("usuario") String username) {
 
 		Pedido pedido = service.getCarrito(username);
-		System.out.println("########################################################3  " + pedido.getPedidoProductos().size());
+		System.out
+				.println("########################################################3  "
+						+ pedido.getPedidoProductos().size());
 
 		return "" + pedido.getPedidoProductos().size();
 	}

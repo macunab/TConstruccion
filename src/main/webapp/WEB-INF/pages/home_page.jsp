@@ -20,16 +20,10 @@
 <script src="resources/js/jquery-1.2.11.0.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
 
-<style>
-.blue {
-	color: #99C7F4;
-}
-</style>
-
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	$.ajax({
+	/*$.ajax({
 		type : "get",
 		url : "cantidad_carrito",
 		cache : false,
@@ -37,7 +31,7 @@ $(document).ready(function() {
 		success : function(data) {
 			$('#cantidad').val(data);
 		},
-	});
+	});*/
 	
 });
 	function buscar() {
@@ -90,7 +84,7 @@ $(document).ready(function() {
 			<ul class="nav navbar-nav">
 				<!-- class="active" en los li los deja marcados -->
 				<!-- ****************************************** -->
-				<li><a href="#">Contacto</a></li>
+				<li><a href="contacto">Contacto</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Categorias <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">

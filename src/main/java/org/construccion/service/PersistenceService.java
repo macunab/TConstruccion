@@ -1,5 +1,8 @@
 package org.construccion.service;
 
+import javax.annotation.Resource;
+
+import org.construccion.models.MensajeDto;
 import org.construccion.models.Pedido;
 import org.construccion.models.Usuario;
 import org.construccion.repository.PedidoRepository;
@@ -15,6 +18,9 @@ public class PersistenceService {
 
 	@Autowired
 	PedidoRepository pedidoRepository;
+
+	@Resource
+	MailService mailService;
 
 	/*
 	 * ##########################################################################
@@ -45,6 +51,14 @@ public class PersistenceService {
 	public Pedido getPedido(Integer id) {
 
 		return pedidoRepository.findOne(id);
+	}
+
+	// ENVIO DE EMAIL
+	public boolean sendMail(MensajeDto mail) {
+
+		mailService.send(mail.getEmail(), mail.getNombre(), mail.getMensaje());
+
+		return true;
 	}
 
 }
