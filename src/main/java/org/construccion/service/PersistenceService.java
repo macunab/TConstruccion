@@ -1,14 +1,21 @@
 package org.construccion.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.construccion.models.MensajeDto;
 import org.construccion.models.Pedido;
+import org.construccion.models.PedidoProducto;
+import org.construccion.models.Producto;
 import org.construccion.models.Usuario;
+import org.construccion.repository.PedidoProductoRepository;
 import org.construccion.repository.PedidoRepository;
+import org.construccion.repository.ProductoRepository;
 import org.construccion.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PersistenceService {
@@ -18,6 +25,12 @@ public class PersistenceService {
 
 	@Autowired
 	PedidoRepository pedidoRepository;
+
+	@Autowired
+	ProductoRepository productoRepository;
+
+	@Autowired
+	PedidoProductoRepository pedidoProductoRepository;
 
 	@Resource
 	MailService mailService;
@@ -39,6 +52,7 @@ public class PersistenceService {
 	 * ##########################################################################
 	 * ############# DEVUELVE EL CARRITO DE UN USUARIO
 	 */
+	@Transactional(readOnly = true)
 	public Pedido getCarrito(String username) {
 
 		Usuario usuario = usuarioRepository.findByUsername(username);
@@ -61,4 +75,43 @@ public class PersistenceService {
 		return true;
 	}
 
+	public Producto getProducto(Integer codigo) {
+
+		return productoRepository.findOne(codigo);
+	}
+
+	public void savePedido(Pedido pedido) {
+
+		pedidoRepository.save(pedido);
+	}
+
+	// Devuelve un pedidoProducto en base a un pedido.
+	@Transactional(readOnly = true)
+	public List<PedidoProducto> getPedidoProductoByPedido(Pedido pedido) {
+
+		List<PedidoProducto> pedidoProductos = pedidoProductoRepository
+				.findPedidos(pedido);
+		return pedidoProductos;
+
+	}
+
+	@Transactional(readOnly = true)
+	public boolean existPedidoProductoByProducto(Producto producto,
+			Pedido pedido) {
+
+		boolean exist = pedidoProductoRepository.existProductoIn(producto,
+				pedido);
+		return exist;
+	}
+
+	@Transactional()
+	public void updatePedidoProductoByProducto(PedidoProducto pedidoProducto) {
+
+		pedidoProductoRepository.save(pedidoProducto);
+	}
+
+	public PedidoProducto getPedidoProductoByProducto(Producto producto, Pedido pedido) {
+
+		return pedidoProductoRepository.findByProductoPedido(producto, pedido);
+	}
 }

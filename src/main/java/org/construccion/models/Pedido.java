@@ -29,7 +29,7 @@ public class Pedido {
 	@Column(name = "activo")
 	private boolean activo;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pk.pedido", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<PedidoProducto> pedidoProductos;
 
 	@ManyToOne
@@ -70,7 +70,7 @@ public class Pedido {
 	}
 
 	public List<PedidoProducto> getPedidoProductos() {
-		return pedidoProductos;
+		return this.pedidoProductos;
 	}
 
 	public void setPedidoProductos(List<PedidoProducto> pedidoProductos) {

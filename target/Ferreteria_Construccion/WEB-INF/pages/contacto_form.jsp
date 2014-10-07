@@ -20,7 +20,6 @@
 <!-- Javascripts -->
 <script src="resources/js/jquery-1.2.11.0.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
-
 <script type="text/javascript">
 	function buscar() {
 		$.ajax({
@@ -128,8 +127,7 @@
 					<label class="col-md-4 control-label" for="nombre">Nombre</label>
 					<div class="col-md-5">
 						<form:input id="nombre" name="nombre" placeholder="tu nombre"
-							class="form-control input-md" path="nombre" type="text">
-						</form:input>
+							class="form-control input-md" path="nombre" type="text" />
 						<span class="help-block">ingresa tu nombre.</span>
 					</div>
 				</div>
@@ -139,7 +137,7 @@
 					<label class="col-md-4 control-label" for="email">Email</label>
 					<div class="col-md-5">
 						<form:input id="email" name="email" placeholder="tu email"
-							class="form-control input-md" path="email" type="text"></form:input>
+							class="form-control input-md" path="email" type="text" />
 						<span class="help-block">ingresa un email a donde dirigir
 							la respuesta.</span>
 					</div>
@@ -150,7 +148,7 @@
 					<label class="col-md-4 control-label" for="mensaje">Mensaje</label>
 					<div class="col-md-4">
 						<form:textarea path="mensaje" class="form-control" id="mensaje"
-							name="mensaje" cols="100" rows="10"></form:textarea>
+							name="mensaje" cols="100" rows="10" />
 					</div>
 				</div>
 
@@ -165,6 +163,7 @@
 			</fieldset>
 		</form:form>
 		<!-- FIN DEL FORMULARIO -->
+
 	</div>
 </body>
 </html>

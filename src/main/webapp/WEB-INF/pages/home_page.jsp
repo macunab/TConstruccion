@@ -23,17 +23,35 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	/*$.ajax({
-		type : "get",
-		url : "cantidad_carrito",
+	$.ajax({
+		type : "post",
+		url : "get_productos_carrito",
 		cache : false,
-		data : 'usuario=marco',
 		success : function(data) {
-			$('#cantidad').val(data);
+			$("#cantidad").text(data);
 		},
-	});*/
+	});
+	
 	
 });
+
+function addCarrito(producto) {
+	
+	var id = "#cantidad_" + producto;
+	console.log(id);
+	
+	$.ajax({
+		type : "post",
+		url : "add_carrito",
+		cache : false,
+		data : 'producto='
+				+ producto + '&cantidad='
+				+ $(id).val(),
+		success : function(data) {
+			//$('#content').html(data);
+		},
+	});
+}
 	function buscar() {
 		$.ajax({
 			type : "get",
@@ -109,7 +127,7 @@ $(document).ready(function() {
 					<li><a
 						href="get_carrito?username=<%=SecurityContextHolder.getContext()
 						.getAuthentication().getName()%>"><span
-							class="glyphicon glyphicon-shopping-cart blue"></span> <span>
+							class="glyphicon glyphicon-shopping-cart"></span> <span>
 								&nbsp</span> <span id="cantidad" class="badge pull-right">0</span></a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">Bienvenido, <strong id="usuario"><%=SecurityContextHolder.getContext()
@@ -175,7 +193,7 @@ $(document).ready(function() {
 								<div>
 									<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
 
-									<input id="cantidad" name="cantidad"
+									<input id="cantidad_${producto.codigo }" name="cantidad_p"
 										placeholder="cantidad de articulos" class="form-control"
 										type="text" />
 
@@ -185,7 +203,8 @@ $(document).ready(function() {
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default"
 									data-dismiss="modal">Cancelar</button>
-								<a class="btn btn-primary" href="">Agregar</a>
+								<button onClick="addCarrito(${producto.codigo});"
+									class="btn btn-primary" data-dismiss="modal">Agregar</button>
 							</div>
 						</div>
 					</div>
@@ -195,6 +214,7 @@ $(document).ready(function() {
 
 				<div class="col-xs-4">
 
+					<h3>${producto.nombre }</h3>
 					<a href="get_producto?codigo=${producto.codigo }" class="thumbnail">
 						<img width="200" src="${producto.urlImage }" alt="125x125">
 
@@ -202,19 +222,43 @@ $(document).ready(function() {
 					</a>
 					<div class="caption">
 
-						<h3>${producto.nombre }</h3>
+
 
 						<!-- <p>${producto.descripcion }</p> -->
+						<!-- <a href="get_producto?codigo=${producto.codigo }"
+								class="btn btn-primary">Detalle</a> -->
+						<div class="row">
+							<div class="col-lg-6">
+								<h4>$${producto.precio }</h4>
+							</div>
+							<div class="col-lg-6">
+								<sec:authorize access="hasRole('ROLE_CLIENTE')">
+									<div class="pull-right">
+										<c:choose>
+											<c:when test="${producto.stock >= 1 }">
+												<button data-toggle="modal"
+													data-target="#confirmacion${producto.codigo }"
+													class="btn btn-success button-right">
+													<span class="glyphicon glyphicon-shopping-cart"></span>
+													Comprar
+												</button>
 
-						<p>
-							<a href="get_producto?codigo=${producto.codigo }"
-								class="btn btn-primary">Detalle</a>
-							<sec:authorize access="hasRole('ROLE_CLIENTE')">
-								<button data-toggle="modal"
-									data-target="#confirmacion${producto.codigo }"
-									class="btn btn-default">Carrito</button>
-							</sec:authorize>
-						</p>
+											</c:when>
+											<c:otherwise>
+
+												<button class="btn btn-danger button-right">
+													<span class="glyphicon glyphicon-remove"></span> Sin stock
+												</button>
+
+											</c:otherwise>
+
+										</c:choose>
+
+									</div>
+								</sec:authorize>
+							</div>
+
+						</div>
 
 					</div>
 
@@ -223,7 +267,7 @@ $(document).ready(function() {
 		</div>
 
 		<!-- Paginacion -->
-		<div class="container">
+		<div class="container text-center">
 			<ul class="pagination">
 				<c:choose>
 					<c:when test="${currentIndex == 1}">
@@ -263,6 +307,18 @@ $(document).ready(function() {
 
 	</div>
 
+	<!-- FOOTER -->
+	<div class="panel panel-default container text-center">
+		<div class="row">
+			<div class="col-lg-12">
+				<ul class="nav nav-pills nav-justified">
+					<li><a href="/">© 2014 OneClick.</a></li>
+					<li><a href="#">Terms of Service</a></li>
+					<li><a href="#">Privacy</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
 
 </body>

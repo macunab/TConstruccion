@@ -1,23 +1,30 @@
 package org.construccion.models;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.AssociationOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "pedido_producto")
-@AssociationOverrides({
-		@AssociationOverride(name = "pk.pedido", joinColumns = @JoinColumn(name = "idpedido")),
-		@AssociationOverride(name = "pk.producto", joinColumns = @JoinColumn(name = "idproducto")) })
 public class PedidoProducto {
 
-	@EmbeddedId
-	private PedidoProductoId pk = new PedidoProductoId();
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "idpedido_producto")
+	private Integer id;
+
+	@ManyToOne
+	@JoinColumn(name = "idpedido")
+	private Pedido pedido;
+
+	@ManyToOne
+	@JoinColumn(name = "idproducto")
+	private Producto producto;
 
 	@Column(name = "cantidad")
 	private Integer cantidad;
@@ -26,33 +33,28 @@ public class PedidoProducto {
 
 	}
 
-	public PedidoProductoId getPk() {
-		return pk;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setPk(PedidoProductoId pk) {
-		this.pk = pk;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	@Transient
 	public Pedido getPedido() {
-
-		return getPk().getPedido();
+		return pedido;
 	}
 
 	public void setPedido(Pedido pedido) {
-
-		getPk().setPedido(pedido);
+		this.pedido = pedido;
 	}
 
-	@Transient
 	public Producto getProducto() {
-		return getPk().getProducto();
+		return producto;
 	}
 
 	public void setProducto(Producto producto) {
-
-		getPk().setProducto(producto);
+		this.producto = producto;
 	}
 
 	public Integer getCantidad() {
@@ -61,25 +63,6 @@ public class PedidoProducto {
 
 	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
-	}
-
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-
-		PedidoProducto that = (PedidoProducto) o;
-
-		if (getPk() != null ? !getPk().equals(that.getPk())
-				: that.getPk() != null)
-			return false;
-
-		return true;
-	}
-
-	public int hashCode() {
-		return (getPk() != null ? getPk().hashCode() : 0);
 	}
 
 }

@@ -105,7 +105,19 @@
 
 		<c:if test="${pedido != null }">
 			<c:forEach items="${productos }" var="producto">
-				<p>${producto.pk.producto.nombre }-Cantidad ${producto.cantidad }</p>
+
+				<div class="media">
+					<a class="pull-left" href="#"> <img width="120" class="media-object"
+						src="${producto.producto.urlImage }" alt="producto_imagen">
+					</a>
+					<div class="media-body">
+						<h4 class="media-heading">${producto.producto.nombre }</h4>
+					</div>
+					<div class="pull-right">
+						Cantidad: ${producto.cantidad } - <a href="">Remove</a>
+					</div>
+				</div>
+
 			</c:forEach>
 
 			<!-- Button (Double) -->
@@ -119,7 +131,7 @@
 			</div>
 		</c:if>
 		<c:if test="${pedido == null }">
-		<p>No tiene productos en su carrito!</p>
+			<p>No tiene productos en su carrito!</p>
 		</c:if>
 	</div>
 </body>

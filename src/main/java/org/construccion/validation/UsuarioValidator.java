@@ -14,7 +14,7 @@ public class UsuarioValidator implements Validator {
 	PersistenceService service;
 
 	@Override
-	public boolean supports(Class c) {
+	public boolean supports(Class<?> c) {
 		// TODO Auto-generated method stub
 		return Usuario.class.isAssignableFrom(c);
 

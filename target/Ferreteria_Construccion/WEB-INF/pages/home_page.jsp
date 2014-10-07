@@ -23,17 +23,35 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	/*$.ajax({
-		type : "get",
-		url : "cantidad_carrito",
+	$.ajax({
+		type : "post",
+		url : "get_productos_carrito",
 		cache : false,
-		data : 'usuario=marco',
 		success : function(data) {
-			$('#cantidad').val(data);
+			$("#cantidad").text(data);
 		},
-	});*/
+	});
+	
 	
 });
+
+function addCarrito(producto) {
+	
+	var id = "#cantidad_" + producto;
+	console.log(id);
+	
+	$.ajax({
+		type : "post",
+		url : "add_carrito",
+		cache : false,
+		data : 'producto='
+				+ producto + '&cantidad='
+				+ $(id).val(),
+		success : function(data) {
+			//$('#content').html(data);
+		},
+	});
+}
 	function buscar() {
 		$.ajax({
 			type : "get",
@@ -175,7 +193,7 @@ $(document).ready(function() {
 								<div>
 									<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
 
-									<input id="cantidad" name="cantidad"
+									<input id="cantidad_${producto.codigo }" name="cantidad_p"
 										placeholder="cantidad de articulos" class="form-control"
 										type="text" />
 
@@ -185,7 +203,8 @@ $(document).ready(function() {
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default"
 									data-dismiss="modal">Cancelar</button>
-								<a class="btn btn-primary" href="">Agregar</a>
+								<button onClick="addCarrito(${producto.codigo});"
+									class="btn btn-primary" data-dismiss="modal">Agregar</button>
 							</div>
 						</div>
 					</div>

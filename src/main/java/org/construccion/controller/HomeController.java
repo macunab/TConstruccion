@@ -8,6 +8,7 @@ import org.construccion.models.Categoria;
 import org.construccion.models.Grupo;
 import org.construccion.models.MensajeDto;
 import org.construccion.models.Pedido;
+import org.construccion.models.PedidoProducto;
 import org.construccion.models.Producto;
 import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -157,7 +160,7 @@ public class HomeController {
 		if (result.hasErrors()) {
 			return "contacto";
 		} else {
-			
+
 			System.out.println("PASO POR EL POST EXITOSAMENTE");
 			service.sendMail(mensaje);
 
@@ -172,7 +175,8 @@ public class HomeController {
 
 		Pedido pedido = service.getCarrito(username);
 		if (pedido != null) {
-			model.addAttribute("productos", pedido.getPedidoProductos());
+			model.addAttribute("productos",
+					service.getPedidoProductoByPedido(pedido));
 
 		}
 		model.addAttribute("pedido", pedido);
@@ -190,17 +194,69 @@ public class HomeController {
 		return "redirect:/1";
 	}
 
-	// ################ VEREMOS
-	@RequestMapping(value = "/cantidad_carrito", method = RequestMethod.GET)
-	public @ResponseBody String cantidadCarrito(
-			@RequestParam("usuario") String username) {
+	/*
+	 * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	 * Añade un articulo en el carrito
+	 */
+	@RequestMapping(value = "/add_carrito", method = RequestMethod.POST)
+	public String cantidadCarrito(@RequestParam("producto") Integer codigo,
+			@RequestParam("cantidad") String cantidad) {
 
-		Pedido pedido = service.getCarrito(username);
-		System.out
-				.println("########################################################3  "
-						+ pedido.getPedidoProductos().size());
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
 
-		return "" + pedido.getPedidoProductos().size();
+		Pedido pedido = service.getCarrito(auth.getName());
+		Producto producto = service.getProducto(codigo);
+
+		PedidoProducto pp = new PedidoProducto();
+		pp.setProducto(producto);
+		pp.setCantidad(Integer.parseInt(cantidad));
+		pp.setPedido(pedido);
+
+		List<PedidoProducto> pedidoProductos = service
+				.getPedidoProductoByPedido(pedido);
+
+		pedidoProductos.add(pp);
+		pedido.setPedidoProductos(pedidoProductos);
+
+		if (service.existPedidoProductoByProducto(producto, pedido)) {
+
+			PedidoProducto pedidoP = service.getPedidoProductoByProducto(
+					producto, pedido);
+			pedidoP.setCantidad(Integer.parseInt(cantidad));
+			service.updatePedidoProductoByProducto(pedidoP);
+
+		} else {
+			service.savePedido(pedido);
+		}
+
+		/*
+		 * SimpleDateFormat("dd-MM-yyyy h:mm a")
+		 * SimpleDateFormat("dd/MMM/yy HH:mm:ss")
+		 * SimpleDateFormat("EEEE dd 'de' MMMM 'de' yyyy h:mm:ss:SSS")
+		 */
+		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+		return "";
+	}
+
+	/*
+	 * Cantidad de articulos en el carrito
+	 */
+	@RequestMapping(value = "/get_productos_carrito", method = RequestMethod.POST)
+	public @ResponseBody Integer getProductosCarrito() {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		System.out.println("########################### " + auth.getName());
+		if (!auth.getName().equals("anonymousUser")) {
+			System.out.println("########################### " + auth.getName());
+			Pedido pedido = service.getCarrito(auth.getName());
+			List<PedidoProducto> pedidoProductos = service
+					.getPedidoProductoByPedido(pedido);
+			return pedidoProductos.size();
+
+		}
+		return 1;
 	}
 
 }

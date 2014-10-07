@@ -30,7 +30,7 @@ public class MailServiceImpl implements MailService {
 		message.setFrom(from);
 		message.setTo("ferreteria.oneclick@gmail.com");
 		message.setSubject(subject);
-		message.setText(text);
+		message.setText(text + from);
 
 		this.mailSender.send(message);
 
