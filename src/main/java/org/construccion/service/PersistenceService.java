@@ -110,8 +110,22 @@ public class PersistenceService {
 		pedidoProductoRepository.save(pedidoProducto);
 	}
 
-	public PedidoProducto getPedidoProductoByProducto(Producto producto, Pedido pedido) {
+	public PedidoProducto getPedidoProductoByProducto(Producto producto,
+			Pedido pedido) {
 
 		return pedidoProductoRepository.findByProductoPedido(producto, pedido);
 	}
+
+	@Transactional()
+	public boolean deletePPByProducto(Pedido pedido, Producto producto) {
+
+		try {
+			pedidoProductoRepository.deleteByProducto(pedido, producto);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
+
 }

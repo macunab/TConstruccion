@@ -116,7 +116,7 @@
 	<div id="main-container" class="container">
 		<!-- INICIO DEL FORMULARIO -->
 		<form:form class="form-horizontal" action="contacto" method="post"
-			modelAttribute="mensaje">
+			modelAttribute="mensajeDto">
 			<fieldset>
 
 				<!-- Form Name -->
@@ -130,6 +130,7 @@
 							class="form-control input-md" path="nombre" type="text" />
 						<span class="help-block">ingresa tu nombre.</span>
 					</div>
+					<form:errors path="nombre" class="label label-danger" />
 				</div>
 
 				<!-- EMAIL - Text input-->
@@ -141,6 +142,7 @@
 						<span class="help-block">ingresa un email a donde dirigir
 							la respuesta.</span>
 					</div>
+					<form:errors path="email" class="label label-danger" />
 				</div>
 
 				<!-- MENSAJE - Textarea -->
@@ -150,6 +152,7 @@
 						<form:textarea path="mensaje" class="form-control" id="mensaje"
 							name="mensaje" cols="100" rows="10" />
 					</div>
+					<form:errors path="mensaje" class="label label-danger" />
 				</div>
 
 				<!-- ENVIAR - Button -->

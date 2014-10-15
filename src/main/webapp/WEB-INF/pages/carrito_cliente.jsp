@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
+<head dir=":">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OneClick | Carrito</title>
 <link rel="shortcut icon" href="resources/img/icono_oneclick.png"
@@ -16,10 +16,24 @@
 <link rel="stylesheet" href="resources/css/bootstrap.min.css">
 <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
 
+
 <!-- Javascripts -->
 <script src="resources/js/jquery-1.2.11.0.js"></script>
 <script src="resources/js/bootstrap.min.js"></script>
 <script type="text/javascript">
+	$(document).ready(function() {
+
+		$.ajax({
+			type : "post",
+			url : "get_productos_carrito",
+			cache : false,
+			success : function(data) {
+				$("#cantidad").text(data);
+			},
+		});
+
+	});
+
 	function buscar() {
 		$.ajax({
 			type : "get",
@@ -82,7 +96,7 @@
 				<sec:authorize access="hasRole('ROLE_CLIENTE')">
 					<li><a href="#"><span
 							class="glyphicon glyphicon-shopping-cart blue"></span> <span>
-								&nbsp</span> <span class="badge pull-right">0</span></a></li>
+								&nbsp</span> <span id="cantidad" class="badge pull-right"></span></a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">Bienvenido, <strong><%=SecurityContextHolder.getContext()
 						.getAuthentication().getName()%></strong> <span class="caret"></span></a>
@@ -103,38 +117,96 @@
 
 	<div id="main-container" class="container">
 
+
 		<c:if test="${pedido != null }">
-			<c:forEach items="${productos }" var="producto">
 
-				<div class="media">
-					<a class="pull-left" href="#"> <img width="120"
-						class="media-object" src="${producto.producto.urlImage }"
-						alt="producto_imagen">
-					</a>
-					<div class="media-body">
-						<h4 class="media-heading">${producto.producto.nombre }</h4>
-					</div>
-					<div class="pull-right">
-						Cantidad: ${producto.cantidad } - <a href=""><span
-							class="glyphicon glyphicon-remove"></span>Remove</a>
-					</div>
-				</div>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Producto</th>
+						<th>Descripcion</th>
+						<th>Cantidad</th>
+						<th>Precio</th>
+						<th>Descuento</th>
+						<th>Iva</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${productos }" var="producto">
+						<tr>
+							<td><img width="60" src="${producto.producto.urlImage }"
+								alt="" /></td>
+							<td>${producto.producto.nombre }<br />Color : black,
+								Material : metal
+							</td>
+							<td>
+								<div class="input-append">
+									<input class="span1" style="max-width: 34px" placeholder="1"
+										id="appendedInputButtons" size="16" type="text"
+										value="${producto.cantidad }">
+									<button class="btn" type="button">
+										<i class="glyphicon glyphicon-minus"></i>
+									</button>
+									<button class="btn" type="button">
+										<i class="glyphicon glyphicon-plus"></i>
+									</button>
+									<button class="btn btn-danger" type="button">
+										<i class="glyphicon glyphicon-remove"></i>
+									</button>
+								</div>
+							</td>
+							<td>${producto.producto.precio }</td>
+							<td>$00.00</td>
+							<td>$00.00</td>
+							<td>${producto.producto.precio }</td>
+						</tr>
 
-			</c:forEach>
+					</c:forEach>
+					<tr>
+						<td colspan="6" style="text-align: right"><strong>TOTAL
+								($228 - $50 + $31) =</strong></td>
+						<td class="label label-important" style="display: block"><strong>
+								$155.00 </strong></td>
+					</tr>
 
-			<!-- Button (Double) -->
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="button1id"></label>
-				<div class="col-md-8">
-					<a href="generar_pedido?pedido=${pedido.codigoPedido }"
-						id="button1id" name="button1id" class="btn btn-success">Comprar</a>
-					<button id="button2id" name="button2id" class="btn btn-default">Cancelar</button>
-				</div>
-			</div>
+				</tbody>
+			</table>
+
 		</c:if>
+
+		<!--<c:if test="${pedido != null }">
+					<c:forEach items="${productos }" var="producto">
+
+						<div class="media">
+							<a class="pull-left" href="#"> <img width="120"
+								class="media-object" src="${producto.producto.urlImage }"
+								alt="producto_imagen">
+							</a>
+							<div class="media-body">
+								<h4 class="media-heading">${producto.producto.nombre }</h4>
+							</div>
+							<div class="pull-right">
+								Cantidad: ${producto.cantidad } - <a href=""><span
+									class="glyphicon glyphicon-remove"></span>Remove</a>
+							</div>
+						</div>
+
+					</c:forEach>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="button1id"></label>
+						<div class="col-md-8">
+							<a href="generar_pedido?pedido=${pedido.codigoPedido }"
+								id="button1id" name="button1id" class="btn btn-success">Comprar</a>
+							<button id="button2id" name="button2id" class="btn btn-default">Cancelar</button>
+						</div>
+					</div>
+				</c:if>-->
 		<c:if test="${pedido == null }">
 			<p>No tiene productos en su carrito!</p>
 		</c:if>
+		<p>Subtotal : ${total }</p>
 	</div>
 </body>
 </html>

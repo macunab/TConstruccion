@@ -150,19 +150,20 @@ public class HomeController {
 	@RequestMapping(value = "/contacto", method = RequestMethod.GET)
 	public String getContacto(Model model) {
 
-		model.addAttribute("mensaje", new MensajeDto());
+		model.addAttribute("mensajeDto", new MensajeDto());
 		return "contacto_form";
 	}
 
 	@RequestMapping(value = "/contacto", method = RequestMethod.POST)
-	public String postContacto(@Valid MensajeDto mensaje, BindingResult result) {
+	public String postContacto(@Valid MensajeDto mensajeDto,
+			BindingResult result) {
 
 		if (result.hasErrors()) {
-			return "contacto";
+			return "contacto_form";
 		} else {
 
 			System.out.println("PASO POR EL POST EXITOSAMENTE");
-			service.sendMail(mensaje);
+			service.sendMail(mensajeDto);
 
 			return "redirect:/1";
 		}
@@ -257,6 +258,24 @@ public class HomeController {
 
 		}
 		return 1;
+	}
+
+	/*
+	 * Remover producto de carrito.
+	 */
+	@RequestMapping(value = "/remove_producto_carrito", method = RequestMethod.GET)
+	public String removeProducto(@RequestParam("producto") Integer productoid) {
+
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+
+		Pedido pedido = service.getCarrito(auth.getName());
+
+		Producto producto = service.getProducto(productoid);
+
+		service.deletePPByProducto(pedido, producto);
+
+		return "";
 	}
 
 }

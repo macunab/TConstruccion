@@ -17,6 +17,8 @@ public interface PedidoProductoRepository extends
 	public static final String FIND_BY_PEDIDO = "SELECT p FROM PedidoProducto p WHERE p.pedido = :pedido";
 	public static final String UPDATE_BY_PRODUCTO = "SELECT p FROM PedidoProducto p WHERE "
 			+ "p.producto = :producto AND p.pedido = :pedido";
+	public static final String DELETE_BY_PRODUCTO = "DELETE FROM PedidoProducto p WHERE p.pedido = :pedido AND"
+			+ " p.producto = :producto";
 
 	@Query(FIND_BY_PEDIDO)
 	List<PedidoProducto> findPedidos(@Param("pedido") Pedido pedido);
@@ -28,5 +30,9 @@ public interface PedidoProductoRepository extends
 	@Query(UPDATE_BY_PRODUCTO)
 	PedidoProducto findByProductoPedido(@Param("producto") Producto producto,
 			@Param("pedido") Pedido pedido);
+
+	@Query(DELETE_BY_PRODUCTO)
+	void deleteByProducto(@Param("pedido") Pedido pedido,
+			@Param("producto") Producto producto);
 
 }

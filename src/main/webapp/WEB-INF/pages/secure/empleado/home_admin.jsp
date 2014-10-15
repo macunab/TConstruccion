@@ -50,7 +50,7 @@
 								alt="oneClick">
 						</div></li>
 					<li class="active"><a href="#">Principal</a></li>
-					<li><a href="#">Usuarios</a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-user"></span>Usuarios</a></li>
 					<li><a href="producto_home/1">Productos</a></li>
 					<li><a href="#">Pedidos</a></li>
 				</ul>
