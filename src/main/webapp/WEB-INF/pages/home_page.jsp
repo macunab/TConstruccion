@@ -35,14 +35,8 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 
-		$.ajax({
-			type : "post",
-			url : "get_productos_carrito",
-			cache : false,
-			success : function(data) {
-				$("#cantidad").text(data);
-			},
-		});
+		actualizarCarrito();
+		actualizarTotalCarrito();
 
 	});
 
@@ -57,10 +51,37 @@
 			cache : false,
 			data : 'producto=' + producto + '&cantidad=' + $(id).val(),
 			success : function(data) {
-				//$('#content').html(data);
+				actualizarCarrito();
+			
 			},
 		});
 	}
+	
+	function actualizarCarrito(){
+		
+		$.ajax({
+			type : "post",
+			url : "get_productos_carrito",
+			cache : false,
+			success : function(data) {
+				$("#cantidad").text(data);
+			},
+		});
+	}
+	
+	function actualizarTotalCarrito(){
+		
+
+		$.ajax({
+			type : "post",
+			url : "get_total_carrito",
+			cache : false,
+			success : function(data) {
+				$("#total_carrito").text("$" + data);
+			},
+		});
+	}
+	
 	function buscar() {
 		$.ajax({
 			type : "get",
@@ -343,22 +364,26 @@
 						<input id="nav-busqueda" class="srchTxt" type="text" /> <select
 							class="srchTxt">
 							<option>All</option>
-							<option>CLOTHES</option>
-							<option>FOOD AND BEVERAGES</option>
-							<option>HEALTH & BEAUTY</option>
-							<option>SPORTS & LEISURE</option>
-							<option>BOOKS & ENTERTAINMENTS</option>
+							<c:forEach items="${categorias }" var="categoria">
+								<option>${categoria.nombre }</option>
+							</c:forEach>
 						</select>
 						<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 					</form>
 					<ul id="topMenu" class="nav pull-right">
-						<li class=""><a href="special_offer.html">Specials Offer</a></li>
-						<li class=""><a href="normal.html">Delivery</a></li>
+						<li class=""><a href="special_offer.html">Productos</a></li>
+						<li class=""><a href="normal.html">Empresa</a></li>
 						<li class=""><a href="contact.html">Contacto</a></li>
-						<li class=""><a href="#login" role="button"
-							data-toggle="modal" style="padding-right: 0"><span
-								class="btn btn-large btn-success">Ingresar</span></a>
-							<div id="login" class="modal hide fade in" tabindex="-1"
+						<sec:authorize access="hasRole('ROLE_CLIENTE')">
+							<li><a href="j_spring_security_logout">Salir</a></li>
+
+						</sec:authorize>
+						<sec:authorize access="isAnonymous()">
+							<li class=""><a href="login" role="button"
+								style="padding-right: 0"><span
+									class="btn btn-large btn-success">Ingresar</span></a></li>
+						</sec:authorize>
+						<!-- <div id="login" class="modal hide fade in" tabindex="-1"
 								role="dialog" aria-labelledby="login" aria-hidden="false">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal"
@@ -383,7 +408,8 @@
 									<button type="submit" class="btn btn-success">Sign in</button>
 									<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 								</div>
-							</div></li>
+							</div>-->
+				
 					</ul>
 				</div>
 			</div>
@@ -396,9 +422,16 @@
 				<!-- Sidebar ================================================== -->
 				<div id="sidebar" class="span3">
 					<div class="well well-small">
-						<a id="myCart" href="product_summary.html"><img
-							src="resources/img/ico-cart.png" alt="cart">3 Items in your
-							cart <span class="badge badge-warning pull-right">$155.00</span></a>
+						<sec:authorize access="hasRole('ROLE_CLIENTE')">
+							<a id="myCart" href="get_carrito?username=<%=SecurityContextHolder.getContext()
+						.getAuthentication().getName()%>"><img
+								src="resources/img/ico-cart.png" alt="cart"><span
+								id="cantidad">0</span> Items en tu carrito <span
+								id="total_carrito" class="badge badge-warning pull-right">$00.00</span></a>
+						</sec:authorize>
+						<sec:authorize access="isAnonymous()">
+							<a href=""> <span class="badge badge-large badge-info">Registrarse</span></a>
+						</sec:authorize>
 					</div>
 					<ul id="sideManu" class="nav nav-tabs nav-stacked">
 						<li class="subMenu open"><a> ELECTRONICS [230]</a>
@@ -454,172 +487,252 @@
 						<li><a href="products.html">BOOKS & ENTERTAINMENTS [14]</a></li>
 					</ul>
 					<br />
-					<!-- <div class="thumbnail">
-						<img src="themes/images/products/panasonic.jpg"
-							alt="Bootshop panasonoc New camera" />
-						<div class="caption">
-							<h5>Panasonic</h5>
-							<h4 style="text-align: center">
-								<a class="btn" href="product_details.html"> <i
-									class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i
-									class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
-									href="#">$222.00</a>
-							</h4>
-						</div>
-					</div> -->
-					<br />
-					<!-- <div class="thumbnail">
-						<img src="themes/images/products/kindle.png"
-							title="Bootshop New Kindel" alt="Bootshop Kindel">
-						<div class="caption">
-							<h5>Kindle</h5>
-							<h4 style="text-align: center">
-								<a class="btn" href="product_details.html"> <i
-									class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i
-									class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
-									href="#">$222.00</a>
-							</h4>
-						</div>
-					</div> -->
-					<br />
+
 					<div class="thumbnail">
 						<img src="resources/img/payment_methods.png"
 							title="Bootshop Payment Methods" alt="Payments Methods">
 						<div class="caption">
-							<h5>Payment Methods</h5>
+							<h5>Metodos de pago</h5>
 						</div>
 					</div>
 				</div>
 				<!-- Sidebar end=============================================== -->
 				<div class="span9">
 					<ul class="breadcrumb">
-						<li><a href="index.html">Home</a> <span class="divider">/</span></li>
-						<li class="active">CARRITO</li>
+						<li class="active">Home</li>
 					</ul>
 					<h3>
-						Carrito de Compras [ <small>3 Item(s) </small>]<a
-							href="products.html" class="btn btn-large pull-right"><i
-							class="icon-arrow-left"></i> Continuar Comprando </a>
+						Productos <small class="pull-right"> 40 products are
+							available </small>
 					</h3>
 					<hr class="soft" />
+					<p>En OneClick.com encontraras todo lo que necesites al mejor
+						precio, desde maquinaria industrial hasta insumos basicos para el
+						hogar y la construccion, Si no encuentras lo que buscas no dudes
+						en consultarnos por medio de la seccion de contacto.</p>
+					<hr class="soft" />
+					<form class="form-horizontal span6">
+						<div class="control-group">
+							<label class="control-label alignL">Ordenar por </label> <select>
+								<option>Priduct name A - Z</option>
+								<option>Priduct name Z - A</option>
+								<option>Productos con stock</option>
+								<option>Precio mas bajo</option>
+							</select>
+						</div>
+					</form>
 
-					<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th>Product</th>
-								<th>Description</th>
-								<th>Quantity/Update</th>
-								<th>Price</th>
-								<th>Discount</th>
-								<th>Tax</th>
-								<th>Total</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><img width="60" src="themes/images/products/4.jpg"
-									alt="" /></td>
-								<td>MASSA AST<br />Color : black, Material : metal
-								</td>
-								<td>
-									<div class="input-append">
-										<input class="span1" style="max-width: 34px" placeholder="1"
-											id="appendedInputButtons" size="16" type="text">
-										<button class="btn" type="button">
-											<i class="icon-minus"></i>
-										</button>
-										<button class="btn" type="button">
-											<i class="icon-plus"></i>
-										</button>
-										<button class="btn btn-danger" type="button">
-											<i class="icon-remove icon-white"></i>
-										</button>
+					<!-- TAB CONTENT - visualizacion de productos -->
+					<div id="myTab" class="pull-right">
+						<a href="#listView" data-toggle="tab"><span
+							class="btn btn-large"><i class="icon-list"></i></span></a> <a
+							href="#blockView" data-toggle="tab"><span
+							class="btn btn-large btn-primary"><i class="icon-th-large"></i></span></a>
+					</div>
+					<br class="clr" />
+					<div class="tab-content">
+						<!-- Vista en lista -->
+						<div class="tab-pane" id="listView">
+
+							<c:forEach items="${productos }" var="producto">
+
+								<!-- MODAL DE AGREGAR AL CARRITO -->
+								<div id="confirmacion${producto.codigo }"
+									class="modal hide fade in" tabindex="-1" role="dialog"
+									aria-labelledby="login" aria-hidden="false">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">×</button>
+										<h3>Cuantos ${producto.nombre } desea sumar a su carrito.</h3>
 									</div>
-								</td>
-								<td>$120.00</td>
-								<td>$25.00</td>
-								<td>$15.00</td>
-								<td>$110.00</td>
-							</tr>
-							<tr>
-								<td><img width="60" src="themes/images/products/8.jpg"
-									alt="" /></td>
-								<td>MASSA AST<br />Color : black, Material : metal
-								</td>
-								<td>
-									<div class="input-append">
-										<input class="span1" style="max-width: 34px" placeholder="1"
-											size="16" type="text">
-										<button class="btn" type="button">
-											<i class="icon-minus"></i>
-										</button>
-										<button class="btn" type="button">
-											<i class="icon-plus"></i>
-										</button>
-										<button class="btn btn-danger" type="button">
-											<i class="icon-remove icon-white"></i>
-										</button>
+									<div class="modal-body">
+										<form class="form-horizontal loginFrm">
+											<div class="control-group">
+
+												<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
+
+												<input id="cantidad_${producto.codigo }" name="cantidad_p"
+													placeholder="cantidad de articulos" class="form-control"
+													type="text" />
+											</div>
+
+
+										</form>
+										<button onClick="addCarrito(${producto.codigo});"
+											class="btn btn-primary" data-dismiss="modal">Agregar</button>
+										<button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
 									</div>
-								</td>
-								<td>$7.00</td>
-								<td>--</td>
-								<td>$1.00</td>
-								<td>$8.00</td>
-							</tr>
-							<tr>
-								<td><img width="60" src="themes/images/products/3.jpg"
-									alt="" /></td>
-								<td>MASSA AST<br />Color : black, Material : metal
-								</td>
-								<td>
-									<div class="input-append">
-										<input class="span1" style="max-width: 34px" placeholder="1"
-											size="16" type="text">
-										<button class="btn" type="button">
-											<i class="icon-minus"></i>
-										</button>
-										<button class="btn" type="button">
-											<i class="icon-plus"></i>
-										</button>
-										<button class="btn btn-danger" type="button">
-											<i class="icon-remove icon-white"></i>
-										</button>
+								</div>
+								<!-- FIN DE AGREGAR CARRITO -->
+
+								<div class="row">
+									<div class="span2">
+										<img src="${producto.urlImage}" alt="Sin imagen" />
 									</div>
-								</td>
-								<td>$120.00</td>
-								<td>$25.00</td>
-								<td>$15.00</td>
-								<td>$110.00</td>
-							</tr>
+									<div class="span4">
+										<h3>${producto.nombre }</h3>
+										<hr class="soft" />
+										<h5>Stock : ${producto.stock }</h5>
+										<p>${producto.descripcion }</p>
+										<a class="btn btn-small pull-right"
+											href="product_details.html">Ver Detalles</a> <br class="clr" />
+									</div>
+									<div class="span3 alignR">
+										<form class="form-horizontal qtyFrm">
+											<h3>$${producto.precio }</h3>
+											<br />
 
-							<tr>
-								<td colspan="6" style="text-align: right">Total Price:</td>
-								<td>$228.00</td>
-							</tr>
-							<tr>
-								<td colspan="6" style="text-align: right">Total Discount:</td>
-								<td>$50.00</td>
-							</tr>
-							<tr>
-								<td colspan="6" style="text-align: right">Total Tax:</td>
-								<td>$31.00</td>
-							</tr>
-							<tr>
-								<td colspan="6" style="text-align: right"><strong>TOTAL
-										($228 - $50 + $31) =</strong></td>
-								<td class="label label-important" style="display: block"><strong>
-										$155.00 </strong></td>
-							</tr>
-						</tbody>
-					</table>
+											<c:choose>
+												<c:when test="${producto.stock >= 1 }">
+													<sec:authorize access="hasRole('ROLE_CLIENTE')">
+														<a data-toggle="modal"
+															data-target="#confirmacion${producto.codigo }"
+															class="btn btn-large btn-primary"> Add to <i
+															class=" icon-shopping-cart"></i>
+														</a>
+													</sec:authorize>
+
+												</c:when>
+												<c:otherwise>
+
+													<button class="btn btn-danger button-right" disabled>
+														<span class="icon-remove"></span> Sin stock
+													</button>
+
+												</c:otherwise>
+
+											</c:choose>
+
+											<a href="product_details.html" class="btn btn-large"><i
+												class="icon-zoom-in"></i></a>
+
+										</form>
+									</div>
+								</div>
+								<hr class="soft" />
+							</c:forEach>
+
+						</div>
+
+						<!-- Vista en bloques -->
+						<!-- ****************************************** -->
+						<div class="tab-pane  active" id="blockView">
+							<ul class="thumbnails">
+								<c:forEach items="${productos }" var="producto">
+
+									<!-- MODAL DE AGREGAR AL CARRITO -->
+									<div id="confirmacion_bloque${producto.codigo }"
+										class="modal hide fade in" tabindex="-1" role="dialog"
+										aria-labelledby="login" aria-hidden="false">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">×</button>
+											<h3>Cuantos ${producto.nombre } desea sumar a su
+												carrito.</h3>
+										</div>
+										<div class="modal-body">
+											<form class="form-horizontal loginFrm">
+												<div class="control-group">
+
+													<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
+
+													<input id="cantidad_${producto.codigo }" name="cantidad_p"
+														placeholder="cantidad de articulos" class="form-control"
+														type="text" />
+												</div>
 
 
+											</form>
+											<button onClick="addCarrito(${producto.codigo});"
+												class="btn btn-primary" data-dismiss="modal">Agregar</button>
+											<button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+										</div>
+									</div>
+									<!-- FIN DE AGREGAR CARRITO -->
 
-					<a href="products.html" class="btn btn-large"><i
-						class="icon-arrow-left"></i> Continuar Comprando </a> <a
-						href="login.html" class="btn btn-large pull-right">Siguiente <i
-						class="icon-arrow-right"></i></a>
+									<li class="span3">
+										<div class="thumbnail">
+											<a href="product_details.html"><img
+												src="${producto.urlImage }" alt="" /></a>
+											<div class="caption">
+												<h5>${producto.nombre }</h5>
+												<p></p>
+												<h4 style="text-align: center">
+													<a class="btn" href="product_details.html"> <i
+														class="icon-zoom-in"></i></a>
 
+													<c:choose>
+														<c:when test="${producto.stock >= 1 }">
+															<sec:authorize access="hasRole('ROLE_CLIENTE')">
+																<a data-toggle="modal"
+																	data-target="#confirmacion_bloque${producto.codigo }"
+																	class="btn btn-primary"> Add to <i
+																	class=" icon-shopping-cart"></i>
+																</a>
+															</sec:authorize>
+														</c:when>
+														<c:otherwise>
+															<button class="btn btn-danger button-right" disabled>
+																<span class="icon-remove"></span> Sin stock
+															</button>
+														</c:otherwise>
+													</c:choose>
+
+													<a class="btn btn-primary" href="#">&euro;${producto.precio }</a>
+												</h4>
+											</div>
+										</div>
+									</li>
+								</c:forEach>
+
+							</ul>
+							<hr class="soft" />
+						</div>
+						<!-- Fin de Vista en Bloque -->
+
+					</div>
+
+					<!-- Paginacion -->
+					<!-- *********************************************** -->
+					<div class="pagination">
+						<ul>
+							<c:choose>
+								<c:when test="${currentIndex == 1}">
+									<li class="disabled"><a href="#">&lt;&lt;</a></li>
+									<li class="disabled"><a href="#">&lt;</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${firstUrl}">&lt;&lt;</a></li>
+									<li><a href="${prevUrl}">&lt;</a></li>
+								</c:otherwise>
+							</c:choose>
+							<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
+								<c:url var="pageUrl" value="/${i}" />
+								<c:choose>
+									<c:when test="${i == currentIndex}">
+										<li class="active"><a href="${pageUrl}"><c:out
+													value="${i}" /></a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="${pageUrl}"><c:out value="${i}" /></a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<c:choose>
+								<c:when test="${currentIndex == page.totalPages}">
+									<li class="disabled"><a href="#">&gt;</a></li>
+									<li class="disabled"><a href="#">&gt;&gt;</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${nextUrl}">&gt;</a></li>
+									<li><a href="${lastUrl}">&gt;&gt;</a></li>
+								</c:otherwise>
+							</c:choose>
+						</ul>
+					</div>
+					<!-- Fin Paginacion -->
+
+					<br class="clr" />
 				</div>
 			</div>
 		</div>

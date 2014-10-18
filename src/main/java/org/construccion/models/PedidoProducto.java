@@ -1,5 +1,7 @@
 package org.construccion.models;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -63,6 +65,12 @@ public class PedidoProducto {
 
 	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public BigDecimal getSubTotal() {
+
+		return this.producto.getPrecio()
+				.multiply(new BigDecimal(this.cantidad));
 	}
 
 }

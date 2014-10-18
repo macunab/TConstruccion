@@ -1,5 +1,6 @@
 package org.construccion.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -176,8 +177,15 @@ public class HomeController {
 
 		Pedido pedido = service.getCarrito(username);
 		if (pedido != null) {
-			model.addAttribute("productos",
-					service.getPedidoProductoByPedido(pedido));
+			BigDecimal total = new BigDecimal(0);
+			List<PedidoProducto> pp = service.getPedidoProductoByPedido(pedido);
+			model.addAttribute("productos", pp);
+
+			for (int i = 0; i < pp.size(); i++) {
+				total = total.add(pp.get(i).getProducto().getPrecio()
+						.multiply(new BigDecimal(pp.get(i).getCantidad())));
+			}
+			model.addAttribute("total", total);
 
 		}
 		model.addAttribute("pedido", pedido);
@@ -238,7 +246,7 @@ public class HomeController {
 		 */
 		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-		return "";
+		return "home_page";
 	}
 
 	/*
@@ -258,6 +266,34 @@ public class HomeController {
 
 		}
 		return 1;
+	}
+
+	@RequestMapping(value = "/get_total_carrito", method = RequestMethod.POST)
+	public @ResponseBody BigDecimal getTotalCarrito() {
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		BigDecimal total = new BigDecimal(0);
+
+		if (!auth.getName().equals("anonymousUser")) {
+
+			Pedido pedido = service.getCarrito(auth.getName());
+			List<PedidoProducto> pedidoProductos = service
+					.getPedidoProductoByPedido(pedido);
+
+			for (int i = 0; i < pedidoProductos.size(); i++) {
+				total = total.add(pedidoProductos
+						.get(i)
+						.getProducto()
+						.getPrecio()
+						.multiply(
+								new BigDecimal(pedidoProductos.get(i)
+										.getCantidad())));
+			}
+
+			return total;
+
+		}
+		return new BigDecimal(0);
 	}
 
 	/*
