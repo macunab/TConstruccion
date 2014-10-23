@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -14,28 +16,31 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
-@Table(name = "categoria")
-public class Categoria {
+@Table(name = "subcategoria")
+public class SubCategoria {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "idcategoria")
+	@Column(name = "idsubcategoria")
 	private Integer codigo;
 
 	@Column(name = "nombre")
 	private String nombre;
 
-	@OneToMany(mappedBy = "categoria")
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<SubCategoria> subCategorias;
+	@ManyToOne
+	@JoinColumn(name = "categoria")
+	private Categoria categoria;
 
-	public Categoria() {
+	@OneToMany(mappedBy = "subCategoria")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Producto> productos;
+
+	public SubCategoria() {
 
 	}
 
-	public Categoria(String nombre, List<SubCategoria> subCategorias) {
+	public SubCategoria(String nombre) {
 		this.nombre = nombre;
-		this.subCategorias = subCategorias;
 	}
 
 	public Integer getCodigo() {
@@ -54,12 +59,20 @@ public class Categoria {
 		this.nombre = nombre;
 	}
 
-	public List<SubCategoria> getSubCategorias() {
-		return subCategorias;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public void setSubCategorias(List<SubCategoria> subCategorias) {
-		this.subCategorias = subCategorias;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
 	}
 
 }

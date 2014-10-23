@@ -15,6 +15,7 @@ import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
 import org.construccion.repository.ProductoRepository;
 import org.construccion.repository.UsuarioRepository;
+import org.construccion.service.PasswordGenerator;
 import org.construccion.service.PersistenceService;
 import org.construccion.validation.UsuarioValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +106,11 @@ public class HomeController {
 		} else {
 			usuario.setEnable(true);
 			usuario.setRol(new Grupo(2, usuario));
+			PasswordGenerator generarPassword = new PasswordGenerator();
+			String password = generarPassword.GeneratedPassword();
+
+			System.out.println("PASWORD GENERADA = #################### "
+					+ generarPassword);
 			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
 			usuarioRepo.save(usuario);
@@ -151,6 +157,9 @@ public class HomeController {
 	@RequestMapping(value = "/contacto", method = RequestMethod.GET)
 	public String getContacto(Model model) {
 
+		List<Categoria> categorias = categoriaRepo.findAll();
+
+		model.addAttribute("categorias", categorias);
 		model.addAttribute("mensajeDto", new MensajeDto());
 		return "contacto_form";
 	}

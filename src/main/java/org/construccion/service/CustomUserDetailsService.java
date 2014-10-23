@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			System.out
 					.println("La contraseña es : " + domainUser.getPassword());
 
-			boolean enable = true;
+			boolean enable = domainUser.isEnable();
 			boolean accountNonExpired = true;
 			boolean credentialsNonExpired = true;
 			boolean accountNonLocked = true;

@@ -60,8 +60,8 @@ public class Producto {
 	private List<Tag> tags;
 
 	@ManyToOne
-	@JoinColumn(name = "categoria")
-	private Categoria categoria;
+	@JoinColumn(name = "subcategoria")
+	private SubCategoria subCategoria;
 
 	@Column(name = "active")
 	private boolean activo;
@@ -143,12 +143,12 @@ public class Producto {
 		this.tags = tags;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
+	public SubCategoria getSubCategoria() {
+		return subCategoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setSubCategoria(SubCategoria subCategoria) {
+		this.subCategoria = subCategoria;
 	}
 
 	public BigDecimal getPrecioCompra() {

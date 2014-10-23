@@ -13,13 +13,25 @@
 <link rel="shortcut icon" href="resources/img/icono_oneclick.png"
 	type="image/png" />
 <title>OneClick | Contacto</title>
-<!-- Estilo Css -->
-<link rel="stylesheet" href="resources/css/bootstrap.min.css">
-<link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Bootstrap style -->
+<link id="callCss" rel="stylesheet"
+	href="resources/css/bootstrap.min.css" media="screen" />
+<link href="resources/css/base.css" rel="stylesheet" media="screen" />
+<!-- Bootstrap style responsive -->
+<link href="resources/css/bootstrap-responsive.min.css" rel="stylesheet" />
+<link href="resources/css/font-awesome.css" rel="stylesheet"
+	type="text/css">
 
 <!-- Javascripts -->
 <script src="resources/js/jquery-1.2.11.0.js"></script>
-<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
+
+<script src="resources/js/bootshop.js"></script>
+<script src="resources/js/jquery.lightbox-0.5.js"></script>
 <script type="text/javascript">
 	function buscar() {
 		$.ajax({
@@ -35,138 +47,150 @@
 </script>
 </head>
 <body>
-	<div class="container">
-		<div class="page-header">
 
+	<div id="header">
+		<div class="container">
+			<div id="welcomeLine" class="row"></div>
+			<!-- Navbar ================================================== -->
+			<div id="logoArea" class="navbar">
+				<a id="smallScreen" data-target="#topMenu" data-toggle="collapse"
+					class="btn btn-navbar"> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+				</a>
+				<div class="navbar-inner">
+					<a class="brand" href="1"><img width="100"
+						src="resources/img/OneClick-3.png" alt="Bootsshop" /></a>
+					<form class="form-inline navbar-search" method="post"
+						action="products.html">
+						<input id="srchFld" class="srchTxt" type="text" /> <select
+							class="srchTxt">
+							<option>All</option>
+							<c:forEach items="${categorias }" var="categoria">
+								<option>${categoria.nombre }</option>
+							</c:forEach>
+						</select>
+						<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
+					</form>
+					<ul id="topMenu" class="nav pull-right">
+						<li class=""><a href="#">Productos</a></li>
+						<li class=""><a href="#">Empresa</a></li>
+						<li class=""><a href="contacto">Contacto</a></li>
+						<sec:authorize access="hasRole('ROLE_CLIENTE')">
+							<li><a href="j_spring_security_logout">Salir</a></li>
 
-			<img width="400" alt="No se encontro"
-				src="resources/img/OneClick.png">
+						</sec:authorize>
+						<sec:authorize access="isAnonymous()">
+							<li class=""><a href="login" role="button"
+								style="padding-right: 0"><span
+									class="btn btn-large btn-success">Ingresar</span></a></li>
+						</sec:authorize>
 
+					</ul>
+				</div>
+			</div>
 		</div>
 	</div>
-
-	<nav class="navbar navbar-default" role="navigation">
-	<div class="container">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="1">inicio</a>
-		</div>
-
-		<!-- NAVBAR Derecha CONTACTO/CATEGORIA/BUSQUEDA -->
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<!-- class="active" en los li los deja marcados -->
-				<!-- ****************************************** -->
-				<li><a href="contacto">Contacto</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">Categorias <span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-						<c:forEach items="${categorias }" var="categoria">
-							<li><a href="#">${categoria.nombre }</a>
-						</c:forEach>
-					</ul></li>
-			</ul>
-			<form class="navbar-form navbar-left" role="search">
-				<div class="form-group">
-					<input id="busqueda" type="text" class="form-control"
-						placeholder="busqueda">
+	<!-- Header End====================================================================== -->
+	<div id="mainBody">
+		<div class="container">
+			<hr class="soften">
+			<h1>Visitanos</h1>
+			<hr class="soften" />
+			<div class="row">
+				<div class="span4">
+					<h4>Detalles de Contacto</h4>
+					<p>
+						Rondo 145,<br /> CA 5000, ARG <br /> <br />
+						ferreteria.oneclick@gmail.com<br /> ﻿Tel 123-456-6780<br /> Fax
+						123-456-5679<br /> web:oneclick.com
+					</p>
 				</div>
-				<button type="button" class="btn btn-default" onClick="buscar()">
-					<span class="glyphicon glyphicon-search"></span>
-				</button>
-			</form>
 
-			<!-- NAVBAR Izquierda LOGIN/CARRITO -->
-			<ul class="nav navbar-nav navbar-right">
-				<sec:authorize access="hasRole('ROLE_CLIENTE')">
-					<li><a
-						href="get_carrito?username=<%=SecurityContextHolder.getContext()
-						.getAuthentication().getName()%>"><span
-							class="glyphicon glyphicon-shopping-cart blue"></span> <span>
-								&nbsp</span> <span id="cantidad" class="badge pull-right">0</span></a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">Bienvenido, <strong id="usuario"><%=SecurityContextHolder.getContext()
-						.getAuthentication().getName()%></strong> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Mis Pedidos</a></li>
-							<li><a href="#">Perfil</a></li>
-							<li><a href="#">Change password</a></li>
-							<li class="divider"></li>
-							<li><a href="j_spring_security_logout">Logout</a></li>
-						</ul></li>
-				</sec:authorize>
-				<sec:authorize access="isAnonymous()">
-					<li><a href="login"><strong>Ingresar</strong></a></li>
-				</sec:authorize>
+				<div class="span4">
+					<h4>Horarios de atencion</h4>
+					<h5>Lunes - Viernes</h5>
+					<p>
+						09:00am - 09:00pm<br /> <br />
+					</p>
+					<h5>Sabados</h5>
+					<p>
+						09:00am - 07:00pm<br /> <br />
+					</p>
 
-			</ul>
+				</div>
+				<div class="span4">
+					<h4>Email</h4>
+					<form:form action="contacto" method="post"
+						modelAttribute="mensajeDto" class="form-horizontal">
+						<fieldset>
+							<div class="control-group">
+
+								<form:input path="nombre" type="text" placeholder="name"
+									class="input-xlarge" />
+								<form:errors path="nombre" class="label label-danger" />
+
+							</div>
+							<div class="control-group">
+
+								<form:input path="email" type="text" placeholder="email"
+									class="input-xlarge" />
+								<form:errors path="email" class="label label-danger" />
+
+							</div>
+
+							<div class="control-group">
+								<form:textarea path="mensaje" rows="3" id="textarea"
+									class="input-xlarge"></form:textarea>
+								<form:errors path="mensaje" class="label label-danger" />
+
+							</div>
+
+							<button class="btn btn-large" type="submit">Send
+								Messages</button>
+
+						</fieldset>
+					</form:form>
+				</div>
+			</div>
+			<div class="row"></div>
 		</div>
-		<!-- /.navbar-collapse -->
 	</div>
-	<!-- /.container-fluid --> </nav>
-
-	<!-- CONTENIDO PRINCIPAL -->
-	<div id="main-container" class="container">
-		<!-- INICIO DEL FORMULARIO -->
-		<form:form class="form-horizontal" action="contacto" method="post"
-			modelAttribute="mensajeDto">
-			<fieldset>
-
-				<!-- Form Name -->
-				<legend>Contacto</legend>
-
-				<!-- NOMBRE - Text input-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="nombre">Nombre</label>
-					<div class="col-md-5">
-						<form:input id="nombre" name="nombre" placeholder="tu nombre"
-							class="form-control input-md" path="nombre" type="text" />
-						<span class="help-block">ingresa tu nombre.</span>
-					</div>
-					<form:errors path="nombre" class="label label-danger" />
+	<!-- MainBody End ============================= -->
+	<!-- Footer ================================================================== -->
+	<div id="footerSection">
+		<div class="container">
+			<div class="row">
+				<div class="span3">
+					<!-- <h5>ACCOUNT</h5>
+					<a href="login.html">YOUR ACCOUNT</a> <a href="login.html">PERSONAL
+						INFORMATION</a> <a href="login.html">ADDRESSES</a> <a
+						href="login.html">DISCOUNT</a> <a href="login.html">ORDER
+						HISTORY</a> -->
+					<h5>INFORMATION</h5>
+					<a href="contact.html">CONTACT</a> <a href="register.html">REGISTRATION</a>
+					<a href="legal_notice.html">LEGAL NOTICE</a> <a href="tac.html">TERMS
+						AND CONDITIONS</a> <a href="faq.html">FAQ</a>
 				</div>
-
-				<!-- EMAIL - Text input-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="email">Email</label>
-					<div class="col-md-5">
-						<form:input id="email" name="email" placeholder="tu email"
-							class="form-control input-md" path="email" type="text" />
-						<span class="help-block">ingresa un email a donde dirigir
-							la respuesta.</span>
-					</div>
-					<form:errors path="email" class="label label-danger" />
+				<div class="span3"></div>
+				<div class="span3">
+					<!-- 	<h5>OUR OFFERS</h5>
+					<a href="#">NEW PRODUCTS</a> <a href="#">TOP SELLERS</a> <a
+						href="special_offer.html">SPECIAL OFFERS</a> <a href="#">MANUFACTURERS</a>
+					<a href="#">SUPPLIERS</a> -->
 				</div>
-
-				<!-- MENSAJE - Textarea -->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="mensaje">Mensaje</label>
-					<div class="col-md-4">
-						<form:textarea path="mensaje" class="form-control" id="mensaje"
-							name="mensaje" cols="100" rows="10" />
-					</div>
-					<form:errors path="mensaje" class="label label-danger" />
+				<div id="socialMedia" class="span3 pull-right">
+					<!-- <h5>SOCIAL MEDIA</h5>
+					<a href="#"><img width="60" height="60"
+						src="themes/images/facebook.png" title="facebook" alt="facebook" /></a>
+					<a href="#"><img width="60" height="60"
+						src="themes/images/twitter.png" title="twitter" alt="twitter" /></a>
+					<a href="#"><img width="60" height="60"
+						src="themes/images/youtube.png" title="youtube" alt="youtube" /></a> -->
 				</div>
-
-				<!-- ENVIAR - Button -->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="enviar"></label>
-					<div class="col-md-4">
-						<button id="enviar" name="enviar" class="btn btn-primary">Enviar</button>
-					</div>
-				</div>
-
-			</fieldset>
-		</form:form>
-		<!-- FIN DEL FORMULARIO -->
-
+			</div>
+			<p class="pull-right">&copy; OneClick.com</p>
+		</div>
+		<!-- Container End -->
 	</div>
 </body>
 </html>

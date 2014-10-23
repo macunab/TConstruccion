@@ -21,6 +21,7 @@ public class Usuario {
 	@Id
 	@Column(name = "username")
 	@NotEmpty
+	@Email
 	private String username;
 
 	@Column(name = "password")
@@ -44,11 +45,6 @@ public class Usuario {
 	@NotEmpty
 	private String apellido;
 
-	@Column(name = "email")
-	@NotEmpty
-	@Email
-	private String email;
-
 	@Column(name = "domicilio")
 	@NotEmpty
 	private String domicilio;
@@ -62,7 +58,7 @@ public class Usuario {
 
 	public Usuario(String username, String password, boolean enable,
 			String urlAvatar, Grupo rol, String nombre, String apellido,
-			String email, String domicilio) {
+			String domicilio) {
 		this.username = username;
 		this.password = password;
 		this.enable = enable;
@@ -70,7 +66,6 @@ public class Usuario {
 		this.rol = rol;
 		this.apellido = apellido;
 		this.nombre = nombre;
-		this.email = email;
 		this.domicilio = domicilio;
 
 	}
@@ -129,14 +124,6 @@ public class Usuario {
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getDomicilio() {

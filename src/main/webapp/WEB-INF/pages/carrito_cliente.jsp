@@ -266,7 +266,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span>
 				</a>
 				<div class="navbar-inner">
-					<a class="brand" href="index.html"><img width="100"
+					<a class="brand" href="1"><img width="100"
 						src="resources/img/OneClick-3.png" alt="Bootsshop" /></a>
 
 					<form class="form-inline navbar-search" method="post"
@@ -281,9 +281,9 @@
 						<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 					</form>
 					<ul id="topMenu" class="nav pull-right">
-						<li class=""><a href="special_offer.html">Productos</a></li>
-						<li class=""><a href="normal.html">Empresa</a></li>
-						<li class=""><a href="contact.html">Contacto</a></li>
+						<li class=""><a href="#">Productos</a></li>
+						<li class=""><a href="#">Empresa</a></li>
+						<li class=""><a href="contact">Contacto</a></li>
 						<sec:authorize access="hasRole('ROLE_CLIENTE')">
 							<li><a href="j_spring_security_logout">Salir</a></li>
 
@@ -383,7 +383,7 @@
 
 				<div class="span9">
 					<ul class="breadcrumb">
-						<li><a href="index.html">Home</a> <span class="divider">/</span></li>
+						<li><a href="1">Home</a> <span class="divider">/</span></li>
 						<li class="active">CARRITO</li>
 					</ul>
 					<h3>
@@ -401,7 +401,7 @@
 								<th>Cantidad/Actualizar</th>
 								<th>Precio</th>
 								<th>Discount</th>
-								<th>Tax</th>
+								<th>Remover</th>
 								<th>Total</th>
 							</tr>
 						</thead>
@@ -415,32 +415,34 @@
 									</td>
 									<td>
 										<div class="input-append">
-											<input class="span1" style="max-width: 34px" placeholder="1"
-												id="appendedInputButtons" size="16" type="text"
-												value="${producto.cantidad }" disabled>
-											<button class="btn" type="button">
+											<div class="controls">
+												<input class="span1" type="number"
+													value="${producto.cantidad }">
+											</div>
+											<!-- <button class="btn" type="button">
 												<i class="icon-minus"></i>
 											</button>
 											<button class="btn" type="button">
 												<i class="icon-plus"></i>
-											</button>
-											<button class="btn btn-danger" type="button">
-												<i class="icon-remove icon-white"></i>
-											</button>
+											</button>-->
+
 										</div>
 									</td>
 									<td>$${producto.producto.precio }</td>
 									<td>$00.00</td>
-									<td>$00.00</td>
+									<td><button class="btn btn-danger" type="button">
+											<i class="icon-remove icon-white"></i>
+										</button></td>
 									<td>${producto.subTotal }</td>
 								</tr>
 							</c:forEach>
-							
+
 							<tr>
-								<td colspan="6" style="text-align: right"><strong>TOTAL (										
-											<c:forEach items="${productos }" var="producto">
+								<td colspan="6" style="text-align: right"><strong>TOTAL
+										( <c:forEach items="${productos }" var="producto">
 											${producto.subTotal } +
-											</c:forEach>) =</strong></td>
+											</c:forEach>) =
+								</strong></td>
 								<td class="label label-important" style="display: block"><strong>
 										${total } </strong></td>
 							</tr>

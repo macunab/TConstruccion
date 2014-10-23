@@ -35,14 +35,8 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 
-		$.ajax({
-			type : "post",
-			url : "get_productos_carrito",
-			cache : false,
-			success : function(data) {
-				$("#cantidad").text(data);
-			},
-		});
+		actualizarCarrito();
+		actualizarTotalCarrito();
 
 	});
 
@@ -57,10 +51,37 @@
 			cache : false,
 			data : 'producto=' + producto + '&cantidad=' + $(id).val(),
 			success : function(data) {
-				//$('#content').html(data);
+				actualizarCarrito();
+			
 			},
 		});
 	}
+	
+	function actualizarCarrito(){
+		
+		$.ajax({
+			type : "post",
+			url : "get_productos_carrito",
+			cache : false,
+			success : function(data) {
+				$("#cantidad").text(data);
+			},
+		});
+	}
+	
+	function actualizarTotalCarrito(){
+		
+
+		$.ajax({
+			type : "post",
+			url : "get_total_carrito",
+			cache : false,
+			success : function(data) {
+				$("#total_carrito").text("$" + data);
+			},
+		});
+	}
+	
 	function buscar() {
 		$.ajax({
 			type : "get",
@@ -352,36 +373,17 @@
 					<ul id="topMenu" class="nav pull-right">
 						<li class=""><a href="special_offer.html">Productos</a></li>
 						<li class=""><a href="normal.html">Empresa</a></li>
-						<li class=""><a href="contact.html">Contacto</a></li>
-						<li class=""><a href="#login" role="button"
-							data-toggle="modal" style="padding-right: 0"><span
-								class="btn btn-large btn-success">Ingresar</span></a>
-							<div id="login" class="modal hide fade in" tabindex="-1"
-								role="dialog" aria-labelledby="login" aria-hidden="false">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"
-										aria-hidden="true">×</button>
-									<h3>Login Block</h3>
-								</div>
-								<div class="modal-body">
-									<form class="form-horizontal loginFrm">
-										<div class="control-group">
-											<input type="text" id="inputEmail" placeholder="Email">
-										</div>
-										<div class="control-group">
-											<input type="password" id="inputPassword"
-												placeholder="Password">
-										</div>
-										<div class="control-group">
-											<label class="checkbox"> <input type="checkbox">
-												Remember me
-											</label>
-										</div>
-									</form>
-									<button type="submit" class="btn btn-success">Sign in</button>
-									<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-								</div>
-							</div></li>
+						<li class=""><a href="contacto">Contacto</a></li>
+						<sec:authorize access="hasRole('ROLE_CLIENTE')">
+							<li><a href="j_spring_security_logout">Salir</a></li>
+
+						</sec:authorize>
+						<sec:authorize access="isAnonymous()">
+							<li class=""><a href="login" role="button"
+								style="padding-right: 0"><span
+									class="btn btn-large btn-success">Ingresar</span></a></li>
+						</sec:authorize>
+
 					</ul>
 				</div>
 			</div>
@@ -393,68 +395,48 @@
 			<div class="row">
 				<!-- Sidebar ================================================== -->
 				<div id="sidebar" class="span3">
+
+					<sec:authorize access="hasRole('ROLE_CLIENTE')">
+						<div class="well well-small">
+							<ul>
+								<li class="dropdown"><a href="#" class="dropdown-toggle"
+									data-toggle="dropdown">Bienvenido, <strong id="usuario"><%=SecurityContextHolder.getContext()
+						.getAuthentication().getName()%></strong> <span class="caret"></span></a>
+									<ul class="dropdown-menu" role="menu">
+										<li><a href="#">Mis Pedidos</a></li>
+										<li><a href="#">Perfil</a></li>
+										<li><a href="#">Change password</a></li>
+										<li class="divider"></li>
+										<li><a href="j_spring_security_logout">Logout</a></li>
+									</ul></li>
+							</ul>
+						</div>
+					</sec:authorize>
 					<div class="well well-small">
 						<sec:authorize access="hasRole('ROLE_CLIENTE')">
-							<a id="myCart" href="product_summary.html"><img
-								src="resources/img/ico-cart.png" alt="cart">3 Items in
-								your cart <span class="badge badge-warning pull-right">$155.00</span></a>
+							<a id="myCart"
+								href="get_carrito?username=<%=SecurityContextHolder.getContext()
+						.getAuthentication().getName()%>"><img
+								src="resources/img/ico-cart.png" alt="cart"><span
+								id="cantidad">0</span> Items en tu carrito <span
+								id="total_carrito" class="badge badge-warning pull-right">$00.00</span></a>
 						</sec:authorize>
 						<sec:authorize access="isAnonymous()">
-						<a href=""> <span class="badge badge-warning">Registrarse</span></a>
+							<a href=""> <span class="badge badge-large badge-info">Registrarse</span></a>
 						</sec:authorize>
 					</div>
 					<ul id="sideManu" class="nav nav-tabs nav-stacked">
-						<li class="subMenu open"><a> ELECTRONICS [230]</a>
-							<ul>
-								<li><a class="active" href="products.html"><i
-										class="icon-chevron-right"></i>Cameras (100) </a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Computers, Tablets & laptop
-										(30)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Mobile Phone (80)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Sound & Vision (15)</a></li>
-							</ul></li>
-						<li class="subMenu"><a> CLOTHES [840] </a>
-							<ul style="display: none">
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Women's Clothing (45)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Women's Shoes (8)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Women's Hand Bags (5)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Men's Clothings (45)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Men's Shoes (6)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Kids Clothing (5)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Kids Shoes (3)</a></li>
-							</ul></li>
-						<li class="subMenu"><a>FOOD AND BEVERAGES [1000]</a>
-							<ul style="display: none">
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Angoves (35)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Bouchard Aine & Fils (8)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>French Rabbit (5)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Louis Bernard (45)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>BIB Wine (Bag in Box) (8)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Other Liquors & Wine (5)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Garden (3)</a></li>
-								<li><a href="products.html"><i
-										class="icon-chevron-right"></i>Khao Shong (11)</a></li>
-							</ul></li>
-						<li><a href="products.html">HEALTH & BEAUTY [18]</a></li>
-						<li><a href="products.html">SPORTS & LEISURE [58]</a></li>
-						<li><a href="products.html">BOOKS & ENTERTAINMENTS [14]</a></li>
+						<c:forEach items="${categorias }" var="categoria">
+							<li class="subMenu"><a> ${categoria.nombre}</a>
+								<ul style="display: none">
+									<c:forEach items="${categoria.subCategorias}"
+										var="subCategoria">
+										<li><a class="active" href="products.html"><i
+												class="icon-chevron-right"></i>${subCategoria.nombre } </a></li>
+									</c:forEach>
+								</ul></li>
+						</c:forEach>
+
 					</ul>
 					<br />
 
@@ -476,18 +458,18 @@
 							available </small>
 					</h3>
 					<hr class="soft" />
-					<p>Nowadays the lingerie industry is one of the most successful
-						business spheres.We always stay in touch with the latest fashion
-						tendencies - that is why our goods are so popular and we have a
-						great number of faithful customers all over the country.</p>
+					<p>En OneClick.com encontraras todo lo que necesites al mejor
+						precio, desde maquinaria industrial hasta insumos basicos para el
+						hogar y la construccion, Si no encuentras lo que buscas no dudes
+						en consultarnos por medio de la seccion de contacto.</p>
 					<hr class="soft" />
 					<form class="form-horizontal span6">
 						<div class="control-group">
-							<label class="control-label alignL">Sort By </label> <select>
+							<label class="control-label alignL">Ordenar por </label> <select>
 								<option>Priduct name A - Z</option>
 								<option>Priduct name Z - A</option>
-								<option>Priduct Stoke</option>
-								<option>Price Lowest first</option>
+								<option>Productos con stock</option>
+								<option>Precio mas bajo</option>
 							</select>
 						</div>
 					</form>
@@ -505,30 +487,85 @@
 						<div class="tab-pane" id="listView">
 
 							<c:forEach items="${productos }" var="producto">
+
+								<!-- MODAL DE AGREGAR AL CARRITO -->
+								<div id="confirmacion${producto.codigo }"
+									class="modal hide fade in" tabindex="-1" role="dialog"
+									aria-labelledby="login" aria-hidden="false">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">×</button>
+										<h3>Cuantos ${producto.nombre } desea sumar a su carrito.</h3>
+									</div>
+									<div class="modal-body">
+										<form class="form-horizontal loginFrm">
+											<div class="control-group">
+
+												<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
+
+												<input id="cantidad_${producto.codigo }" name="cantidad_p"
+													placeholder="cantidad de articulos" class="form-control"
+													type="text" />
+											</div>
+
+
+										</form>
+										<button onClick="addCarrito(${producto.codigo});"
+											class="btn btn-primary" data-dismiss="modal">Agregar</button>
+										<button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+									</div>
+								</div>
+								<!-- FIN DE AGREGAR CARRITO -->
+
 								<div class="row">
 									<div class="span2">
-										<img src="${producto.urlImage}" alt="" />
+										<img src="${producto.urlImage}" alt="Sin imagen" />
 									</div>
 									<div class="span4">
-										<h3>New | Available</h3>
+										<h3>${producto.nombre }</h3>
 										<hr class="soft" />
-										<h5>${producto.nombre }</h5>
-										<p>Nowadays the lingerie industry is one of the most
-											successful business spheres.We always stay in touch with the
-											latest fashion tendencies - that is why our goods are so
-											popular..</p>
+										<h5>Stock : ${producto.stock }</h5>
+										<p>${producto.descripcion }</p>
 										<a class="btn btn-small pull-right"
-											href="product_details.html">View Details</a> <br class="clr" />
+											href="product_details.html">Ver Detalles</a> <br class="clr" />
 									</div>
 									<div class="span3 alignR">
 										<form class="form-horizontal qtyFrm">
-											<h3>$140.00</h3>
-											<label class="checkbox"> <input type="checkbox">
-												Adds product to compair
-											</label><br /> <a href="product_details.html"
-												class="btn btn-large btn-primary"> Add to <i
-												class=" icon-shopping-cart"></i></a> <a
-												href="product_details.html" class="btn btn-large"><i
+											<h3>$${producto.precio }</h3>
+											<br />
+
+											<c:choose>
+												<c:when test="${producto.stock >= 1 }">
+													<sec:authorize access="hasRole('ROLE_CLIENTE')">
+														<!-- <a data-toggle="modal"
+															data-target="#confirmacion${producto.codigo }"
+															class="btn btn-large btn-primary"> Add to <i
+															class=" icon-shopping-cart"></i>
+														</a> -->
+														<button data-toggle="modal"
+															data-target="#confirmacion${producto.codigo }"
+															class="btn btn-success button-right">
+															Add to <span class="icon-shopping-cart"></span>
+														</button>
+													</sec:authorize>
+													<sec:authorize access="isAnonymous()">
+														<button class="btn btn-success button-right" disabled>
+															<span class="icon-ok"></span> En Stock
+														</button>
+													</sec:authorize>
+
+												</c:when>
+												<c:otherwise>
+
+													<button class="btn btn-danger button-right" disabled>
+														<span class="icon-remove"></span> Sin stock
+													</button>
+
+												</c:otherwise>
+
+											</c:choose>
+
+											<a href="product_details.html" class="btn btn-large"><i
 												class="icon-zoom-in"></i></a>
 
 										</form>
@@ -539,21 +576,82 @@
 
 						</div>
 
+						<!-- Vista en bloques -->
+						<!-- ****************************************** -->
 						<div class="tab-pane  active" id="blockView">
 							<ul class="thumbnails">
 								<c:forEach items="${productos }" var="producto">
+
+									<!-- MODAL DE AGREGAR AL CARRITO -->
+									<div id="confirmacion_bloque${producto.codigo }"
+										class="modal hide fade in" tabindex="-1" role="dialog"
+										aria-labelledby="login" aria-hidden="false">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal"
+												aria-hidden="true">×</button>
+											<h3>Cuantos ${producto.nombre } desea sumar a su
+												carrito.</h3>
+										</div>
+										<div class="modal-body">
+											<form class="form-horizontal loginFrm">
+												<div class="control-group">
+
+													<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
+
+													<input id="cantidad_${producto.codigo }" name="cantidad_p"
+														placeholder="cantidad de articulos" class="form-control"
+														type="text" />
+												</div>
+
+
+											</form>
+											<button onClick="addCarrito(${producto.codigo});"
+												class="btn btn-primary" data-dismiss="modal">Agregar</button>
+											<button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+										</div>
+									</div>
+									<!-- FIN DE AGREGAR CARRITO -->
+
 									<li class="span3">
 										<div class="thumbnail">
 											<a href="product_details.html"><img
 												src="${producto.urlImage }" alt="" /></a>
 											<div class="caption">
 												<h5>${producto.nombre }</h5>
-												<p>I'm a paragraph. Click here</p>
+												<p></p>
 												<h4 style="text-align: center">
-													<a class="btn" href="product_details.html"> <i
-														class="icon-zoom-in"></i></a> <a class="btn" href="#">Add
-														to <i class="icon-shopping-cart"></i>
-													</a> <a class="btn btn-primary" href="#">&euro;222.00</a>
+													<a class="btn"
+														href="get_producto?codigo=${producto.codigo }"> <i
+														class="icon-zoom-in"></i></a>
+
+													<c:choose>
+														<c:when test="${producto.stock >= 1 }">
+															<sec:authorize access="hasRole('ROLE_CLIENTE')">
+																<!-- <a data-toggle="modal"
+																	data-target="#confirmacion_bloque${producto.codigo }"
+																	class="btn btn-primary"> Add to <i
+																	class=" icon-shopping-cart"></i>
+																</a> -->
+																<button data-toggle="modal"
+																	data-target="#confirmacion_bloque${producto.codigo }"
+																	class="btn btn-success button-right">
+																	Add to <span class="icon-shopping-cart"></span>
+																</button>
+															</sec:authorize>
+															<sec:authorize access="isAnonymous()">
+																<button class="btn btn-success button-right" disabled>
+																	<span class="icon-ok"></span> En Stock
+																</button>
+															</sec:authorize>
+														</c:when>
+														<c:otherwise>
+															<button class="btn btn-danger button-right" disabled>
+																<span class="icon-remove"></span> Sin stock
+															</button>
+														</c:otherwise>
+													</c:choose>
+
+													<a class="btn btn-primary" href="#">&euro;${producto.precio }</a>
 												</h4>
 											</div>
 										</div>
@@ -563,19 +661,50 @@
 							</ul>
 							<hr class="soft" />
 						</div>
+						<!-- Fin de Vista en Bloque -->
+
 					</div>
 
+					<!-- Paginacion -->
+					<!-- *********************************************** -->
 					<div class="pagination">
 						<ul>
-							<li><a href="#">&lsaquo;</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">...</a></li>
-							<li><a href="#">&rsaquo;</a></li>
+							<c:choose>
+								<c:when test="${currentIndex == 1}">
+									<li class="disabled"><a href="#">&lt;&lt;</a></li>
+									<li class="disabled"><a href="#">&lt;</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${firstUrl}">&lt;&lt;</a></li>
+									<li><a href="${prevUrl}">&lt;</a></li>
+								</c:otherwise>
+							</c:choose>
+							<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
+								<c:url var="pageUrl" value="/${i}" />
+								<c:choose>
+									<c:when test="${i == currentIndex}">
+										<li class="active"><a href="${pageUrl}"><c:out
+													value="${i}" /></a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="${pageUrl}"><c:out value="${i}" /></a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<c:choose>
+								<c:when test="${currentIndex == page.totalPages}">
+									<li class="disabled"><a href="#">&gt;</a></li>
+									<li class="disabled"><a href="#">&gt;&gt;</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${nextUrl}">&gt;</a></li>
+									<li><a href="${lastUrl}">&gt;&gt;</a></li>
+								</c:otherwise>
+							</c:choose>
 						</ul>
 					</div>
+					<!-- Fin Paginacion -->
+
 					<br class="clr" />
 				</div>
 			</div>

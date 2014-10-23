@@ -92,8 +92,8 @@ public class EmpleadoController {
 			return "secure/empleado/add_producto";
 		} else {
 
-			Categoria categoria = categoriaRepo.findByNombre(cate);
-			producto.setCategoria(categoria);
+			//Categoria categoria = categoriaRepo.findByNombre(cate);
+			//producto.setCategoria(categoria);
 			producto.setUrlImage("../pictures/" + imageResolver(imagen));
 			producto.setActivo(true);
 			productoRepo.save(producto);
