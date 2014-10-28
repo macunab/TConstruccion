@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -106,6 +107,7 @@
 						<li><a href="1">Home</a> <span class="divider">/</span></li>
 						<li class="active">Login</li>
 					</ul>
+					<div id="error">${registro }</div>
 					<h3>Login</h3>
 					<hr class="soft" />
 
@@ -114,20 +116,22 @@
 							<div class="well">
 								<h5>CREARSE UNA CUENTA</h5>
 								<br /> Ingrese un email para crear una cuenta.<br /> <br /> <br />
-								<form action="#">
-									<div class="control-group">
-										<label class="control-label" for="inputEmail0">E-mail
-										</label>
+								<form:form action="register_usuario" method="post"
+									modelAttribute="usuario" id="add-user-form">
+									<div class="control-group" id="usernameControlGroup">
+										<label class="control-label" for="username">E-mail </label>
 										<div class="controls">
-											<input class="span3" type="text" id="inputEmail0"
-												placeholder="Email">
+											<form:input class="span3" path="username" type="text"
+												id="username" placeholder="Email" />
+											<span class="help-inline"><form:errors path="username" /></span>
+											<!--<form:errors id="error_creacion" path="username" class="label label-danger" />-->
 										</div>
 									</div>
 									<div class="controls">
 										<button type="submit" class="btn block">Crear cuenta.
 										</button>
 									</div>
-								</form>
+								</form:form>
 							</div>
 						</div>
 						<div class="span1">&nbsp;</div>
@@ -180,19 +184,96 @@
 				</div>
 
 				<div class="span3"></div>
-				<!-- <div id="socialMedia" class="span3 pull-right">
-					<h5>SOCIAL MEDIA</h5>
-					<a href="#"><img width="60" height="60"
-						src="themes/images/facebook.png" title="facebook" alt="facebook" /></a>
-					<a href="#"><img width="60" height="60"
-						src="themes/images/twitter.png" title="twitter" alt="twitter" /></a>
-					<a href="#"><img width="60" height="60"
-						src="themes/images/youtube.png" title="youtube" alt="youtube" /></a>
-				</div> -->
+
 			</div>
 			<p class="pull-right">&copy; OneClick.com</p>
 		</div>
 		<!-- Container End -->
+		<script type="text/javascript">
+			function collectFormData(fields) {
+				var data = {};
+				for (var i = 0; i < fields.length; i++) {
+					var $item = $(fields[i]);
+					data[$item.attr('name')] = $item.val();
+				}
+				return data;
+			}
+
+			$(document)
+					.ready(
+							function() {
+								var $form = $('#add-user-form');
+								$form
+										.bind(
+												'submit',
+												function(e) {
+													// Ajax validation
+													var $inputs = $form
+															.find('input');
+													var data = collectFormData($inputs);
+
+													$
+															.post(
+																	'save_usuario',
+																	data,
+																	function(
+																			response) {
+																		$form
+																				.find(
+																						'.control-group')
+																				.removeClass(
+																						'error');
+																		$form
+																				.find(
+																						'.help-inline')
+																				.empty();
+																		$form
+																				.find(
+																						'.alert')
+																				.remove();
+
+																		if (response.status == 'FAIL') {
+																			for (var i = 0; i < response.errorMessageList.length; i++) {
+																				var item = response.errorMessageList[i];
+																				var $controlGroup = $('#'
+																						+ item.fieldName
+																						+ 'ControlGroup');
+
+																				if (item.message == 'username null') {
+																					$controlGroup
+																							.addClass('error');
+																					$controlGroup
+																							.find(
+																									'.help-inline')
+																							.html(
+																									"El mail ya esta registrado en el sistema");
+
+																				} else {
+																					$controlGroup
+																							.addClass('error');
+																					$controlGroup
+																							.find(
+																									'.help-inline')
+																							.html(
+																									item.message);
+
+																				}
+																			}
+																		} else {
+																			var $alert = $('<div class="alert"></div>');
+																			$alert
+																					.html(response.result);
+																			$alert
+																					.prependTo($form
+																							.find('fieldset'));
+																		}
+																	}, 'json');
+
+													e.preventDefault();
+													return false;
+												});
+							});
+		</script>
 	</div>
 </body>
 </html>

@@ -3,6 +3,7 @@ package org.construccion.service;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 
 import org.construccion.models.MensajeDto;
 import org.construccion.models.Pedido;
@@ -68,10 +69,17 @@ public class PersistenceService {
 	}
 
 	// ENVIO DE EMAIL
-	public boolean sendMail(MensajeDto mail) {
+	public boolean sendMail(MensajeDto mail, String to) {
 
-		mailService.send(mail.getEmail(), mail.getNombre(), mail.getMensaje());
+		mailService.send(mail.getEmail(), mail.getNombre(), mail.getMensaje(), to);
 
+		return true;
+	}
+	
+	public boolean sendHtmlMail(MensajeDto mail, String to) throws MessagingException{
+		
+		mailService.sendHtml(mail.getEmail(), mail.getNombre(), mail.getMensaje(), to);
+		
 		return true;
 	}
 

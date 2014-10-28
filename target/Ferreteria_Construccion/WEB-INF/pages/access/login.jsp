@@ -58,12 +58,12 @@
 						<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 					</form>
 					<ul id="topMenu" class="nav pull-right">
-						<li class=""><a href="special_offer.html">Productos</a></li>
-						<li class=""><a href="normal.html">Empresa</a></li>
-						<li class=""><a href="contact.html">Contacto</a></li>
-						<li class=""><a href="#login" role="button"
+						<li class=""><a href="#">Productos</a></li>
+						<li class=""><a href="#">Empresa</a></li>
+						<li class=""><a href="contact">Contacto</a></li>
+						<li class=""><a href="login" role="button"
 							data-toggle="modal" style="padding-right: 0"><span
-								class="btn btn-large btn-success">Login</span></a> </li>
+								class="btn btn-large btn-success">Login</span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -112,21 +112,20 @@
 					<div class="row">
 						<div class="span4">
 							<div class="well">
-								<h5>CREATE YOUR ACCOUNT</h5>
-								<br /> Enter your e-mail address to create an account.<br /> <br />
-								<br />
-								<form action="register.html">
+								<h5>CREARSE UNA CUENTA</h5>
+								<br /> Ingrese un email para crear una cuenta.<br /> <br /> <br />
+								<form action="#">
 									<div class="control-group">
 										<label class="control-label" for="inputEmail0">E-mail
-											address</label>
+										</label>
 										<div class="controls">
 											<input class="span3" type="text" id="inputEmail0"
 												placeholder="Email">
 										</div>
 									</div>
 									<div class="controls">
-										<button type="submit" class="btn block">Create Your
-											Account</button>
+										<button type="submit" class="btn block">Crear cuenta.
+										</button>
 									</div>
 								</form>
 							</div>
@@ -134,7 +133,7 @@
 						<div class="span1">&nbsp;</div>
 						<div class="span4">
 							<div class="well">
-								<h5>ALREADY REGISTERED ?</h5>
+								<h5>YA ESTA REGISTRADO ?</h5>
 								<form action="j_spring_security_check" method="POST">
 									<div class="control-group">
 										<label class="control-label" for="inputEmail1">Email</label>
@@ -152,8 +151,8 @@
 									</div>
 									<div class="control-group">
 										<div class="controls">
-											<button type="submit" class="btn">Sign in</button>
-											<a href="forgetpass.html">Forget password?</a>
+											<button type="submit" class="btn">Ingresar</button>
+											<a href="#">Olvido su contraseña?</a>
 										</div>
 									</div>
 								</form>
@@ -172,25 +171,16 @@
 		<div class="container">
 			<div class="row">
 				<div class="span3">
-					<h5>ACCOUNT</h5>
-					<a href="login.html">YOUR ACCOUNT</a> <a href="login.html">PERSONAL
-						INFORMATION</a> <a href="login.html">ADDRESSES</a> <a
-						href="login.html">DISCOUNT</a> <a href="login.html">ORDER
-						HISTORY</a>
+					<div class="span3">
+						<h5>INFORMACION</h5>
+						<a href="contact.html">CONTACTO</a> <a href="register.html">REGISTRARSE</a>
+						<a href="legal_notice.html">ASUNTOS LEGALES</a> <a href="tac.html">TERMINOS
+							Y CONDICIONES</a> <a href="faq.html">FAQ</a>
+					</div>
 				</div>
-				<div class="span3">
-					<h5>INFORMATION</h5>
-					<a href="contact.html">CONTACT</a> <a href="register.html">REGISTRATION</a>
-					<a href="legal_notice.html">LEGAL NOTICE</a> <a href="tac.html">TERMS
-						AND CONDITIONS</a> <a href="faq.html">FAQ</a>
-				</div>
-				<div class="span3">
-					<h5>OUR OFFERS</h5>
-					<a href="#">NEW PRODUCTS</a> <a href="#">TOP SELLERS</a> <a
-						href="special_offer.html">SPECIAL OFFERS</a> <a href="#">MANUFACTURERS</a>
-					<a href="#">SUPPLIERS</a>
-				</div>
-				<div id="socialMedia" class="span3 pull-right">
+
+				<div class="span3"></div>
+				<!-- <div id="socialMedia" class="span3 pull-right">
 					<h5>SOCIAL MEDIA</h5>
 					<a href="#"><img width="60" height="60"
 						src="themes/images/facebook.png" title="facebook" alt="facebook" /></a>
@@ -198,9 +188,9 @@
 						src="themes/images/twitter.png" title="twitter" alt="twitter" /></a>
 					<a href="#"><img width="60" height="60"
 						src="themes/images/youtube.png" title="youtube" alt="youtube" /></a>
-				</div>
+				</div> -->
 			</div>
-			<p class="pull-right">&copy; Bootshop</p>
+			<p class="pull-right">&copy; OneClick.com</p>
 		</div>
 		<!-- Container End -->
 	</div>

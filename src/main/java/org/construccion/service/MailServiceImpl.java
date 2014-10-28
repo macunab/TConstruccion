@@ -1,7 +1,11 @@
 package org.construccion.service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
 public class MailServiceImpl implements MailService {
 
@@ -12,7 +16,7 @@ public class MailServiceImpl implements MailService {
 		this.mailSender = mailSender;
 	}
 
-	//private static final File[] NO_ATTACHMENTS = null;
+	// private static final File[] NO_ATTACHMENTS = null;
 
 	/**
 	 * envío de email
@@ -24,13 +28,26 @@ public class MailServiceImpl implements MailService {
 	 * @param text
 	 *            cuerpo del mensaje
 	 */
-	public void send(String from, String subject, String text) {
+	public void send(String from, String subject, String text, String to) {
 
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(from);
-		message.setTo("ferreteria.oneclick@gmail.com");
+		message.setTo(to);
 		message.setSubject(subject);
 		message.setText(text + from);
+
+		this.mailSender.send(message);
+
+	}
+
+	public void sendHtml(final String from, final String subject,
+			final String text, final String to) throws MessagingException {
+
+		MimeMessage message = this.mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+
+		helper.setTo(to);
+		helper.setText(text, true);
 
 		this.mailSender.send(message);
 

@@ -3,6 +3,7 @@ package org.construccion.controller;
 import java.util.List;
 
 import org.construccion.models.Categoria;
+import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class AccessController {
 		List<Categoria> categorias = categoriaRepo.findAll();
 
 		model.addAttribute("categorias", categorias);
+		model.addAttribute("usuario", new Usuario());
 		model.addAttribute("error", mensaje);
 
 		return "access/login";

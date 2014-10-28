@@ -371,8 +371,8 @@
 						<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 					</form>
 					<ul id="topMenu" class="nav pull-right">
-						<li class=""><a href="special_offer.html">Productos</a></li>
-						<li class=""><a href="normal.html">Empresa</a></li>
+						<li class=""><a href="sendAccount">Productos</a></li>
+						<li class=""><a href="#">Empresa</a></li>
 						<li class=""><a href="contacto">Contacto</a></li>
 						<sec:authorize access="hasRole('ROLE_CLIENTE')">
 							<li><a href="j_spring_security_logout">Salir</a></li>
@@ -431,7 +431,7 @@
 								<ul style="display: none">
 									<c:forEach items="${categoria.subCategorias}"
 										var="subCategoria">
-										<li><a class="active" href="products.html"><i
+										<li><a class="active" href="#"><i
 												class="icon-chevron-right"></i>${subCategoria.nombre } </a></li>
 									</c:forEach>
 								</ul></li>
@@ -454,8 +454,8 @@
 						<li class="active">Home</li>
 					</ul>
 					<h3>
-						Productos <small class="pull-right"> 40 products are
-							available </small>
+						Productos <small class="pull-right"> 40 productos
+							disponibles </small>
 					</h3>
 					<hr class="soft" />
 					<p>En OneClick.com encontraras todo lo que necesites al mejor
@@ -466,8 +466,7 @@
 					<form class="form-horizontal span6">
 						<div class="control-group">
 							<label class="control-label alignL">Ordenar por </label> <select>
-								<option>Priduct name A - Z</option>
-								<option>Priduct name Z - A</option>
+								<option>Precio mas alto</option>
 								<option>Productos con stock</option>
 								<option>Precio mas bajo</option>
 							</select>
@@ -527,7 +526,8 @@
 										<h5>Stock : ${producto.stock }</h5>
 										<p>${producto.descripcion }</p>
 										<a class="btn btn-small pull-right"
-											href="product_details.html">Ver Detalles</a> <br class="clr" />
+											href="get_producto?codigo=${producto.codigo }">Ver
+											Detalles</a> <br class="clr" />
 									</div>
 									<div class="span3 alignR">
 										<form class="form-horizontal qtyFrm">
@@ -537,11 +537,6 @@
 											<c:choose>
 												<c:when test="${producto.stock >= 1 }">
 													<sec:authorize access="hasRole('ROLE_CLIENTE')">
-														<!-- <a data-toggle="modal"
-															data-target="#confirmacion${producto.codigo }"
-															class="btn btn-large btn-primary"> Add to <i
-															class=" icon-shopping-cart"></i>
-														</a> -->
 														<button data-toggle="modal"
 															data-target="#confirmacion${producto.codigo }"
 															class="btn btn-success button-right">
@@ -565,8 +560,12 @@
 
 											</c:choose>
 
-											<a href="product_details.html" class="btn btn-large"><i
-												class="icon-zoom-in"></i></a>
+											<!-- <a href="product_details.html" class="btn btn-large"><i
+												class="icon-zoom-in"></i></a> -->
+											<a href="get_producto?codigo=${producto.codigo }"
+												class="btn btn-default"> <span class="icon-zoom-in"></span>Ver
+											</a>
+
 
 										</form>
 									</div>
@@ -614,7 +613,7 @@
 
 									<li class="span3">
 										<div class="thumbnail">
-											<a href="product_details.html"><img
+											<a href="get_producto?codigo=${producto.codigo }"><img
 												src="${producto.urlImage }" alt="" /></a>
 											<div class="caption">
 												<h5>${producto.nombre }</h5>

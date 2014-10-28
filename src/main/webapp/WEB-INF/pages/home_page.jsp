@@ -371,7 +371,7 @@
 						<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 					</form>
 					<ul id="topMenu" class="nav pull-right">
-						<li class=""><a href="#">Productos</a></li>
+						<li class=""><a href="sendAccount">Productos</a></li>
 						<li class=""><a href="#">Empresa</a></li>
 						<li class=""><a href="contacto">Contacto</a></li>
 						<sec:authorize access="hasRole('ROLE_CLIENTE')">

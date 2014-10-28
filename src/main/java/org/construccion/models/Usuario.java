@@ -25,28 +25,21 @@ public class Usuario {
 	private String username;
 
 	@Column(name = "password")
-	@NotEmpty
 	private String password;
 
 	@Column(name = "enable")
 	private boolean enable;
 
-	@Column(name = "avatar")
-	private String urlAvatar;
-
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Grupo rol;
 
 	@Column(name = "nombre")
-	@NotEmpty
 	private String nombre;
 
 	@Column(name = "apellido")
-	@NotEmpty
 	private String apellido;
 
 	@Column(name = "domicilio")
-	@NotEmpty
 	private String domicilio;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -56,13 +49,11 @@ public class Usuario {
 
 	}
 
-	public Usuario(String username, String password, boolean enable,
-			String urlAvatar, Grupo rol, String nombre, String apellido,
-			String domicilio) {
+	public Usuario(String username, String password, boolean enable, Grupo rol,
+			String nombre, String apellido, String domicilio) {
 		this.username = username;
 		this.password = password;
 		this.enable = enable;
-		this.urlAvatar = urlAvatar;
 		this.rol = rol;
 		this.apellido = apellido;
 		this.nombre = nombre;
@@ -92,14 +83,6 @@ public class Usuario {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
-	}
-
-	public String getUrlAvatar() {
-		return urlAvatar;
-	}
-
-	public void setUrlAvatar(String urlAvatar) {
-		this.urlAvatar = urlAvatar;
 	}
 
 	public Grupo getRol() {

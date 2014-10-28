@@ -58,7 +58,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span>
 				</a>
 				<div class="navbar-inner">
-					<a class="brand" href="index.html"><img width="100"
+					<a class="brand" href="1"><img width="100"
 						src="resources/img/OneClick-3.png" alt="Bootsshop" /></a>
 					<form class="form-inline navbar-search" method="post"
 						action="products.html">
@@ -72,9 +72,9 @@
 						<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
 					</form>
 					<ul id="topMenu" class="nav pull-right">
-						<li class=""><a href="special_offer.html">Productos</a></li>
-						<li class=""><a href="normal.html">Empresa</a></li>
-						<li class=""><a href="contact.html">Contacto</a></li>
+						<li class=""><a href="#">Productos</a></li>
+						<li class=""><a href="#">Empresa</a></li>
+						<li class=""><a href="contacto">Contacto</a></li>
 						<sec:authorize access="hasRole('ROLE_CLIENTE')">
 							<li><a href="j_spring_security_logout">Salir</a></li>
 
@@ -100,8 +100,9 @@
 				<div class="span4">
 					<h4>Detalles de Contacto</h4>
 					<p>
-						Rondo 145,<br /> CA 5000, ARG <br /> <br /> ferreteria.oneclick@gmail.com<br />
-						﻿Tel 123-456-6780<br /> Fax 123-456-5679<br /> web:oneclick.com
+						Rondo 145,<br /> CA 5000, ARG <br /> <br />
+						ferreteria.oneclick@gmail.com<br /> ﻿Tel 123-456-6780<br /> Fax
+						123-456-5679<br /> web:oneclick.com
 					</p>
 				</div>
 
@@ -160,35 +161,34 @@
 		<div class="container">
 			<div class="row">
 				<div class="span3">
-					<h5>ACCOUNT</h5>
+					<!-- <h5>ACCOUNT</h5>
 					<a href="login.html">YOUR ACCOUNT</a> <a href="login.html">PERSONAL
 						INFORMATION</a> <a href="login.html">ADDRESSES</a> <a
 						href="login.html">DISCOUNT</a> <a href="login.html">ORDER
-						HISTORY</a>
-				</div>
-				<div class="span3">
+						HISTORY</a> -->
 					<h5>INFORMATION</h5>
 					<a href="contact.html">CONTACT</a> <a href="register.html">REGISTRATION</a>
 					<a href="legal_notice.html">LEGAL NOTICE</a> <a href="tac.html">TERMS
 						AND CONDITIONS</a> <a href="faq.html">FAQ</a>
 				</div>
+				<div class="span3"></div>
 				<div class="span3">
-					<h5>OUR OFFERS</h5>
+					<!-- 	<h5>OUR OFFERS</h5>
 					<a href="#">NEW PRODUCTS</a> <a href="#">TOP SELLERS</a> <a
 						href="special_offer.html">SPECIAL OFFERS</a> <a href="#">MANUFACTURERS</a>
-					<a href="#">SUPPLIERS</a>
+					<a href="#">SUPPLIERS</a> -->
 				</div>
 				<div id="socialMedia" class="span3 pull-right">
-					<h5>SOCIAL MEDIA</h5>
+					<!-- <h5>SOCIAL MEDIA</h5>
 					<a href="#"><img width="60" height="60"
 						src="themes/images/facebook.png" title="facebook" alt="facebook" /></a>
 					<a href="#"><img width="60" height="60"
 						src="themes/images/twitter.png" title="twitter" alt="twitter" /></a>
 					<a href="#"><img width="60" height="60"
-						src="themes/images/youtube.png" title="youtube" alt="youtube" /></a>
+						src="themes/images/youtube.png" title="youtube" alt="youtube" /></a> -->
 				</div>
 			</div>
-			<p class="pull-right">&copy; Bootshop</p>
+			<p class="pull-right">&copy; OneClick.com</p>
 		</div>
 		<!-- Container End -->
 	</div>

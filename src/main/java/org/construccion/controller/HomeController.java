@@ -1,8 +1,10 @@
 package org.construccion.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.construccion.models.Categoria;
@@ -17,7 +19,9 @@ import org.construccion.repository.ProductoRepository;
 import org.construccion.repository.UsuarioRepository;
 import org.construccion.service.PasswordGenerator;
 import org.construccion.service.PersistenceService;
+import org.construccion.validation.ErrorMessage;
 import org.construccion.validation.UsuarioValidator;
+import org.construccion.validation.ValidationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +33,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -90,34 +95,65 @@ public class HomeController {
 		return "home_page";
 	}
 
-	@RequestMapping(value = "/save_usuario", method = RequestMethod.GET)
-	public String getSaveUsuario(Model model) {
-
-		model.addAttribute("usuario", new Usuario());
-		return "usuario_add";
-	}
-
 	@RequestMapping(value = "/save_usuario", method = RequestMethod.POST)
 	@Transactional
-	public String postSaveUsuario(@Valid Usuario usuario, BindingResult result) {
+	public @ResponseBody ValidationResponse postSaveUsuario(
+			@Valid Usuario usuario, BindingResult result)
+			throws MessagingException {
 		validator.validate(usuario, result);
+		ValidationResponse res = new ValidationResponse();
+
 		if (result.hasErrors()) {
-			return "usuario_add";
+			res.setStatus("FAIL");
+			List<FieldError> allErrors = result.getFieldErrors();
+			List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
+			for (FieldError objectError : allErrors) {
+				errorMesages.add(new ErrorMessage(objectError.getField(),
+						objectError.getField() + " "
+								+ objectError.getDefaultMessage()));
+			}
+			res.setErrorMessageList(errorMesages);
+			return res;
 		} else {
-			usuario.setEnable(true);
-			usuario.setRol(new Grupo(2, usuario));
 			PasswordGenerator generarPassword = new PasswordGenerator();
 			String password = generarPassword.GeneratedPassword();
 
-			System.out.println("PASWORD GENERADA = #################### "
-					+ generarPassword);
-			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-
+			usuario.setEnable(false);
+			usuario.setRol(new Grupo(2, usuario));
+			usuario.setPassword(passwordEncoder.encode(password));
 			usuarioRepo.save(usuario);
-			System.out.println(usuario.getPassword() + "###################3");
 
+			MensajeDto mensajeDto = new MensajeDto();
+			mensajeDto.setEmail("mn.acunab@gmail.com");
+			mensajeDto
+					.setMensaje("<p>Gracias por registrarse en OneClick.com.</p></br>"
+							+ "<p>Por favor confirme su cuenta por medio del siguiente enlace para empezar a comprar y "
+							+ "disfrutar de todos los beneficios que solo OneClick.com le puede ofrecer.</p></br>"
+							+ "<li><a href='http://localhost:8080/Ferreteria_Construccion/validate_register?username="
+							+ usuario.getUsername()
+							+ "' >Confirmar cuenta!</a></li></br>"
+							+ "<b>Su password es: " + password + "</b>");
+			mensajeDto.setNombre("OneClick.com");
+			service.sendHtmlMail(mensajeDto, usuario.getUsername());
+
+			res.setStatus("SUCCESS");
+			return res;
+
+		}
+
+	}
+
+	@RequestMapping(value = "/validate_register", method = RequestMethod.GET)
+	public String validateRegister(@RequestParam("username") String username) {
+
+		Usuario usuario = usuarioRepo.findByUsername(username);
+		if (usuario.isEnable()) {
+
+			return "";
+		} else {
+			usuario.setEnable(true);
+			usuarioRepo.save(usuario);
 			return "redirect:/1";
-
 		}
 
 	}
@@ -173,7 +209,7 @@ public class HomeController {
 		} else {
 
 			System.out.println("PASO POR EL POST EXITOSAMENTE");
-			service.sendMail(mensajeDto);
+			service.sendMail(mensajeDto, "ferreteria.oneclick@gmail.com");
 
 			return "redirect:/1";
 		}
