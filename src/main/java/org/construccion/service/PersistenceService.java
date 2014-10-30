@@ -5,16 +5,20 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 
+import org.construccion.models.Categoria;
 import org.construccion.models.MensajeDto;
 import org.construccion.models.Pedido;
 import org.construccion.models.PedidoProducto;
 import org.construccion.models.Producto;
 import org.construccion.models.Usuario;
+import org.construccion.repository.CategoriaRepository;
 import org.construccion.repository.PedidoProductoRepository;
 import org.construccion.repository.PedidoRepository;
 import org.construccion.repository.ProductoRepository;
 import org.construccion.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +36,9 @@ public class PersistenceService {
 
 	@Autowired
 	PedidoProductoRepository pedidoProductoRepository;
+
+	@Autowired
+	CategoriaRepository categoriaRepository;
 
 	@Resource
 	MailService mailService;
@@ -63,37 +70,62 @@ public class PersistenceService {
 
 	}
 
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE UN PEDIDO POR SU ID
+	 */
 	public Pedido getPedido(Integer id) {
 
 		return pedidoRepository.findOne(id);
 	}
 
-	// ENVIO DE EMAIL
+	/*
+	 * ##########################################################################
+	 * ############# ENVIA UN EMAIL SIMPLE
+	 */
 	public boolean sendMail(MensajeDto mail, String to) {
 
-		mailService.send(mail.getEmail(), mail.getNombre(), mail.getMensaje(), to);
+		mailService.send(mail.getEmail(), mail.getNombre(), mail.getMensaje(),
+				to);
 
 		return true;
 	}
-	
-	public boolean sendHtmlMail(MensajeDto mail, String to) throws MessagingException{
-		
-		mailService.sendHtml(mail.getEmail(), mail.getNombre(), mail.getMensaje(), to);
-		
+
+	/*
+	 * ##########################################################################
+	 * ############# ENVIA UN EMAIL TIPO HTML
+	 */
+	public boolean sendHtmlMail(MensajeDto mail, String to)
+			throws MessagingException {
+
+		mailService.sendHtml(mail.getEmail(), mail.getNombre(),
+				mail.getMensaje(), to);
+
 		return true;
 	}
 
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE UN PRODUCTO BY ID
+	 */
 	public Producto getProducto(Integer codigo) {
 
 		return productoRepository.findOne(codigo);
 	}
 
+	/*
+	 * ##########################################################################
+	 * ############# PERSISTE UN PEDIDO
+	 */
 	public void savePedido(Pedido pedido) {
 
 		pedidoRepository.save(pedido);
 	}
 
-	// Devuelve un pedidoProducto en base a un pedido.
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE UN PEDIDO PRODUCTO BY PEDIDO
+	 */
 	@Transactional(readOnly = true)
 	public List<PedidoProducto> getPedidoProductoByPedido(Pedido pedido) {
 
@@ -103,6 +135,10 @@ public class PersistenceService {
 
 	}
 
+	/*
+	 * ##########################################################################
+	 * ############# TRUE SI EXISTE UN PEDIDOPRODUCTO BY PEDIDO,PRODUCTO
+	 */
 	@Transactional(readOnly = true)
 	public boolean existPedidoProductoByProducto(Producto producto,
 			Pedido pedido) {
@@ -134,6 +170,44 @@ public class PersistenceService {
 			return false;
 		}
 
+	}
+
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE TODOS LOS PRODUCTOS
+	 */
+	@Transactional(readOnly = true)
+	public Page<Producto> getAllProductos(PageRequest request) {
+
+		return productoRepository.findAllActive(request);
+	}
+
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE TODAS LAS CATEGORIAS
+	 */
+	@Transactional(readOnly = true)
+	public List<Categoria> getAllCategorias() {
+
+		return categoriaRepository.findAll();
+	}
+
+	/*
+	 * ##########################################################################
+	 * ############# PERSISTE UN USUARIO
+	 */
+	public void saveUsuario(Usuario usuario) {
+
+		usuarioRepository.save(usuario);
+	}
+
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE UN USUARIO BY USERNAME
+	 */
+	public Usuario getUsuarioByUsername(String username) {
+
+		return usuarioRepository.findByUsername(username);
 	}
 
 }

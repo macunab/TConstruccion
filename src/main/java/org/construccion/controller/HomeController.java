@@ -30,7 +30,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -69,17 +68,17 @@ public class HomeController {
 
 	static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	/*
-	 * Devuelve la pagina principal para clientes.
-	 */
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET HOME
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/{pageNumber}", method = RequestMethod.GET)
 	public String getHome(@PathVariable Integer pageNumber, Model model) {
 
 		PageRequest request = new PageRequest(pageNumber - 1, 6,
 				Sort.Direction.DESC, "nombre");
 
-		Page<Producto> productos = productoRepo.findAllActive(request);
-		List<Categoria> categorias = categoriaRepo.findAll();
+		Page<Producto> productos = service.getAllProductos(request);
+		List<Categoria> categorias = service.getAllCategorias();
 
 		int current = productos.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
@@ -95,8 +94,10 @@ public class HomeController {
 		return "home_page";
 	}
 
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// REGISTRAR USUARIO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/save_usuario", method = RequestMethod.POST)
-	@Transactional
 	public @ResponseBody ValidationResponse postSaveUsuario(
 			@Valid Usuario usuario, BindingResult result)
 			throws MessagingException {
@@ -108,20 +109,26 @@ public class HomeController {
 			List<FieldError> allErrors = result.getFieldErrors();
 			List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
 			for (FieldError objectError : allErrors) {
-				errorMesages.add(new ErrorMessage(objectError.getField(),
-						objectError.getField() + " "
-								+ objectError.getDefaultMessage()));
+				errorMesages.add(new ErrorMessage(objectError.getField(), " "
+						+ objectError.getDefaultMessage()));
 			}
 			res.setErrorMessageList(errorMesages);
 			return res;
 		} else {
 			PasswordGenerator generarPassword = new PasswordGenerator();
 			String password = generarPassword.GeneratedPassword();
+			Pedido pedido = new Pedido();
 
 			usuario.setEnable(false);
 			usuario.setRol(new Grupo(2, usuario));
 			usuario.setPassword(passwordEncoder.encode(password));
-			usuarioRepo.save(usuario);
+
+			service.saveUsuario(usuario);
+
+			pedido.setActivo(true);
+			pedido.setEstado("carrito");
+			pedido.setUsuario(usuario);
+			service.savePedido(pedido);
 
 			MensajeDto mensajeDto = new MensajeDto();
 			mensajeDto.setEmail("mn.acunab@gmail.com");
@@ -143,30 +150,38 @@ public class HomeController {
 
 	}
 
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ACTIVACION DE CUENTA
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/validate_register", method = RequestMethod.GET)
 	public String validateRegister(@RequestParam("username") String username) {
 
-		Usuario usuario = usuarioRepo.findByUsername(username);
+		Usuario usuario = service.getUsuarioByUsername(username);
 		if (usuario.isEnable()) {
 
 			return "";
 		} else {
 			usuario.setEnable(true);
-			usuarioRepo.save(usuario);
+			service.saveUsuario(usuario);
 			return "redirect:/1";
 		}
 
 	}
 
-	/*
-	 * Busqueda de Productos.
-	 */
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// BUSQUEDA PRODUCTO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/busqueda_producto", method = RequestMethod.GET)
 	public String getBusqueda(@RequestParam("busqueda") String busqueda,
-			Model model) {
+			@RequestParam("filtro") String filtro, Model model) {
 
-		List<Producto> productos = productoRepo.busquedaByTag(busqueda);
-		model.addAttribute("productos", productos);
+		if (filtro.equals("All")) {
+			List<Producto> productos = productoRepo.busquedaByTag(busqueda);
+			model.addAttribute("productos", productos);
+		} else {
+
+		}
+
 		return "busqueda_page";
 	}
 
@@ -262,6 +277,13 @@ public class HomeController {
 		Pedido pedido = service.getCarrito(auth.getName());
 		Producto producto = service.getProducto(codigo);
 
+		System.out
+				.println("##############################################################################"
+						+ "#########################################################################3"
+						+ "###################################################################################"
+						+ "###########################################        "
+						+ cantidad);
+
 		PedidoProducto pp = new PedidoProducto();
 		pp.setProducto(producto);
 		pp.setCantidad(Integer.parseInt(cantidad));
@@ -339,6 +361,15 @@ public class HomeController {
 
 		}
 		return new BigDecimal(0);
+	}
+	
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//CAMBIAR PASWORD
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value="/cambio_passwd", method = RequestMethod.GET)
+	public String getCambioPassword(){
+		
+		return "cambio_password";
 	}
 
 	/*

@@ -239,7 +239,7 @@
 																						+ item.fieldName
 																						+ 'ControlGroup');
 
-																				if (item.message == 'username null') {
+																				if (item.message == ' null') {
 																					$controlGroup
 																							.addClass('error');
 																					$controlGroup

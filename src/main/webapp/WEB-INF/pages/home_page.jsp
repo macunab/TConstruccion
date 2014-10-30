@@ -44,6 +44,8 @@
 
 		var id = "#cantidad_" + producto;
 		console.log(id);
+		console.log($("#nav-busqueda").val());
+		
 
 		$.ajax({
 			type : "post",
@@ -52,6 +54,7 @@
 			data : 'producto=' + producto + '&cantidad=' + $(id).val(),
 			success : function(data) {
 				actualizarCarrito();
+				actualizarTotalCarrito();
 			
 			},
 		});
@@ -87,9 +90,9 @@
 			type : "get",
 			url : "busqueda_producto",
 			cache : false,
-			data : 'busqueda=' + $('#busqueda').val(),
+			data : 'busqueda=' + $('#nav-busqueda').val() + '&filtro=' + $('#categorias').val(),
 			success : function(data) {
-				$('#main-container').html(data);
+				$('#main-articulos').html(data);
 			},
 		});
 	}
@@ -103,249 +106,6 @@
 	<c:url var="prevUrl" value="/${currentIndex - 1}" />
 	<c:url var="nextUrl" value="/${currentIndex + 1}" />
 
-	<!-- <div class="container">
-		<div class="page-header">
-
-
-			<img width="400" alt="No se encontro"
-				src="resources/img/OneClick.png">
-
-		</div>
-	</div>
-
-	<nav class="navbar navbar-default" role="navigation">
-	<div class="container">
-		
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="">inicio</a>
-		</div>
-
-		
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				
-				<li><a href="contacto">Contacto</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">Categorias <span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-						<c:forEach items="${categorias }" var="categoria">
-							<li><a href="#">${categoria.nombre }</a>
-						</c:forEach>
-					</ul></li>
-			</ul>
-			<form class="navbar-form navbar-left" role="search">
-				<div class="form-group">
-					<input id="busqueda" type="text" class="form-control"
-						placeholder="busqueda">
-				</div>
-				<button type="button" class="btn btn-default" onClick="buscar()">
-					<span class="glyphicon glyphicon-search"></span>
-				</button>
-			</form>
-
-			
-			<ul class="nav navbar-nav navbar-right">
-				<sec:authorize access="hasRole('ROLE_CLIENTE')">
-					<li><a
-						href="get_carrito?username=<%=SecurityContextHolder.getContext()
-						.getAuthentication().getName()%>"><span
-							class="glyphicon glyphicon-shopping-cart"></span> <span>
-								&nbsp</span> <span id="cantidad" class="badge pull-right">0</span></a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">Bienvenido, <strong id="usuario"><%=SecurityContextHolder.getContext()
-						.getAuthentication().getName()%></strong> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Mis Pedidos</a></li>
-							<li><a href="#">Perfil</a></li>
-							<li><a href="#">Change password</a></li>
-							<li class="divider"></li>
-							<li><a href="j_spring_security_logout">Logout</a></li>
-						</ul></li>
-				</sec:authorize>
-				<sec:authorize access="isAnonymous()">
-					<li><a href="login"><strong>Ingresar</strong></a></li>
-				</sec:authorize>
-
-			</ul>
-		</div>
-
-	</div>
-	 </nav>
-
-
-
-	<div id="main-container" class="container">
-
-		<sec:authorize access="isAnonymous()">
-			<div class="jumbotron">
-				<h1>Vamos de compras,</h1>
-				<p>Consiga todo lo que necesita para la construccion o las
-					labores cotidianas e indispensables del hogas desde nuestro e-shop,
-					si ya dispone de una cuenta ingrese desde Sing in, sino creese una
-					facilmente desde Sign up!</p>
-				<div class="form-group">
-					<div class="col-md-8">
-						
-						<a href="save_usuario" id="button2id" name="button2id"
-							class="btn btn-primary">Registrarse</a>
-					</div>
-				</div>
-			</div>
-		</sec:authorize>
-
-		<h2>Articulos destacados:</h2>
-
-
-		<div class="row">
-			<c:forEach items="${productos }" var="producto">
-
-			
-				<div class="modal face" id="confirmacion${producto.codigo }"
-					tabindex="-1" role="dialog" aria-labelledby="modal"
-					aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="model-title">Cuantos ${producto.nombre } desea
-									sumar a su carrito.</h4>
-							</div>
-							<div class="modal-body">
-
-							
-								<div>
-									<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
-
-									<input id="cantidad_${producto.codigo }" name="cantidad_p"
-										placeholder="cantidad de articulos" class="form-control"
-										type="text" />
-
-
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default"
-									data-dismiss="modal">Cancelar</button>
-								<button onClick="addCarrito(${producto.codigo});"
-									class="btn btn-primary" data-dismiss="modal">Agregar</button>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				
-
-				<div class="col-xs-4">
-
-					<h3>${producto.nombre }</h3>
-					<a href="get_producto?codigo=${producto.codigo }" class="thumbnail">
-						<img width="200" src="${producto.urlImage }" alt="125x125">
-
-
-					</a>
-					<div class="caption">
-
-
-					
-						<div class="row">
-							<div class="col-lg-6">
-								<h4>$${producto.precio }</h4>
-							</div>
-							<div class="col-lg-6">
-								<sec:authorize access="hasRole('ROLE_CLIENTE')">
-									<div class="pull-right">
-										<c:choose>
-											<c:when test="${producto.stock >= 1 }">
-												<button data-toggle="modal"
-													data-target="#confirmacion${producto.codigo }"
-													class="btn btn-success button-right">
-													<span class="glyphicon glyphicon-shopping-cart"></span>
-													Comprar
-												</button>
-
-											</c:when>
-											<c:otherwise>
-
-												<button class="btn btn-danger button-right">
-													<span class="glyphicon glyphicon-remove"></span> Sin stock
-												</button>
-
-											</c:otherwise>
-
-										</c:choose>
-
-									</div>
-								</sec:authorize>
-							</div>
-
-						</div>
-
-					</div>
-
-				</div>
-			</c:forEach>
-		</div>
-
-	
-		<div class="container text-center">
-			<ul class="pagination">
-				<c:choose>
-					<c:when test="${currentIndex == 1}">
-						<li class="disabled"><a href="#">&lt;&lt;</a></li>
-						<li class="disabled"><a href="#">&lt;</a></li>
-					</c:when>
-					<c:otherwise>
-						<li><a href="${firstUrl}">&lt;&lt;</a></li>
-						<li><a href="${prevUrl}">&lt;</a></li>
-					</c:otherwise>
-				</c:choose>
-				<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-					<c:url var="pageUrl" value="/${i}" />
-					<c:choose>
-						<c:when test="${i == currentIndex}">
-							<li class="active"><a href="${pageUrl}"><c:out
-										value="${i}" /></a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a href="${pageUrl}"><c:out value="${i}" /></a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				<c:choose>
-					<c:when test="${currentIndex == page.totalPages}">
-						<li class="disabled"><a href="#">&gt;</a></li>
-						<li class="disabled"><a href="#">&gt;&gt;</a></li>
-					</c:when>
-					<c:otherwise>
-						<li><a href="${nextUrl}">&gt;</a></li>
-						<li><a href="${lastUrl}">&gt;&gt;</a></li>
-					</c:otherwise>
-				</c:choose>
-			</ul>
-		</div>
-		
-
-	</div>
-
-
-	<div class="panel panel-default container text-center">
-		<div class="row">
-			<div class="col-lg-12">
-				<ul class="nav nav-pills nav-justified">
-					<li><a href="/">© 2014 OneClick.</a></li>
-					<li><a href="#">Terms of Service</a></li>
-					<li><a href="#">Privacy</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>-->
-
 	<div id="header">
 		<div class="container">
 			<div id="welcomeLine" class="row"></div>
@@ -356,19 +116,20 @@
 					class="icon-bar"></span> <span class="icon-bar"></span>
 				</a>
 				<div class="navbar-inner">
-					<a class="brand" href="index.html"><img width="100"
+					<a class="brand" href="1"><img width="100"
 						src="resources/img/OneClick-3.png" alt="Bootsshop" /></a>
 
 					<form class="form-inline navbar-search" method="post"
 						action="products.html">
 						<input id="nav-busqueda" class="srchTxt" type="text" /> <select
-							class="srchTxt">
-							<option>All</option>
+							class="srchTxt" id="categorias">
+							<option value="All">All</option>
 							<c:forEach items="${categorias }" var="categoria">
-								<option>${categoria.nombre }</option>
+								<option value="${categoria.nombre }">${categoria.nombre }</option>
 							</c:forEach>
 						</select>
-						<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
+						<button type="button" id="submitButton" class="btn btn-primary"
+							onClick="buscar()">Go</button>
 					</form>
 					<ul id="topMenu" class="nav pull-right">
 						<li class=""><a href="sendAccount">Productos</a></li>
@@ -405,7 +166,7 @@
 									<ul class="dropdown-menu" role="menu">
 										<li><a href="#">Mis Pedidos</a></li>
 										<li><a href="#">Perfil</a></li>
-										<li><a href="#">Change password</a></li>
+										<li><a href="cambio_passwd">Change password</a></li>
 										<li class="divider"></li>
 										<li><a href="j_spring_security_logout">Logout</a></li>
 									</ul></li>
@@ -449,7 +210,7 @@
 					</div>
 				</div>
 				<!-- Sidebar end=============================================== -->
-				<div class="span9">
+				<div id="main-articulos" class="span9">
 					<ul class="breadcrumb">
 						<li class="active">Home</li>
 					</ul>
@@ -502,7 +263,7 @@
 
 												<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
 
-												<input id="cantidad_${producto.codigo }" name="cantidad_p"
+												<input id="cantidad_${producto.codigo }"
 													placeholder="cantidad de articulos" class="form-control"
 													type="text" />
 											</div>
@@ -514,6 +275,7 @@
 										<button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
 									</div>
 								</div>
+
 								<!-- FIN DE AGREGAR CARRITO -->
 
 								<div class="row">
@@ -650,7 +412,8 @@
 														</c:otherwise>
 													</c:choose>
 
-													<a class="btn btn-primary" href="#">&euro;${producto.precio }</a>
+													<a class="btn btn-primary" href="#">$${producto.precio
+														}</a>
 												</h4>
 											</div>
 										</div>
