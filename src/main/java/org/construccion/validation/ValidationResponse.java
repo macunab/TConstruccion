@@ -2,6 +2,10 @@ package org.construccion.validation;
 
 import java.util.List;
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Plaintext para respuesta JSON.(validacion de datos)
+//author : Marco, Acuna.
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 public class ValidationResponse {
 
 	private String status;

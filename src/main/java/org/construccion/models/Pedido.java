@@ -14,6 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//POJO Pedido
+//author : Marco, Acuna.
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 @Entity
 @Table(name = "pedido")
 public class Pedido {
@@ -29,7 +33,7 @@ public class Pedido {
 	@Column(name = "activo")
 	private boolean activo;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<PedidoProducto> pedidoProductos;
 
 	@ManyToOne

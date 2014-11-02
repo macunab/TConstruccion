@@ -22,6 +22,10 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//POJO Producto
+//author : Marco, Acuna.
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 @Entity
 @Table(name = "producto")
 public class Producto {
@@ -67,7 +71,7 @@ public class Producto {
 	private boolean activo;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "producto")
-	Set<PedidoProducto> pedidoProductos = new HashSet<PedidoProducto>(0);;
+	Set<PedidoProducto> pedidoProductos = new HashSet<PedidoProducto>(0);
 
 	public Producto() {
 

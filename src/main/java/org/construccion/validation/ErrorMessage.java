@@ -1,5 +1,9 @@
 package org.construccion.validation;
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//POJO mensaje de error.(input, mensaje)
+//author : Marco, Acuna.
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 public class ErrorMessage {
 
 	private String fieldName;

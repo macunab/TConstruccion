@@ -22,6 +22,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Servicion que engloba todas las transacciones de persistencia.
+//author : Marco, Acuna.
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 @Service
 public class PersistenceService {
 
@@ -164,7 +168,7 @@ public class PersistenceService {
 	public boolean deletePPByProducto(Pedido pedido, Producto producto) {
 
 		try {
-			pedidoProductoRepository.deleteByProducto(pedido, producto);
+			pedidoProductoRepository.customDelete(pedido, producto);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -208,6 +212,15 @@ public class PersistenceService {
 	public Usuario getUsuarioByUsername(String username) {
 
 		return usuarioRepository.findByUsername(username);
+	}
+
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE LISTADO DE PEDIDOS PROCESANDO
+	 */
+	public List<Pedido> getPedidoProcesando(Usuario usuario) {
+
+		return pedidoRepository.getPedidoProcesando(usuario);
 	}
 
 }

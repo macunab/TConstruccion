@@ -5,8 +5,12 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="org.springframework.security.core.context.SecurityContextHolder"%>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- Detalle de Producto - Client -->
+<!-- author : Marco, Acuna -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!-- <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Producto Detalle</title>
@@ -16,16 +20,16 @@
 <meta name="description" content="Descripcion detallada de un producto">
 <meta name="author" content="Acuña,Marco">
 
-<!-- Bootstrap style -->
+
 <link id="callCss" rel="stylesheet"
 	href="resources/css/bootstrap.min.css" media="screen" />
 <link href="resources/css/base.css" rel="stylesheet" media="screen" />
-<!-- Bootstrap style responsive -->
+
 <link href="resources/css/bootstrap-responsive.min.css" rel="stylesheet" />
 <link href="resources/css/font-awesome.css" rel="stylesheet"
 	type="text/css">
 
-<!-- Javascripts -->
+
 <script src="resources/js/jquery-1.2.11.0.js"></script>
 <script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
 
@@ -47,7 +51,7 @@
 </head>
 <body>
 
-	<!-- <div class="container">
+ <div class="container">
 		<div class="page-header">
 			<img width="400" alt="No se encontro"
 				src="resources/img/OneClick.png">
@@ -112,230 +116,176 @@
 
 
 
-	<div id="main-container" class="container">
-		<div class="row">
-			<div class="col-lg-2">
-				<a href="#" class="thumbnail"> <img alt="120x120"
-					src="${producto.urlImage }"></a>
-			</div>
-			<div class="col-lg-4">
-				<h2>${producto.nombre }</h2>
-				<p>${producto.descripcion }</p>
-				<p>Precio :$ ${producto.precio }</p>
-				<p>
-					<input value="1" type="text"><a class="btn btn-danger"
-						href="#" role="button"><span
-						class="glyphicon glyphicon-shopping-cart"></span></a> <a
-						class="btn btn-success" href="#" role="button">Comprar ahora</a>
-				</p>
-			</div>
+
+
+<div id="main-container" class="container">
+	<div class="row">
+		<div class="col-lg-2">
+			<a href="#" class="thumbnail"> <img alt="120x120"
+				src="${producto.urlImage }"></a>
+		</div>
+		<div class="col-lg-4">
+			<h2>${producto.nombre }</h2>
+			<p>${producto.descripcion }</p>
+			<p>Precio :$ ${producto.precio }</p>
+			<p>
+				<input value="1" type="text"><a class="btn btn-danger"
+					href="#" role="button"><span
+					class="glyphicon glyphicon-shopping-cart"></span></a> <a
+					class="btn btn-success" href="#" role="button">Comprar ahora</a>
+			</p>
 		</div>
 	</div>
- -->
-	<div id="header">
-		<div class="container">
-			<div id="welcomeLine" class="row"></div>
-			<!-- Navbar ================================================== -->
-			<div id="logoArea" class="navbar">
-				<a id="smallScreen" data-target="#topMenu" data-toggle="collapse"
-					class="btn btn-navbar"> <span class="icon-bar"></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a>
-				<div class="navbar-inner">
-					<a class="brand" href="1"><img width="100"
-						src="resources/img/OneClick-3.png" alt="Bootsshop" /></a>
+</div>
+-->
+<!-- <div id="header">
+	<div class="container">
+		<div id="welcomeLine" class="row"></div>
+		
+		<div id="logoArea" class="navbar">
+			<a id="smallScreen" data-target="#topMenu" data-toggle="collapse"
+				class="btn btn-navbar"> <span class="icon-bar"></span> <span
+				class="icon-bar"></span> <span class="icon-bar"></span>
+			</a>
+			<div class="navbar-inner">
+				<a class="brand" href="1"><img width="100"
+					src="resources/img/OneClick-3.png" alt="Bootsshop" /></a>
 
-					<form class="form-inline navbar-search" method="post"
-						action="products.html">
-						<input id="nav-busqueda" class="srchTxt" type="text" /> <select
-							class="srchTxt">
-							<option>All</option>
-							<c:forEach items="${categorias }" var="categoria">
-								<option>${categoria.nombre }</option>
-							</c:forEach>
-						</select>
-						<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
-					</form>
-					<ul id="topMenu" class="nav pull-right">
-						<li class=""><a href="special_offer.html">Productos</a></li>
-						<li class=""><a href="normal.html">Empresa</a></li>
-						<li class=""><a href="contacto">Contacto</a></li>
-						<sec:authorize access="hasRole('ROLE_CLIENTE')">
-							<li><a href="j_spring_security_logout">Salir</a></li>
-
-						</sec:authorize>
-						<sec:authorize access="isAnonymous()">
-							<li class=""><a href="login" role="button"
-								style="padding-right: 0"><span
-									class="btn btn-large btn-success">Ingresar</span></a></li>
-						</sec:authorize>
-
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Header End====================================================================== -->
-	<div id="mainBody">
-		<div class="container">
-			<div class="row">
-				<!-- Sidebar ================================================== -->
-				<div id="sidebar" class="span3">
-
-					<sec:authorize access="hasRole('ROLE_CLIENTE')">
-						<div class="well well-small">
-							<ul>
-								<li class="dropdown"><a href="#" class="dropdown-toggle"
-									data-toggle="dropdown">Bienvenido, <strong id="usuario"><%=SecurityContextHolder.getContext()
-						.getAuthentication().getName()%></strong> <span class="caret"></span></a>
-									<ul class="dropdown-menu" role="menu">
-										<li><a href="#">Mis Pedidos</a></li>
-										<li><a href="#">Perfil</a></li>
-										<li><a href="#">Change password</a></li>
-										<li class="divider"></li>
-										<li><a href="j_spring_security_logout">Logout</a></li>
-									</ul></li>
-							</ul>
-						</div>
-					</sec:authorize>
-					<div class="well well-small">
-						<sec:authorize access="hasRole('ROLE_CLIENTE')">
-							<a id="myCart"
-								href="get_carrito?username=<%=SecurityContextHolder.getContext()
-						.getAuthentication().getName()%>"><img
-								src="resources/img/ico-cart.png" alt="cart"><span
-								id="cantidad">0</span> Items en tu carrito <span
-								id="total_carrito" class="badge badge-warning pull-right">$00.00</span></a>
-						</sec:authorize>
-						<sec:authorize access="isAnonymous()">
-							<a href=""> <span class="badge badge-large badge-info">Registrarse</span></a>
-						</sec:authorize>
-					</div>
-					<ul id="sideManu" class="nav nav-tabs nav-stacked">
+				<form class="form-inline navbar-search" method="post"
+					action="products.html">
+					<input id="nav-busqueda" class="srchTxt" type="text" /> <select
+						class="srchTxt">
+						<option>All</option>
 						<c:forEach items="${categorias }" var="categoria">
-							<li class="subMenu"><a> ${categoria.nombre}</a>
-								<ul style="display: none">
-									<c:forEach items="${categoria.subCategorias}"
-										var="subCategoria">
-										<li><a class="active" href="products.html"><i
-												class="icon-chevron-right"></i>${subCategoria.nombre } </a></li>
-									</c:forEach>
-								</ul></li>
+							<option>${categoria.nombre }</option>
 						</c:forEach>
+					</select>
+					<button type="submit" id="submitButton" class="btn btn-primary">Go</button>
+				</form>
+				<ul id="topMenu" class="nav pull-right">
+					<li class=""><a href="special_offer.html">Productos</a></li>
+					<li class=""><a href="normal.html">Empresa</a></li>
+					<li class=""><a href="contacto">Contacto</a></li>
+					<sec:authorize access="hasRole('ROLE_CLIENTE')">
+						<li><a href="j_spring_security_logout">Salir</a></li>
 
-					</ul>
-					<br />
+					</sec:authorize>
+					<sec:authorize access="isAnonymous()">
+						<li class=""><a href="login" role="button"
+							style="padding-right: 0"><span
+								class="btn btn-large btn-success">Ingresar</span></a></li>
+					</sec:authorize>
 
-					<div class="thumbnail">
-						<img src="resources/img/payment_methods.png"
-							title="Bootshop Payment Methods" alt="Payments Methods">
-						<div class="caption">
-							<h5>Metodos de pago</h5>
-						</div>
-					</div>
-				</div>
-				<!-- Sidebar end=============================================== -->
-				<div class="span9">
-					<ul class="breadcrumb">
-						<li><a href="1">Home</a> <span class="divider">/</span></li>
-						<li><a href="#">Productos</a> <span
-							class="divider">/</span></li>
-						<li class="active">Detalles del producto</li>
-					</ul>
-					<div class="row">
-						<div id="gallery" class="span3">
-							<a href="${producto.urlImage }"
-								title="${producto.nombre }"> <img
-								src="${producto.urlImage}" style="width: 100%"
-								alt="${producto.nombre }" />
-							</a>
-
-						</div>
-						<div class="span6">
-							<h3>${producto.nombre }</h3>
-							<small></small>
-							<hr class="soft" />
-							<form class="form-horizontal qtyFrm">
-								<div class="control-group">
-									<label class="control-label"><span>$${producto.precio }</span></label>
-									<div class="controls">
-										<input type="number" class="span1" placeholder="Qty." />
-										<button 
-											class="btn btn-large btn-primary pull-right">
-											Agregar al carrito <i class=" icon-shopping-cart"></i>
-										</button>
-									</div>
-								</div>
-							</form>
-
-							<hr class="soft" />
-							<h4>${producto.stock } items en stock</h4>
-							<form class="form-horizontal qtyFrm pull-right">
-								<div class="control-group">
-									<label class="control-label"><span>Color</span></label>
-									<div class="controls">
-										<select class="span2">
-											<option>Black</option>
-											<option>Red</option>
-											<option>Blue</option>
-											<option>Brown</option>
-										</select>
-									</div>
-								</div>
-							</form>
-							<hr class="soft clr" />
-							<p>${producto.descripcion }</p>
-							<a class="btn btn-small pull-right" href="#detail">More
-								Details</a> <br class="clr" /> <a href="#" name="detail"></a>
-							<hr class="soft" />
-						</div>
-
-						<div class="span9">
-							
-						</div>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>-->
+<%@ include file="header.jsp"%>
+<!-- Header End====================================================================== -->
+<div id="mainBody">
+	<div class="container">
+		<div class="row">
+			<!-- Sidebar ================================================== -->
+			<%@ include file="side_bar.jsp"%>
+			<!-- Sidebar end=============================================== -->
+			<div class="span9">
+				<ul class="breadcrumb">
+					<li><a href="1">Home</a> <span class="divider">/</span></li>
+					<li><a href="#">Productos</a> <span class="divider">/</span></li>
+					<li class="active">Detalles del producto</li>
+				</ul>
+				<div class="row">
+					<div id="gallery" class="span3">
+						<a href="${producto.urlImage }" title="${producto.nombre }"> <img
+							src="${producto.urlImage}" style="width: 100%"
+							alt="${producto.nombre }" />
+						</a>
 
 					</div>
+					<div class="span6">
+						<h3>${producto.nombre }</h3>
+						<small></small>
+						<hr class="soft" />
+						<form class="form-horizontal qtyFrm">
+							<div class="control-group">
+								<label class="control-label"><span>$${producto.precio
+										}</span></label>
+								<div class="controls">
+									<input type="number" class="span1" placeholder="Qty." />
+									<button class="btn btn-large btn-primary pull-right">
+										Agregar al carrito <i class=" icon-shopping-cart"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+
+						<hr class="soft" />
+						<h4>${producto.stock }itemsen stock</h4>
+						<form class="form-horizontal qtyFrm pull-right">
+							<div class="control-group">
+								<label class="control-label"><span>Color</span></label>
+								<div class="controls">
+									<select class="span2">
+										<option>Black</option>
+										<option>Red</option>
+										<option>Blue</option>
+										<option>Brown</option>
+									</select>
+								</div>
+							</div>
+						</form>
+						<hr class="soft clr" />
+						<p>${producto.descripcion }</p>
+						<a class="btn btn-small pull-right" href="#detail">More
+							Details</a> <br class="clr" /> <a href="#" name="detail"></a>
+						<hr class="soft" />
+					</div>
+
+					<div class="span9"></div>
+
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- MainBody End ============================= -->
-	<!-- Footer ================================================================== -->
-	<div id="footerSection">
-		<div class="container">
-			<div class="row">
-				<div class="span3">
-					<!-- <h5>ACCOUNT</h5>
+</div>
+<!-- MainBody End ============================= -->
+<!-- Footer ================================================================== -->
+<div id="footerSection">
+	<div class="container">
+		<div class="row">
+			<div class="span3">
+				<!-- <h5>ACCOUNT</h5>
 					<a href="login.html">YOUR ACCOUNT</a> <a href="login.html">PERSONAL
 						INFORMATION</a> <a href="login.html">ADDRESSES</a> <a
 						href="login.html">DISCOUNT</a> <a href="login.html">ORDER
 						HISTORY</a> -->
-				</div>
-				<div class="span3">
-					<!-- <h5>INFORMATION</h5>
+			</div>
+			<div class="span3">
+				<!-- <h5>INFORMATION</h5>
 					<a href="contact.html">CONTACT</a> <a href="register.html">REGISTRATION</a>
 					<a href="legal_notice.html">LEGAL NOTICE</a> <a href="tac.html">TERMS
 						AND CONDITIONS</a> <a href="faq.html">FAQ</a> -->
-				</div>
-				<div class="span3">
-					<!-- <h5>OUR OFFERS</h5>
+			</div>
+			<div class="span3">
+				<!-- <h5>OUR OFFERS</h5>
 					<a href="#">NEW PRODUCTS</a> <a href="#">TOP SELLERS</a> <a
 						href="special_offer.html">SPECIAL OFFERS</a> <a href="#">MANUFACTURERS</a>
 					<a href="#">SUPPLIERS</a> -->
-				</div>
-				<div id="socialMedia" class="span3 pull-right">
-					<!-- <h5>SOCIAL MEDIA</h5>
+			</div>
+			<div id="socialMedia" class="span3 pull-right">
+				<!-- <h5>SOCIAL MEDIA</h5>
 					<a href="#"><img width="60" height="60"
 						src="themes/images/facebook.png" title="facebook" alt="facebook" /></a>
 					<a href="#"><img width="60" height="60"
 						src="themes/images/twitter.png" title="twitter" alt="twitter" /></a>
 					<a href="#"><img width="60" height="60"
 						src="themes/images/youtube.png" title="youtube" alt="youtube" /></a> -->
-				</div>
 			</div>
-			<p class="pull-right">&copy; OneClick Company</p>
 		</div>
-		<!-- Container End -->
+		<p class="pull-right">&copy; OneClick Company</p>
 	</div>
+	<!-- Container End -->
+</div>
 </body>
 </html>

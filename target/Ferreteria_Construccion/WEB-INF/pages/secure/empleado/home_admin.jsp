@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- Home Page - Admin -->
+<!-- author : Marco, Acuna -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OneClick | Admin</title>
 <!-- Estilo Css -->
-<link rel="stylesheet" href="../resources/css/bootstrap.min.css">
-<link rel="stylesheet" href="../resources/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../resources/css/admin-bootstrap.min.css">
+<link rel="stylesheet"
+	href="../resources/css/admin-bootstrap-theme.min.css">
 <link rel="stylesheet" href="../resources/css/dashboard.css">
 
 <!-- Javascripts -->
@@ -50,7 +55,7 @@
 								alt="oneClick">
 						</div></li>
 					<li class="active"><a href="#">Principal</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>Usuarios</a></li>
+					<li><a href="#">Usuarios</a></li>
 					<li><a href="producto_home/1">Productos</a></li>
 					<li><a href="#">Pedidos</a></li>
 				</ul>

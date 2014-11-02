@@ -1,15 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- Home Producto - Admin -->
+<!-- author : Marco, Acuna -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OneClick | Productos</title>
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../resources/css/admin-bootstrap.min.css">
 <link rel="stylesheet"
-	href="../../resources/css/bootstrap-theme.min.css">
+	href="../../resources/css/admin-bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../resources/css/dashboard.css">
 
 <!-- Javascripts -->
@@ -133,11 +137,11 @@
 									<td>${producto.precioCompra }</td>
 									<td>${producto.precio }</td>
 									<td><a href="" class="btn btn-default"><span
-											class="glyphicon glyphicon-pencil"></span></a>
+											class="icon-pencil"></span></a>
 										<button data-toggle="modal"
 											data-target="#confirmacion${producto.codigo }"
 											class="btn btn-default">
-											<span class="glyphicon glyphicon-remove"></span>
+											<span class="icon-remove"></span>
 										</button></td>
 								</tr>
 

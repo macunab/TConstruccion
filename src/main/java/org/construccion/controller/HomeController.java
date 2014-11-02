@@ -39,6 +39,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Main Client Controller
+//author : Marco, Acuna.
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 @Controller
 @RequestMapping()
 public class HomeController {
@@ -185,10 +189,9 @@ public class HomeController {
 		return "busqueda_page";
 	}
 
-	/*
-	 * 
-	 * Detalle de Producto.
-	 */
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// DETALLE DE PRODUCTO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/get_producto", method = RequestMethod.GET)
 	public String getProductoDetalle(
 			@RequestParam("codigo") Integer codigoProducto, Model model) {
@@ -201,10 +204,9 @@ public class HomeController {
 		return "producto_detalle";
 	}
 
-	/*
-	 * 
-	 * Formulario de contacto - GET
-	 */
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET CONTACTO
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/contacto", method = RequestMethod.GET)
 	public String getContacto(Model model) {
 
@@ -215,6 +217,9 @@ public class HomeController {
 		return "contacto_form";
 	}
 
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// POST CONTACTO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/contacto", method = RequestMethod.POST)
 	public String postContacto(@Valid MensajeDto mensajeDto,
 			BindingResult result) {
@@ -230,12 +235,16 @@ public class HomeController {
 		}
 	}
 
-	// ##############################################################################################
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET CARRITO
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/get_carrito", method = RequestMethod.GET)
-	public String getCarrito(@RequestParam("username") String username,
-			Model model) {
+	public String getCarrito(Model model) {
 
-		Pedido pedido = service.getCarrito(username);
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+
+		Pedido pedido = service.getCarrito(auth.getName());
 		if (pedido != null) {
 			BigDecimal total = new BigDecimal(0);
 			List<PedidoProducto> pp = service.getPedidoProductoByPedido(pedido);
@@ -263,10 +272,9 @@ public class HomeController {
 		return "redirect:/1";
 	}
 
-	/*
-	 * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	 * Añade un articulo en el carrito
-	 */
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ADD PRODUCTO A CARRITO
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/add_carrito", method = RequestMethod.POST)
 	public String cantidadCarrito(@RequestParam("producto") Integer codigo,
 			@RequestParam("cantidad") String cantidad) {
@@ -276,13 +284,6 @@ public class HomeController {
 
 		Pedido pedido = service.getCarrito(auth.getName());
 		Producto producto = service.getProducto(codigo);
-
-		System.out
-				.println("##############################################################################"
-						+ "#########################################################################3"
-						+ "###################################################################################"
-						+ "###########################################        "
-						+ cantidad);
 
 		PedidoProducto pp = new PedidoProducto();
 		pp.setProducto(producto);
@@ -316,9 +317,9 @@ public class HomeController {
 		return "home_page";
 	}
 
-	/*
-	 * Cantidad de articulos en el carrito
-	 */
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET CANTIDAD PRODUCTOS CARRITO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/get_productos_carrito", method = RequestMethod.POST)
 	public @ResponseBody Integer getProductosCarrito() {
 		Authentication auth = SecurityContextHolder.getContext()
@@ -335,6 +336,9 @@ public class HomeController {
 		return 1;
 	}
 
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET TOTAL PAGO CARRITO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/get_total_carrito", method = RequestMethod.POST)
 	public @ResponseBody BigDecimal getTotalCarrito() {
 		Authentication auth = SecurityContextHolder.getContext()
@@ -362,21 +366,71 @@ public class HomeController {
 		}
 		return new BigDecimal(0);
 	}
-	
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//CAMBIAR PASWORD
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	@RequestMapping(value="/cambio_passwd", method = RequestMethod.GET)
-	public String getCambioPassword(){
-		
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET CAMBIAR PASSWORD
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/cambio_passwd", method = RequestMethod.GET)
+	public String getCambioPassword() {
+
 		return "cambio_password";
 	}
 
-	/*
-	 * Remover producto de carrito.
-	 */
-	@RequestMapping(value = "/remove_producto_carrito", method = RequestMethod.GET)
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// POST CAMBIAR PASSWORD
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/cambio_passwd", method = RequestMethod.POST)
+	public @ResponseBody ValidationResponse postCambioPassword(
+			@RequestParam("passwordActual") String password,
+			@RequestParam("passwordNuevo") String newPassword,
+			@RequestParam("passwordRepeat") String rePassword) {
+
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+		ValidationResponse res = new ValidationResponse();
+
+		List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
+		Usuario usuario = service.getUsuarioByUsername(auth.getName());
+
+		if (passwordEncoder.matches(password, usuario.getPassword())) {
+
+			if (newPassword.equals(rePassword)) {
+
+				res.setStatus("SUCCESS");
+
+				usuario.setPassword(passwordEncoder.encode(newPassword));
+				service.saveUsuario(usuario);
+
+			} else {
+
+				res.setStatus("FAIL");
+				errorMessages.add(new ErrorMessage("passwordRepeat",
+						"No coincide con el nuevo password"));
+				res.setErrorMessageList(errorMessages);
+				return res;
+
+			}
+		} else {
+			res.setStatus("FAIL");
+			errorMessages
+					.add(new ErrorMessage("passwordActual",
+							"Por favor, introdusca correctamente el password de la cuenta."));
+			res.setErrorMessageList(errorMessages);
+			return res;
+		}
+
+		return res;
+	}
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// REMOVER PRODUCTO CARRITO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/remove_producto_carrito", method = RequestMethod.POST)
 	public String removeProducto(@RequestParam("producto") Integer productoid) {
+
+		System.out
+				.println("fffffffffffffffffffffffffffffffffffffffffffffffffffff!");
 
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -384,10 +438,66 @@ public class HomeController {
 		Pedido pedido = service.getCarrito(auth.getName());
 
 		Producto producto = service.getProducto(productoid);
+		System.out
+				.println("fffffffffffffffffffffffffffffffffffffffffffffffffffff!");
 
-		service.deletePPByProducto(pedido, producto);
+		if (service.deletePPByProducto(pedido, producto)) {
+			System.out
+					.println("#############################################################################"
+							+ "############################################################################3"
+							+ "##################33   SE HA ELIMINADO CON EXITO");
+		} else {
+			System.out.println("NO!");
+		}
 
-		return "";
+		return "carrito_cliente";
+	}
+
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ALTA PEDIDO
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/alta_pedido", method = RequestMethod.GET)
+	public String altaPedido(Model model) {
+
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+
+		Usuario usuario = service.getUsuarioByUsername(auth.getName());
+
+		// Obtengo el carrito
+		Pedido pedido = service.getCarrito(auth.getName());
+
+		pedido.setEstado("procesando");
+		service.savePedido(pedido);
+
+		Pedido newpedido = new Pedido();
+		newpedido.setActivo(true);
+		newpedido.setEstado("carrito");
+		newpedido.setUsuario(usuario);
+		service.savePedido(newpedido);
+
+		List<Pedido> pedidosProcesando = service.getPedidoProcesando(usuario);
+		model.addAttribute("procesando", pedidosProcesando);
+
+		return "pedidos_page";
+
+	}
+
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// CONSULTA PEDIDOS
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/consulta_pedidos", method = RequestMethod.GET)
+	public String getPedidos(Model model) {
+
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+
+		Usuario usuario = service.getUsuarioByUsername(auth.getName());
+
+		List<Pedido> pedidosProcesando = service.getPedidoProcesando(usuario);
+		model.addAttribute("procesando", pedidosProcesando);
+
+		return "pedidos_page";
 	}
 
 }

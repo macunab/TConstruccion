@@ -9,6 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Producto JpaRepository
+//author : Marco, Acuna.
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
 	public final static String SEARCH_BY_TAG_QUERY = "SELECT p FROM Producto p LEFT JOIN p.tags t WHERE t.nombre = :nombre";

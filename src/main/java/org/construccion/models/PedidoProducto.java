@@ -11,6 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//POJO PedidoProducto
+//author : Marco, Acuna.
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 @Entity
 @Table(name = "pedido_producto")
 public class PedidoProducto {
@@ -18,7 +22,7 @@ public class PedidoProducto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "idpedido_producto")
-	private Integer id;
+	private Integer idCodigo;
 
 	@ManyToOne
 	@JoinColumn(name = "idpedido")
@@ -35,12 +39,12 @@ public class PedidoProducto {
 
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getIdCodigo() {
+		return idCodigo;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdCodigo(Integer idCodigo) {
+		this.idCodigo = idCodigo;
 	}
 
 	public Pedido getPedido() {
