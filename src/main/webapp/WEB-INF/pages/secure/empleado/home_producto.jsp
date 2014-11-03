@@ -9,9 +9,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>OneClick | Productos</title>
+<title>Productos | admin</title>
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="../../resources/css/admin-bootstrap.min.css">
+<link rel="stylesheet"
+	href="../../resources/css/admin-bootstrap.min.css">
 <link rel="stylesheet"
 	href="../../resources/css/admin-bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../resources/css/dashboard.css">
@@ -62,8 +63,9 @@
 								alt="oneClick">
 						</div></li>
 					<li><a href="/Ferreteria_Construccion/secure/home_page">Principal</a></li>
-					<li><a href="#">Usuarios</a></li>
-					<li class="active"><a href="">Productos</a></li>
+					<li><a href="/Ferreteria_Construccion/secure/usuario_home/1">Usuarios</a></li>
+					<li class="active"><a
+						href="/Ferreteria_Construccion/secure/producto_home/1">Productos</a></li>
 					<li><a href="#">Pedidos</a></li>
 				</ul>
 

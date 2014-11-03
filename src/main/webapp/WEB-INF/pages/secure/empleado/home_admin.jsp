@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>OneClick | Admin</title>
+<title>Home | admin</title>
 <!-- Estilo Css -->
 <link rel="stylesheet" href="../resources/css/admin-bootstrap.min.css">
 <link rel="stylesheet"
@@ -55,7 +55,7 @@
 								alt="oneClick">
 						</div></li>
 					<li class="active"><a href="#">Principal</a></li>
-					<li><a href="#">Usuarios</a></li>
+					<li><a href="usuario_home/1">Usuarios</a></li>
 					<li><a href="producto_home/1">Productos</a></li>
 					<li><a href="#">Pedidos</a></li>
 				</ul>

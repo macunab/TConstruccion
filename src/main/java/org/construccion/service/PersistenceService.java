@@ -223,4 +223,13 @@ public class PersistenceService {
 		return pedidoRepository.getPedidoProcesando(usuario);
 	}
 
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE LISTADO DE USUARIOS PAGINADOS
+	 */
+	public Page<Usuario> getUsuariosPaginados(PageRequest request) {
+
+		return usuarioRepository.findAll(request);
+	}
+
 }

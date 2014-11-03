@@ -10,11 +10,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Nuevo Producto</title>
+<title>Alta producto | admin</title>
 <link rel="stylesheet" href="../resources/css/admin-bootstrap.min.css">
 
 <!-- Optional theme -->
-<link rel="stylesheet" href="../resources/css/admin-bootstrap-theme.min.css">
+<link rel="stylesheet"
+	href="../resources/css/admin-bootstrap-theme.min.css">
 <link rel="stylesheet" href="../resources/css/dashboard.css">
 
 <!-- Latest compiled and minified JavaScript -->
@@ -57,8 +58,9 @@
 								alt="oneClick">
 						</div></li>
 					<li><a href="/Ferreteria_Construccion/secure/home_page">Principal</a></li>
-					<li><a href="#">Usuarios</a></li>
-					<li class="active"><a href="#">Productos</a></li>
+					<li><a href="/Ferreteria_Construccion/secure/usuario_home/1">Usuarios</a></li>
+					<li class="active"><a
+						href="/Ferreteria_Construccion/secure/producto_home/1">Productos</a></li>
 					<li><a href="#">Pedidos</a></li>
 				</ul>
 

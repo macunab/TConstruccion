@@ -2,14 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-<!-- Home Producto - Admin -->
+<!-- Home Usuario - Admin -->
 <!-- author : Marco, Acuna -->
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Productos | admin</title>
+<title>Usuarios | admin</title>
 <!-- Estilos CSS -->
 <link rel="stylesheet"
 	href="../../resources/css/admin-bootstrap.min.css">
@@ -22,11 +22,10 @@
 <script src="../../resources/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-	<c:url var="firstUrl" value="/secure/producto_home/1" />
-	<c:url var="lastUrl" value="/secure/producto_home/${page.totalPages}" />
-	<c:url var="prevUrl" value="/secure/producto_home/${currentIndex - 1}" />
-	<c:url var="nextUrl" value="/secure/producto_home/${currentIndex + 1}" />
+	<c:url var="firstUrl" value="/secure/usuario_home/1" />
+	<c:url var="lastUrl" value="/secure/usuario_home/${page.totalPages}" />
+	<c:url var="prevUrl" value="/secure/usuario_home/${currentIndex - 1}" />
+	<c:url var="nextUrl" value="/secure/usuario_home/${currentIndex + 1}" />
 
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
@@ -63,9 +62,9 @@
 								alt="oneClick">
 						</div></li>
 					<li><a href="/Ferreteria_Construccion/secure/home_page">Principal</a></li>
-					<li><a href="/Ferreteria_Construccion/secure/usuario_home/1">Usuarios</a></li>
 					<li class="active"><a
-						href="/Ferreteria_Construccion/secure/producto_home/1">Productos</a></li>
+						href="/Ferreteria_Construccion/secure/usuario_home/1">Usuarios</a></li>
+					<li><a href="/Ferreteria_Construccion/secure/producto_home/1">Productos</a></li>
 					<li><a href="#">Pedidos</a></li>
 				</ul>
 
@@ -74,7 +73,7 @@
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Productos</h1>
+				<h1 class="page-header">Usuarios</h1>
 
 				<div class="row">
 					<div class="col-lg-6">
@@ -86,13 +85,13 @@
 						</div>
 					</div>
 					<div class="col-lg-6">
-						<a href="/Ferreteria_Construccion/secure/save_producto"
+						<a href="/Ferreteria_Construccion/secure/admin_save_usuario"
 							class="btn btn-default">Nuevo</a>
 					</div>
 				</div>
 				<h1 class="sub-header"></h1>
 
-				<h2 class="sub-header">Lista de productos</h2>
+				<h2 class="sub-header">Lista de Usuarios</h2>
 
 
 
@@ -101,32 +100,32 @@
 						<thead>
 							<tr>
 								<th>#</th>
+								<th>Email</th>
 								<th>Nombre</th>
-								<th>Precio Compra</th>
-								<th>Precio Venta</th>
-								<th>Accion</th>
+								<th>Apellido</th>
+								<th>Activo</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${productos }" var="producto">
+							<c:forEach items="${usuarios }" var="usuario">
 								<!-- Popup de confirmacion - Boostrap modal -->
-								<div class="modal face" id="confirmacion${producto.codigo }"
+								<div class="modal face" id="confirmacion${usuario.username }"
 									tabindex="-1" role="dialog" aria-labelledby="modal"
 									aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h4 class="model-title">Eliminar producto</h4>
+												<h4 class="model-title">Eliminar usuario</h4>
 											</div>
 											<div class="modal-body">
-												<p>Realmente desea eliminar el producto
-													${producto.codigo } seleccionado?</p>
+												<p>Realmente desea eliminar el usuario:
+													${usuario.username } seleccionado?</p>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
 													data-dismiss="modal">No</button>
 												<a class="btn btn-primary"
-													href="/Ferreteria_Construccion/secure/delete_producto/${producto.codigo}">Si</a>
+													href="/Ferreteria_Construccion/secure/delete_usuario/${usuario.username}">Si</a>
 											</div>
 										</div>
 									</div>
@@ -134,14 +133,15 @@
 								</div>
 								<!-- Fin del popup -->
 								<tr>
-									<td>${producto.codigo }</td>
-									<td>${producto.nombre }</td>
-									<td>${producto.precioCompra }</td>
-									<td>${producto.precio }</td>
+									<td></td>
+									<td>${usuario.username }</td>
+									<td>${usuario.nombre }</td>
+									<td>${usuario.apellido }</td>
+									<td>${usuario.enable }</td>
 									<td><a href="" class="btn btn-default"><span
 											class="icon-pencil"></span></a>
 										<button data-toggle="modal"
-											data-target="#confirmacion${producto.codigo }"
+											data-target="#confirmacion${usuario.username }"
 											class="btn btn-default">
 											<span class="icon-remove"></span>
 										</button></td>
@@ -165,7 +165,7 @@
 							</c:otherwise>
 						</c:choose>
 						<c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
-							<c:url var="pageUrl" value="/secure/producto_home/${i}" />
+							<c:url var="pageUrl" value="/secure/usuario_home/${i}" />
 							<c:choose>
 								<c:when test="${i == currentIndex}">
 									<li class="active"><a href="${pageUrl}"><c:out
@@ -192,7 +192,5 @@
 			</div>
 		</div>
 	</div>
-
-
 </body>
 </html>

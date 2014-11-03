@@ -29,6 +29,7 @@ public class Usuario {
 	private String username;
 
 	@Column(name = "password")
+	@NotEmpty
 	private String password;
 
 	@Column(name = "enable")
