@@ -1,14 +1,12 @@
 package org.construccion.models;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -27,19 +25,17 @@ public class Tag {
 	@Column(name = "nombre")
 	private String nombre;
 
-	/*@ManyToMany(cascade = CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinTable(name = "producto_tag", joinColumns = { @JoinColumn(name = "tag_id") }, inverseJoinColumns = { @JoinColumn(name = "producto_id") })*/
-	@ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
-	private Set<Producto> productos;
+	@ManyToOne
+	@JoinColumn(name = "producto")
+	private Producto producto;
 
 	public Tag() {
 
 	}
 
-	public Tag(String nombre, Set<Producto> productos) {
+	public Tag(String nombre, Producto producto) {
 		this.nombre = nombre;
-		this.productos = productos;
+		this.producto = producto;
 	}
 
 	public Integer getIdentified() {
@@ -58,17 +54,17 @@ public class Tag {
 		this.nombre = nombre;
 	}
 
-	public Set<Producto> getProductos() {
-		return productos;
+	public Producto getProducto() {
+		return producto;
 	}
 
-	public void setProductos(Set<Producto> productos) {
-		this.productos = productos;
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
-	
-	//Obtengo el id como String para ayudar al binding de spring.
-	public String getIdAsString(){
-		
+
+	// Obtengo el id como String para ayudar al binding de spring.
+	public String getIdAsString() {
+
 		return new Integer(identified).toString();
 	}
 

@@ -4,14 +4,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.construccion.models.Categoria;
+import org.construccion.models.Grupo;
 import org.construccion.models.Producto;
+import org.construccion.models.SubCategoria;
 import org.construccion.models.Tag;
 import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
@@ -91,73 +92,77 @@ public class EmpleadoController {
 	public String getSaveProducto(Model model) {
 
 		List<Categoria> categorias = categoriaRepo.findAll();
-		List<Tag> tags = tagRepo.findAll();
+		// List<Tag> tags = tagRepo.findAll();
 
-		tagCache = new HashMap<String, Tag>();
-		for (Tag tag : tags) {
-			tagCache.put(tag.getIdAsString(), tag);
-		}
+		// tagCache = new HashMap<String, Tag>();
+		/*
+		 * for (Tag tag : tags) { tagCache.put(tag.getIdAsString(), tag); }
+		 */
 
 		model.addAttribute("categorias", categorias);
-		model.addAttribute("tags", tags);
+		// model.addAttribute("tags", tags);
 		model.addAttribute("producto", new Producto());
 
 		return "secure/empleado/add_producto";
 	}
 
-	@RequestMapping(value = "secure/save_producto", method = RequestMethod.POST)
-	public String postSaveProducto(@RequestParam("categorias[]") String cate,
+	@RequestMapping(value = "/secure/save_producto", method = RequestMethod.POST)
+	public String postSaveProducto(@RequestParam("tags") String tags,
+			@RequestParam("subCategoria") String cate,
 			@RequestParam("imagen") CommonsMultipartFile imagen,
 			@Valid Producto producto, BindingResult result, Model model)
 			throws IOException {
 
+		ValidationResponse res = new ValidationResponse();
 		if (result.hasErrors()) {
+			res.setStatus("FAIL");
 			List<Categoria> categorias = categoriaRepo.findAll();
-			List<Tag> tags = tagRepo.findAll();
-			tagCache = new HashMap<String, Tag>();
-			for (Tag tag : tags) {
-				tagCache.put(tag.getIdAsString(), tag);
-			}
-
+			// List<Tag> tags = tagRepo.findAll();
+			// tagCache = new HashMap<String, Tag>();
+			/*
+			 * for (Tag tag : tags) { tagCache.put(tag.getIdAsString(), tag); }
+			 */
+			System.out.println("################################"
+					+ "############################################3"
+					+ "######################### " + tags + " ######### "
+					+ cate);
 			model.addAttribute("categorias", categorias);
-			model.addAttribute("tags", tags);
+			List<FieldError> allErrors = result.getFieldErrors();
+			List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
+			for (FieldError objectError : allErrors) {
+				errorMesages.add(new ErrorMessage(objectError.getField(), " "
+						+ objectError.getDefaultMessage()));
+			}
+			res.setErrorMessageList(errorMesages);
+			// model.addAttribute("tags", tags);
 			return "secure/empleado/add_producto";
 		} else {
 
 			// Categoria categoria = categoriaRepo.findByNombre(cate);
 			// producto.setCategoria(categoria);
-			producto.setUrlImage("../pictures/" + imageResolver(imagen));
-			producto.setActivo(true);
-			productoRepo.save(producto);
-
-			return "redirect:/secure/producto_home/1";
+			/*
+			 * producto.setUrlImage("../pictures/" + imageResolver(imagen));
+			 * producto.setActivo(true); productoRepo.save(producto);
+			 */
+			return "secure/empleado/home_producto";
 		}
 	}
 
 	// Custom initBinder para obtener un multiple select que maneje los id como
 	// Strings.
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) throws Exception {
-		binder.registerCustomEditor(List.class, "tags",
-				new CustomCollectionEditor(List.class) {
-					protected Object convertElement(Object element) {
-						if (element instanceof Tag) {
-							System.out.println("Convercion de Tag a Tag: "
-									+ element);
-							return element;
-						}
-						if (element instanceof String) {
-							Tag tag = tagCache.get(element);
-							System.out.println("Looking up tag for id "
-									+ element + ": " + tag);
-							return tag;
-						}
-						System.out.println("Don't know what to do with: "
-								+ element);
-						return null;
-					}
-				});
-	}
+	// @InitBinder
+	/*
+	 * protected void initBinder(WebDataBinder binder) throws Exception {
+	 * binder.registerCustomEditor(List.class, "tags", new
+	 * CustomCollectionEditor(List.class) { protected Object
+	 * convertElement(Object element) { if (element instanceof Tag) {
+	 * System.out.println("Convercion de Tag a Tag: " + element); return
+	 * element; } if (element instanceof String) { Tag tag =
+	 * tagCache.get(element); System.out.println("Looking up tag for id " +
+	 * element + ": " + tag); return tag; }
+	 * System.out.println("Don't know what to do with: " + element); return
+	 * null; } }); }
+	 */
 
 	// Guarda la imagen en un folder especificado del lado del sevidor.
 	private String imageResolver(CommonsMultipartFile imagen)
@@ -275,7 +280,8 @@ public class EmpleadoController {
 	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/secure/admin_save_usuario", method = RequestMethod.POST)
 	public @ResponseBody ValidationResponse postSaveUsuario(
-			@Valid Usuario usuario, BindingResult result,
+			@RequestParam("cuentas") int cuenta, @Valid Usuario usuario,
+			BindingResult result,
 			@RequestParam("passwordRepeat") String repeatPassword,
 			@RequestParam("password") String password) {
 
@@ -309,14 +315,58 @@ public class EmpleadoController {
 			}
 			res.setStatus("SUCCESS");
 			usuario.setEnable(true);
-			// usuario.setRol(new Grupo(cuenta, usuario));
+			usuario.setRol(new Grupo(cuenta, usuario));
 			usuario.setPassword(passwordEncoder.encode(password));
-			// System.out.println("################################### " +
-			// cuenta);
+			service.saveUsuario(usuario);
+			System.out.println("################################### " + cuenta);
 		}
 
 		return res;
 
+	}
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET UPDATE PRODUCTO -ADMIN
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/secure/update_producto", method = RequestMethod.GET)
+	public String getUpdateProducto(Model model,
+			@RequestParam("producto") Integer producto) {
+
+		Producto pro = service.getProducto(producto);
+		List<Categoria> categorias = service.getAllCategorias();
+
+		model.addAttribute("producto", pro);
+		model.addAttribute("categorias", categorias);
+
+		return "secure/empleado/add_producto";
+	}
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// UPDATE SELECT SUBCATEGORIAS
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/secure/update_subcategoria", method = RequestMethod.GET)
+	public @ResponseBody ValidationResponse getUpdateSubCategoria(
+			@RequestParam("categoria") int categoria) {
+
+		ValidationResponse res = new ValidationResponse();
+
+		Categoria cat = service.getCategoria(categoria);
+
+		List<SubCategoria> subs = service.getSubCategoriaByCategoria(cat);
+		// res.setErrorMessageList(cat.getSubCategorias());
+		List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
+
+		for (int i = 0; i < cat.getSubCategorias().size(); i++) {
+			errorMesages.add(new ErrorMessage(subs.get(i).getNombre(), " "
+					+ subs.get(i).getNombre()));
+		}
+		res.setErrorMessageList(errorMesages);
+		System.out.println("###########################"
+				+ "################################################"
+				+ "################################################" + "   "
+				+ categoria);
+
+		return res;
 	}
 
 }

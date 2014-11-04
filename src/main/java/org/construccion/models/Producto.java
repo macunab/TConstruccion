@@ -5,14 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -57,10 +54,8 @@ public class Producto {
 	@Column(name = "url_image")
 	private String urlImage;
 
-	// @ManyToMany(mappedBy = "productos", fetch = FetchType.EAGER)
-	@ManyToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "producto")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinTable(name = "producto_tag", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = { @JoinColumn(name = "tag_id") })
 	private List<Tag> tags;
 
 	@ManyToOne
@@ -143,7 +138,7 @@ public class Producto {
 		return tags;
 	}
 
-	public void setTags(List<Tag> tags) {
+	public void setTag(List<Tag> tags) {
 		this.tags = tags;
 	}
 

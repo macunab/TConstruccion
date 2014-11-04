@@ -18,6 +18,7 @@
 	href="../resources/css/admin-bootstrap-theme.min.css">
 <link rel="stylesheet" href="../resources/css/dashboard.css">
 
+
 <!-- Latest compiled and minified JavaScript -->
 <script src="../resources/js/jquery-1.2.11.0.js"></script>
 <script src="../resources/js/bootstrap.min.js"></script>
@@ -68,137 +69,157 @@
 					<li><a href="">Reportes</a></li>
 				</ul>
 			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h3 class="page-header">Nuevo Producto</h3>
 
-			<form:form class="form-horizontal" action="save_producto"
-				method="POST" modelAttribute="producto"
-				enctype="multipart/form-data">
-				<fieldset>
+				<p>Las casillas con el simbolo * son casillas obligatorias.</p>
+				<hr class="soft" />
 
-					<!-- Form Name -->
-					<legend>Nuevo Producto</legend>
+				<form:form id="add-producto-form" class="form-horizontal"
+					action="save_producto" method="POST" modelAttribute="producto"
+					enctype="multipart/form-data">
+					<fieldset>
 
-					<!-- Text input-->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="codigo">Codigo</label>
-						<div class="col-md-5">
-							<form:input id="codigo" path="codigo" name="codigo"
-								placeholder="Codigo de barra" class="form-control input-md"
-								type="text" onKeyPress="return numbersonly(this, event)" />
-							<span class="help-block">ingrese el codigo de barra del
-								productoo</span>
-						</div>
-						<form:errors path="codigo" class="label label-danger" />
-					</div>
-
-					<!-- Text input-->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="nombre">Nombre</label>
-						<div class="col-md-5">
-							<form:input id="nombre" path="nombre" name="nombre"
-								placeholder="nombre" class="form-control input-md" type="text" />
-							<span class="help-block">ingrese el nombre del producto</span>
-						</div>
-						<form:errors path="nombre" class="label label-danger" />
-					</div>
-
-					<!-- Precio de venta-->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="precio">Precio</label>
-						<div class="col-md-4">
-							<form:input id="precio" path="precio" name="precio"
-								placeholder="precio" class="form-control input-md"
-								onKeyPress="return isNumberDecimal(event)" />
-							<span class="help-block">precio del producto</span>
-						</div>
-						<form:errors path="precio" class="label label-danger" />
-					</div>
-
-					<!-- Precio de compra-->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="precio_compra">Precio
-							compra</label>
-						<div class="col-md-4">
-							<form:input id="precio_compra" path="precioCompra"
-								name="precio_compra" placeholder="precio de compra"
-								class="form-control input-md"
-								onKeyPress="return isNumberDecimal(event)" />
-							<span class="help-block">precio neto del producto</span>
-						</div>
-						<form:errors path="precioCompra" class="label label-danger" />
-					</div>
-
-					<!-- Text input-->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="stock">Stock</label>
-						<div class="col-md-4">
-							<form:input id="stock" path="stock" name="stock"
-								placeholder="stock" type="number" class="form-control input-md"
-								onKeyPress="return numbersonly(this, event)" />
-							<span class="help-block">stock inicial</span>
-						</div>
-						<form:errors path="stock" class="label label-danger" />
-					</div>
-
-
-					<!-- Select Basic -->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="categoria">Categoria</label>
-						<div class="col-md-4">
-
-							<select id="categoria" name="categorias[]" class="form-control">
-								<c:forEach items="${categorias}" var="categoria">
-
-									<option value="${categoria.nombre}">${categoria.nombre }</option>
-								</c:forEach>
-							</select>
-						</div>
-						<!-- <a href="#"><span class="glyphicon glyphicon-plus"></span></a> -->
-					</div>
-
-					<!-- Imagen del Producto -->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="imagen">Imagen</label>
-						<div class="col-md-4">
-							<input id="imagen" name="imagen" class="input-file" type="file">
-						</div>
-					</div>
-
-					<!-- Select Multiple -->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="tags">Tags</label>
-						<div class="col-md-4">
-							<form:select class="form-control" path="tags" multiple="true"
-								items="${tags}" itemLabel="nombre" itemValue="idAsString" />
+						<!-- INPUT CODIGO-->
+						<div class="form-group" id="codigoControlGroup">
+							<label class="col-md-4 control-label" for="codigo">Codigo
+								*</label>
+							<div class="col-md-4">
+								<form:input id="codigo" path="codigo" name="codigo"
+									placeholder="Codigo de barra" class="form-control input-md"
+									type="text" onKeyPress="return numbersonly(this, event)" />
+								<span class="help-inline"><form:errors path="codigo" /></span>
+							</div>
 
 						</div>
-						<a href="#" id="tag"><span class="glyphicon glyphicon-plus"></span></a>
-					</div>
 
-					<!-- Textarea -->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="descripcion">Descripcion</label>
-						<div class="col-md-4">
-							<form:textarea path="descripcion" class="form-control"
-								id="descripcion" name="descripcion"></form:textarea>
+						<!-- INPUT NOMBRE-->
+						<div class="form-group" id="nombreControlGroup">
+							<label class="col-md-4 control-label" for="nombre">Nombre</label>
+							<div class="col-md-4">
+								<form:input id="nombre" path="nombre" name="nombre"
+									placeholder="nombre" class="form-control input-md" type="text" />
+								<span class="help-inline"><form:errors path="nombre" /></span>
+
+							</div>
+
 						</div>
-					</div>
 
-					<!-- Button (Double) -->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="button1id"></label>
-						<div class="col-md-8">
-							<input type="submit" id="button1id" name="button1id"
-								class="btn btn-success" value="Guardar">
-							<button id="button2id" name="button2id" class="btn btn-danger">Cancelar</button>
+						<!-- INPUT PRECIO VENTA-->
+						<div class="form-group" id="precioControlGroup">
+							<label class="col-md-4 control-label" for="precio">Precio
+								*</label>
+							<div class="col-md-4">
+								<form:input id="precio" path="precio" name="precio"
+									placeholder="precio" class="form-control input-md"
+									onKeyPress="return isNumberDecimal(event)" />
+								<span class="help-inline"><form:errors path="precio"
+										class="alert-error" /></span>
+
+							</div>
+
 						</div>
-					</div>
 
-				</fieldset>
-			</form:form>
+						<!-- INPUT PRECIO COMPRA-->
+						<div class="form-group" id="precioCompraControlGroup">
+							<label class="col-md-4 control-label" for="precio_compra">Precio
+								compra *</label>
+							<div class="col-md-4">
+								<form:input id="precioCompra" path="precioCompra"
+									name="precioCompra" placeholder="precio de compra"
+									class="form-control input-md"
+									onKeyPress="return isNumberDecimal(event)" />
+								<span class="help-inline"><form:errors
+										path="precioCompra" /></span>
+
+							</div>
+
+						</div>
+
+						<!-- INPUT STOCK-->
+						<div class="form-group" id="stockControlGroup">
+							<label class="col-md-4 control-label" for="stock">Stock *</label>
+							<div class="col-md-4">
+								<form:input id="stock" path="stock" name="stock"
+									placeholder="stock" type="number" class="form-control input-md"
+									onKeyPress="return numbersonly(this, event)" />
+								<span class="help-inline"><form:errors path="stock" /></span>
+							</div>
+
+						</div>
+
+
+						<!-- SELECT CATEGORIAS -->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="categoria">Categoria</label>
+							<div class="col-md-4">
+
+								<select id="categoria" name="categorias[]" class="form-control">
+									<option value="100">Seleccionar Categoria</option>
+									<c:forEach items="${categorias}" var="categoria">
+
+										<option value="${categoria.codigo}">${categoria.nombre }</option>
+									</c:forEach>
+								</select>
+							</div>
+							<!-- <a href="#"><span class="glyphicon glyphicon-plus"></span></a> -->
+						</div>
+
+						<!-- SELECT SUBCATEGORIA -->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="categoria">Sub
+								Categoria</label>
+							<div class="col-md-4">
+
+								<select id="subCategoria" name="subCategoria"
+									class="form-control">
+									<option value="Sin">Seleccionar Subcategoria</option>
+
+								</select>
+							</div>
+							<!-- <a href="#"><span class="glyphicon glyphicon-plus"></span></a> -->
+						</div>
+
+						<!-- FILE IMAGEN PRODUCTO -->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="imagen">Imagen</label>
+							<div class="col-md-4">
+								<input id="imagen" name="imagen" class="input-file" type="file">
+							</div>
+						</div>
+
+						<!-- TEXT TAGS. -->
+
+						<div class="form-group" id="tagsControlGroup">
+							<label class="col-md-4 control-label" for="tags">Tags *</label>
+							<div class="col-md-4">
+								<textarea class="form-control" rows="5" cols="35" name="tags"
+									id="tags"></textarea>
+								<span class="help-block">Ingrese los tags separados por
+									una coma (,)</span>
+
+							</div>
+
+						</div>
+
+						<!-- TEXTAREA DESCRIPCION -->
+						<div class="form-group" id="descripcionControlGroup">
+							<label class="col-md-4 control-label" for="descripcion">Descripcion</label>
+							<div class="col-md-4">
+								<form:textarea path="descripcion" class="form-control"
+									id="descripcion" name="descripcion"></form:textarea>
+							</div>
+						</div>
+
+						<!-- BUTTON GUARDAR -->
+						<input class="btn " type="submit" value="Guardar" />
+
+					</fieldset>
+				</form:form>
+			</div>
 		</div>
-	</div>
 
-	<script TYPE="text/javascript">
+		<script TYPE="text/javascript">
 		// copyright 1999 Idocs, Inc. http://www.idocs.com
 		// Distribute this script freely but keep this notice in place
 		function numbersonly(myfield, e, dec) {
@@ -240,6 +261,100 @@
 		       return true;
 		    }
 		    
+		 $("select#categoria").change(function(){
+	         $.getJSON("update_subcategoria",{categoria: $(this).val()}, function(data){
+	              var options = '';
+	      		console.log(data.errorMessageList.length);
+
+	              for (var i = 0; i < data.errorMessageList.length; i++) {
+	                options += '<option value="' + data.errorMessageList[i].message + '">' + data.errorMessageList[i].message + '</option>';
+	              }
+	              $("select#subCategoria").html(options);
+	            });
+	        });
+		 
+		/* function collectFormData(fields) {
+				var data = {};
+				for (var i = 0; i < fields.length; i++) {
+					var $item = $(fields[i]);
+					if($item.attr('name') == 'imagen'){
+						data[$item.attr('name')] = new FormData($item.val('files'));
+					}else{
+					data[$item.attr('name')] = $item.val();
+					}
+				}
+				data['tags'] = $('#tags').val();
+				data['subCategoria'] = $('#subCategoria').val();
+				return data;
+			}
+
+			$(document)
+					.ready(
+							function() {
+								var $form = $('#add-producto-form');
+								$form
+										.bind(
+												'submit',
+												function(e) {
+													// Ajax validation
+													var $inputs = $form
+															.find('input');
+													var data = collectFormData($inputs);
+
+													$
+															.post(
+																	'save_producto',
+																	data,
+																	function(
+																			response) {
+																		$form
+																				.find(
+																						'.form-group')
+																				.removeClass(
+																						'has-error');
+																		$form
+																				.find(
+																						'.help-inline')
+																				.empty();
+																		$form
+																				.find(
+																						'.alert')
+																				.remove();
+
+																		if (response.status == 'FAIL') {
+																			for (var i = 0; i < response.errorMessageList.length; i++) {
+																				var item = response.errorMessageList[i];
+																				var $controlGroup = $('#'
+																						+ item.fieldName
+																						+ 'ControlGroup');
+
+																				
+																					$controlGroup
+																							.addClass('has-error');
+																					$controlGroup
+																							.find(
+																									'.help-inline')
+																							.html(
+																									item.message);
+																				
+
+																			}
+																		} else {
+
+																			var $alert = $('<div class="alert"></div>');
+																			$alert
+																					.html(response.result);
+																			$alert
+																					.prependTo($form
+																							.find('fieldset'));
+																			window.location.href = "producto_home/1";
+																		}
+																	}, 'json');
+
+													e.preventDefault();
+													return false;
+												});
+							});*/
 	</script>
 </body>
 </html>

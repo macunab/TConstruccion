@@ -10,11 +10,13 @@ import org.construccion.models.MensajeDto;
 import org.construccion.models.Pedido;
 import org.construccion.models.PedidoProducto;
 import org.construccion.models.Producto;
+import org.construccion.models.SubCategoria;
 import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
 import org.construccion.repository.PedidoProductoRepository;
 import org.construccion.repository.PedidoRepository;
 import org.construccion.repository.ProductoRepository;
+import org.construccion.repository.SubCategoriaRepository;
 import org.construccion.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,6 +45,9 @@ public class PersistenceService {
 
 	@Autowired
 	CategoriaRepository categoriaRepository;
+
+	@Autowired
+	SubCategoriaRepository subCategoriaRepository;
 
 	@Resource
 	MailService mailService;
@@ -230,6 +235,24 @@ public class PersistenceService {
 	public Page<Usuario> getUsuariosPaginados(PageRequest request) {
 
 		return usuarioRepository.findAll(request);
+	}
+
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE LISTADO DE USUARIOS PAGINADOS
+	 */
+	public Categoria getCategoria(int codigo) {
+
+		return categoriaRepository.findOne(codigo);
+	}
+
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE LISTADO DE SUBCATEGORIA BY CATEGORIA
+	 */
+	public List<SubCategoria> getSubCategoriaByCategoria(Categoria categoria) {
+
+		return subCategoriaRepository.findByCategoria(categoria);
 	}
 
 }

@@ -16,6 +16,8 @@
 <link rel="stylesheet"
 	href="../../resources/css/admin-bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../resources/css/dashboard.css">
+<link href="../../resources/css/font-awesome.css" rel="stylesheet"
+	type="text/css">
 
 <!-- Javascripts -->
 <script src="../../resources/js/jquery-1.2.11.0.js"></script>
@@ -73,7 +75,7 @@
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Usuarios</h1>
+				<h3 class="page-header">Usuarios</h3>
 
 				<div class="row">
 					<div class="col-lg-6">
@@ -91,7 +93,7 @@
 				</div>
 				<h1 class="sub-header"></h1>
 
-				<h2 class="sub-header">Lista de Usuarios</h2>
+				<h3 class="sub-header">Lista de Usuarios</h3>
 
 
 
@@ -104,6 +106,7 @@
 								<th>Nombre</th>
 								<th>Apellido</th>
 								<th>Activo</th>
+								<th>Accion</th>
 							</tr>
 						</thead>
 						<tbody>
