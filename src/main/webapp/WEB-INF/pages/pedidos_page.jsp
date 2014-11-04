@@ -26,14 +26,42 @@
 				</h3>
 				<hr class="soft" />
 				<div class="well">
-				<ul class="breadcrumb">
-					<li>Procesando></li>
+					<ul class="breadcrumb">
+						<li>Procesando</li>
 					</ul>
-					<c:forEach items="${procesando }" var="pedidos">
+
+					<!--<c:forEach items="${procesando }" var="pedidos">
 					
 					<a href="">${pedidos.codigoPedido }</a>
 					
-					</c:forEach>
+					</c:forEach>-->
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Codigo</th>
+								<th>Estado</th>
+								<th>Accion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${procesando }" var="pedidos">
+
+								<tr>
+									<td>${pedidos.codigoPedido }</td>
+									<td>Procesando validacion ...<br />
+									</td>
+									<td>
+										<button class="btn btn-danger" type="button">
+											<i class="icon-remove icon-white"></i>
+										</button>
+									</td>
+
+								</tr>
+							</c:forEach>
+
+
+						</tbody>
+					</table>
 				</div>
 
 
@@ -46,7 +74,7 @@
 	<div id="footerSection">
 		<div class="container">
 			<div class="row">
-				<div class="span3">
+				<!-- <div class="span3">
 					<h5>ACCOUNT</h5>
 					<a href="login.html">YOUR ACCOUNT</a> <a href="login.html">PERSONAL
 						INFORMATION</a> <a href="login.html">ADDRESSES</a> <a
@@ -64,7 +92,7 @@
 					<a href="#">NEW PRODUCTS</a> <a href="#">TOP SELLERS</a> <a
 						href="special_offer.html">SPECIAL OFFERS</a> <a href="#">MANUFACTURERS</a>
 					<a href="#">SUPPLIERS</a>
-				</div>
+				</div> -->
 				<div id="socialMedia" class="span3 pull-right">
 					<h5>SOCIAL MEDIA</h5>
 					<a href="#"><img width="60" height="60"

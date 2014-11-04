@@ -13,6 +13,7 @@ import org.construccion.models.MensajeDto;
 import org.construccion.models.Pedido;
 import org.construccion.models.PedidoProducto;
 import org.construccion.models.Producto;
+import org.construccion.models.SubCategoria;
 import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
 import org.construccion.repository.ProductoRepository;
@@ -498,6 +499,23 @@ public class HomeController {
 		model.addAttribute("procesando", pedidosProcesando);
 
 		return "pedidos_page";
+	}
+	
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET LISTADO PRODUCTOS BY SUBCATEGORIA
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/producto_sub", method = RequestMethod.POST)
+	public String getProductosBySubCategoria(@RequestParam("subcategoria") String sub, Model model){
+		
+		SubCategoria subcategoria = service.getSubCategoriaByNombre(sub);
+		
+
+		List<Producto> productos = service.getProductosBySubCategoria(subcategoria);
+		
+		model.addAttribute("productos", productos);
+		
+		return "producto_categoria";
+		
 	}
 
 }

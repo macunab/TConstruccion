@@ -21,7 +21,7 @@
 						.getAuthentication().getName()%></strong> <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="consulta_pedidos">Mis Pedidos</a></li>
-						<li><a href="#">Perfil</a></li>
+						<!-- <li><a href="#">Perfil</a></li> -->
 						<li><a href="cambio_passwd">Change password</a></li>
 						<li class="divider"></li>
 						<li><a href="j_spring_security_logout">Logout</a></li>
@@ -45,7 +45,8 @@
 			<li class="subMenu"><a> ${categoria.nombre}</a>
 				<ul style="display: none">
 					<c:forEach items="${categoria.subCategorias}" var="subCategoria">
-						<li><a class="active" href="#"><i
+						<li><a class="active"
+							OnClick="productoSub('${subCategoria.nombre }');"><i
 								class="icon-chevron-right"></i>${subCategoria.nombre } </a></li>
 					</c:forEach>
 				</ul></li>

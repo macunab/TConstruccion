@@ -36,9 +36,9 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Dashboard</a></li>
+					<!-- <li><a href="#">Dashboard</a></li>
 					<li><a href="#">Settings</a></li>
-					<li><a href="#">Profile</a></li>
+					<li><a href="#">Profile</a></li> -->
 					<li><a
 						href="/Ferreteria_Construccion/j_spring_security_logout">Logout</a></li>
 				</ul>
@@ -60,90 +60,98 @@
 						href="/Ferreteria_Construccion/secure/usuario_home/1">Usuarios</a>
 					</li>
 					<li><a href="/Ferreteria_Construccion/secure/producto_home/1">Productos</a></li>
-					<li><a href="#">Pedidos</a></li>
+					<!-- <li><a href="#">Pedidos</a></li>
 				</ul>
 
 				<ul class="nav nav-sidebar">
 					<li><a href="">Reportes</a></li>
-				</ul>
+				</ul> -->
 			</div>
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Nuevo Usuario</h1>
+				<h3 class="page-header">Nuevo Usuario</h3>
 
+				<p>Las casillas con el simbolo * son casillas obligatorias.</p>
+				<hr class="soft" />
 				<form:form id="add-user-form" class="form-horizontal"
 					action="admin_save_usuario" method="POST" modelAttribute="usuario"
 					enctype="multipart/form-data">
 
 					<!-- INPUT USERNAME -->
-					<div class="control-group" id="usernameControlGroup">
-						<label class="control-label" for="username"> Email <sup>*</sup>
-						</label>
-						<div class="controls">
+					<div class="form-group" id="usernameControlGroup">
+						<label class="col-md-4 control-label" for="username">Email
+							*</label>
+						<div class="col-md-4">
 							<input type="text" id="username" name="username"
-								placeholder="Email"> <span class="help-inline"><form:errors
-									path="username" /></span>
+								placeholder="Email" class="form-control input-md"> <span
+								class="help-inline"><form:errors path="username" /></span>
 						</div>
 					</div>
 
 					<!-- INPUT NOMBRE -->
-					<div class="control-group" id="nombreControlGroup">
-						<label class="control-label" for="nombre"> Nombre </label>
-						<div class="controls">
-							<input type="text" id="nombre" name="nombre" placeholder="Nombre">
-							<span class="help-inline"><form:errors path="nombre" /></span>
+					<div class="form-group" id="nombreControlGroup">
+						<label class="col-md-4 control-label" for="nombre">Nombre</label>
+						<div class="col-md-4">
+							<input type="text" id="nombre" name="nombre" placeholder="Nombre"
+								class="form-control input-md"> <span class="help-inline"><form:errors
+									path="nombre" /></span>
 						</div>
 					</div>
 
 					<!-- INPUT APELLIDO -->
-					<div class="control-group" id="apellidoControlGroup">
-						<label class="control-label" for="apellido"> Apellido </label>
-						<div class="controls">
+					<div class="form-group" id="apellidoControlGroup">
+						<label class="col-md-4 control-label" for="apellido">Apellido</label>
+						<div class="col-md-4">
 							<input type="text" id="apellido" name="apellido"
-								placeholder="Apellido"> <span class="help-inline"><form:errors
-									path="apellido" /></span>
+								placeholder="Apellido" class="form-control input-md"> <span
+								class="help-inline"><form:errors path="apellido" /></span>
 						</div>
 					</div>
 
 					<!-- INPUT DIRECCION -->
-					<div class="control-group" id="direccionControlGroup">
-						<label class="control-label" for="direccion"> Direccion </label>
-						<div class="controls">
+					<div class="form-group" id="direccionControlGroup">
+						<label class="col-md-4 control-label" for="domicilio">Direccion</label>
+						<div class="col-md-4">
 							<input type="text" id="direccion" name="direccion"
-								placeholder="Direccion"> <span class="help-inline"><form:errors
-									path="domicilio" /></span>
-						</div>
-					</div>
-
-					<!-- SELECT TIPO CUENTA -->
-					<div class="control-group" id="cuentaControlGroup">
-						<label class="control-label" for="cuenta"> Cuenta </label>
-						<div class="controls">
-							<select id="cuenta" name="cuentas">
-								<option value="1">ADMINISTRADOR</option>
-								<option value="2">CLIENTE</option>
-							</select>
+								placeholder="Direccion" class="form-control input-md"> <span
+								class="help-inline"><form:errors path="domicilio" /></span>
 						</div>
 					</div>
 
 					<!-- INPUT PASSWORD -->
-					<div class="control-group" id="passwordControlGroup">
-						<label class="control-label" for="password"> Password <sup>*</sup>
-						</label>
-						<div class="controls">
-							<input type="text" id="password" name="password"
-								placeholder="Password"> <span class="help-inline"><form:errors
-									path="password" /></span>
+					<div class="form-group" id="passwordControlGroup">
+						<label class="col-md-4 control-label" for="cuentas">Password
+							*</label>
+						<div class="col-md-4">
+							<input type="password" id="password" name="password"
+								placeholder="Password" class="form-control input-md"> <span
+								class="help-inline"><form:errors path="password" /></span>
 						</div>
 					</div>
 
-					<div class="control-group" id="passwordRepeatControlGroup">
-						<label class="control-label" for="passwordRepeat">Repetir
-							Password <sup>*</sup>
-						</label>
-						<div class="controls">
-							<input type="text" id="passwordRepeat" name="passwordRepeat"
-								placeholder="Password"> <span class="help-inline"><form:errors /></span>
+					<!-- INPUT REPETIR PASSWORD -->
+					<div class="form-group" id="passwordRepeatControlGroup">
+						<label class="col-md-4 control-label" for="cuentas">Repetir
+							password *</label>
+						<div class="col-md-4">
+							<input type="password" id="passwordRepeat" name="passwordRepeat"
+								placeholder="Password" class="form-control input-md"> <span
+								class="help-inline"><form:errors /></span>
+						</div>
+					</div>
+
+
+					<!-- SELECT TIPO CUENTA -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="cuentas">Cuenta</label>
+						<div class="col-md-4">
+
+							<select id="cuentas" name="cuentas" class="form-control">
+
+								<option value="1">ADMINISTRADOR</option>
+								<option value="2">CLIENTE</option>
+
+							</select>
 						</div>
 					</div>
 
@@ -162,6 +170,7 @@
 				var $item = $(fields[i]);
 				data[$item.attr('name')] = $item.val();
 			}
+			data['cuentas'] = $('#cuentas').val();
 			return data;
 		}
 
@@ -186,9 +195,9 @@
 																		response) {
 																	$form
 																			.find(
-																					'.control-group')
+																					'.form-group')
 																			.removeClass(
-																					'error');
+																					'has-error');
 																	$form
 																			.find(
 																					'.help-inline')
@@ -208,7 +217,7 @@
 																			if (item.message == " null") {
 
 																				$controlGroup
-																						.addClass('error');
+																						.addClass('has-error');
 																				$controlGroup
 																						.find(
 																								'.help-inline')
@@ -216,7 +225,7 @@
 																								'Ya existe un usuario con el mismo mail');
 																			} else {
 																				$controlGroup
-																						.addClass('error');
+																						.addClass('has-error');
 																				$controlGroup
 																						.find(
 																								'.help-inline')
@@ -233,6 +242,7 @@
 																		$alert
 																				.prependTo($form
 																						.find('fieldset'));
+																		window.location.href = "usuario_home/1";
 																	}
 																}, 'json');
 

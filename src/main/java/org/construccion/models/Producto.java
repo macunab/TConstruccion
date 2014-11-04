@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -54,13 +55,13 @@ public class Producto {
 	@Column(name = "url_image")
 	private String urlImage;
 
-	@OneToMany(mappedBy = "producto")
+	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Tag> tags;
 
 	@ManyToOne
 	@JoinColumn(name = "subcategoria")
-	private SubCategoria subCategoria;
+	private SubCategoria subcategoria;
 
 	@Column(name = "active")
 	private boolean activo;
@@ -143,11 +144,11 @@ public class Producto {
 	}
 
 	public SubCategoria getSubCategoria() {
-		return subCategoria;
+		return subcategoria;
 	}
 
 	public void setSubCategoria(SubCategoria subCategoria) {
-		this.subCategoria = subCategoria;
+		this.subcategoria = subCategoria;
 	}
 
 	public BigDecimal getPrecioCompra() {

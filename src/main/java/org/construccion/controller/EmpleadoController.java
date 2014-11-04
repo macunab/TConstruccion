@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -23,7 +22,6 @@ import org.construccion.validation.ErrorMessage;
 import org.construccion.validation.UsuarioValidator;
 import org.construccion.validation.ValidationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -32,8 +30,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -77,7 +73,7 @@ public class EmpleadoController {
 	static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	// Guardo el id(String) junto a su clase.
-	private Map<String, Tag> tagCache;
+	// private Map<String, Tag> tagCache;
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// GET MAIN HOME -ADMIN
@@ -88,24 +84,23 @@ public class EmpleadoController {
 		return "secure/empleado/home_admin";
 	}
 
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET ALTA PRODUCTO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "secure/save_producto", method = RequestMethod.GET)
 	public String getSaveProducto(Model model) {
 
 		List<Categoria> categorias = categoriaRepo.findAll();
-		// List<Tag> tags = tagRepo.findAll();
-
-		// tagCache = new HashMap<String, Tag>();
-		/*
-		 * for (Tag tag : tags) { tagCache.put(tag.getIdAsString(), tag); }
-		 */
 
 		model.addAttribute("categorias", categorias);
-		// model.addAttribute("tags", tags);
 		model.addAttribute("producto", new Producto());
 
 		return "secure/empleado/add_producto";
 	}
 
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// POST ALTA PRODUCTO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/secure/save_producto", method = RequestMethod.POST)
 	public String postSaveProducto(@RequestParam("tags") String tags,
 			@RequestParam("subCategoria") String cate,
@@ -117,11 +112,7 @@ public class EmpleadoController {
 		if (result.hasErrors()) {
 			res.setStatus("FAIL");
 			List<Categoria> categorias = categoriaRepo.findAll();
-			// List<Tag> tags = tagRepo.findAll();
-			// tagCache = new HashMap<String, Tag>();
-			/*
-			 * for (Tag tag : tags) { tagCache.put(tag.getIdAsString(), tag); }
-			 */
+
 			System.out.println("################################"
 					+ "############################################3"
 					+ "######################### " + tags + " ######### "
@@ -138,14 +129,40 @@ public class EmpleadoController {
 			return "secure/empleado/add_producto";
 		} else {
 
+			SubCategoria subCategoria = service.getSubCategoriaByNombre(cate);
+			producto.setSubCategoria(subCategoria);
+			producto.setUrlImage("../pictures/" + imageResolver(imagen));
 			// Categoria categoria = categoriaRepo.findByNombre(cate);
 			// producto.setCategoria(categoria);
 			/*
 			 * producto.setUrlImage("../pictures/" + imageResolver(imagen));
 			 * producto.setActivo(true); productoRepo.save(producto);
 			 */
-			return "secure/empleado/home_producto";
+
+			// producto.setUrlImage("../pictures/" + imageResolver(imagen));
+			producto.setActivo(true);
+			producto.setTag(getTags(tags, producto));
+			service.saveProducto(producto);
+
+			return "redirect:/secure/producto_home/1";
 		}
+	}
+
+	public List<Tag> getTags(String tag, Producto producto) {
+
+		List<Tag> tags = new ArrayList<Tag>();
+
+		String delimiter = ",";
+		String[] temp;
+		temp = tag.split(delimiter);
+		for (int i = 0; i < temp.length; i++) {
+			tags.add(new Tag(temp[i], producto));
+			System.out.println("###################################  "
+					+ temp[i]);
+		}
+
+		return tags;
+
 	}
 
 	// Custom initBinder para obtener un multiple select que maneje los id como

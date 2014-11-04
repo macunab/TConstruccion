@@ -428,7 +428,7 @@
 <div id="footerSection">
 	<div class="container">
 		<div class="row">
-			<div class="span3">
+			<!-- <div class="span3">
 				<h5>ACCOUNT</h5>
 				<a href="login.html">YOUR ACCOUNT</a> <a href="login.html">PERSONAL
 					INFORMATION</a> <a href="login.html">ADDRESSES</a> <a href="login.html">DISCOUNT</a>
@@ -445,7 +445,7 @@
 				<a href="#">NEW PRODUCTS</a> <a href="#">TOP SELLERS</a> <a
 					href="special_offer.html">SPECIAL OFFERS</a> <a href="#">MANUFACTURERS</a>
 				<a href="#">SUPPLIERS</a>
-			</div>
+			</div> -->
 			<div id="socialMedia" class="span3 pull-right">
 				<h5>SOCIAL MEDIA</h5>
 				<a href="#"><img width="60" height="60"

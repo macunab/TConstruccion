@@ -33,6 +33,10 @@ public class Tag {
 
 	}
 
+	public Tag(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public Tag(String nombre, Producto producto) {
 		this.nombre = nombre;
 		this.producto = producto;

@@ -37,9 +37,9 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Dashboard</a></li>
+					<!-- <li><a href="#">Dashboard</a></li>
 					<li><a href="#">Settings</a></li>
-					<li><a href="#">Profile</a></li>
+					<li><a href="#">Profile</a></li> -->
 					<li><a
 						href="/Ferreteria_Construccion/j_spring_security_logout">Logout</a></li>
 				</ul>
@@ -62,12 +62,12 @@
 					<li><a href="/Ferreteria_Construccion/secure/usuario_home/1">Usuarios</a></li>
 					<li class="active"><a
 						href="/Ferreteria_Construccion/secure/producto_home/1">Productos</a></li>
-					<li><a href="#">Pedidos</a></li>
+					<!-- <li><a href="#">Pedidos</a></li>
 				</ul>
 
 				<ul class="nav nav-sidebar">
 					<li><a href="">Reportes</a></li>
-				</ul>
+				</ul> -->
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h3 class="page-header">Nuevo Producto</h3>

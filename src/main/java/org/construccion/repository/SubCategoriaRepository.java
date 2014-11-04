@@ -11,4 +11,6 @@ public interface SubCategoriaRepository extends
 
 	List<SubCategoria> findByCategoria(Categoria categoria);
 
+	SubCategoria findByNombre(String nombre);
+
 }

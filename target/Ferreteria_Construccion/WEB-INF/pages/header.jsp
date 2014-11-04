@@ -116,6 +116,21 @@
 			},
 		});
 	}
+	
+
+	function productoSub(sub) {
+		console.log(sub);
+		
+		$.ajax({
+			type : "post",
+			url : "producto_sub",
+			cache : false,
+			data : 'subcategoria=' + sub,
+			success : function(data) {
+				$('#main-articulos').html(data);
+			},
+		});
+	}
 </script>
 
 </head>
@@ -146,7 +161,7 @@
 							onClick="buscar()">Go</button>
 					</form>
 					<ul id="topMenu" class="nav pull-right">
-						<li class=""><a href="sendAccount">Productos</a></li>
+						<!-- <li class=""><a href="sendAccount">Productos</a></li> -->
 						<li class=""><a href="#">Empresa</a></li>
 						<li class=""><a href="contacto">Contacto</a></li>
 						<sec:authorize access="hasRole('ROLE_CLIENTE')">

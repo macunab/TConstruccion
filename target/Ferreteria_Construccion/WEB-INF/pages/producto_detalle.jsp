@@ -195,6 +195,16 @@
 					<li><a href="#">Productos</a> <span class="divider">/</span></li>
 					<li class="active">Detalles del producto</li>
 				</ul>
+
+				<div id="result" style="display: none;"
+					class="alert alert-info alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert">
+						<span aria-hidden="true">&times;</span><span class="sr-only"></span>
+					</button>
+					<strong>Listo!</strong> El producto se ha agregado a su carrito con
+					exito.
+				</div>
+
 				<div class="row">
 					<div id="gallery" class="span3">
 						<a href="${producto.urlImage }" title="${producto.nombre }"> <img
@@ -211,19 +221,23 @@
 							<div class="control-group">
 								<label class="control-label"><span>$${producto.precio
 										}</span></label>
-								<div class="controls">
-									<input type="number" class="span1" placeholder="Qty." />
-									<button class="btn btn-large btn-primary pull-right">
-										Agregar al carrito <i class=" icon-shopping-cart"></i>
-									</button>
-								</div>
+								<sec:authorize access="hasRole('ROLE_CLIENTE')">
+									<div class="controls">
+										<input id="cantidad_producto" type="number" class="span1"
+											placeholder="Qty." /> <a
+											class="btn btn-large btn-primary pull-right"
+											OnClick="addCarritoDetalle(${producto.codigo });">
+											Agregar al carrito <i class=" icon-shopping-cart"></i>
+										</a>
+									</div>
+								</sec:authorize>
 							</div>
 						</form>
 
 						<hr class="soft" />
-						<h4>${producto.stock }itemsen stock</h4>
+						<h4>${producto.stock }itemsenstock</h4>
 						<form class="form-horizontal qtyFrm pull-right">
-							<div class="control-group">
+							<!-- <div class="control-group">
 								<label class="control-label"><span>Color</span></label>
 								<div class="controls">
 									<select class="span2">
@@ -233,12 +247,12 @@
 										<option>Brown</option>
 									</select>
 								</div>
-							</div>
+							</div> -->
 						</form>
 						<hr class="soft clr" />
 						<p>${producto.descripcion }</p>
-						<a class="btn btn-small pull-right" href="#detail">More
-							Details</a> <br class="clr" /> <a href="#" name="detail"></a>
+						<!-- <a class="btn btn-small pull-right" href="#detail">More
+							Details</a> <br class="clr" /> <a href="#" name="detail"></a> -->
 						<hr class="soft" />
 					</div>
 
@@ -285,6 +299,26 @@
 		</div>
 		<p class="pull-right">&copy; OneClick Company</p>
 	</div>
+	<script type="text/javascript">
+	function addCarritoDetalle(producto) {
+		
+		console.log($('#cantidad_producto').val());
+		console.log(producto);
+		$('#result').hide();
+
+	$.ajax({
+			type : "post",
+			url : "add_carrito",
+			cache : false,
+			data : 'producto=' + producto + '&cantidad=' + $('#cantidad_producto').val(),
+			success : function(data) {
+				actualizarCarrito();
+				actualizarTotalCarrito();
+				$('#result').show();
+			},
+		});
+	}
+	</script>
 	<!-- Container End -->
 </div>
 </body>

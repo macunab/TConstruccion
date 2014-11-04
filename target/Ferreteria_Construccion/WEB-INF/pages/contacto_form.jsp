@@ -170,13 +170,13 @@
 						INFORMATION</a> <a href="login.html">ADDRESSES</a> <a
 						href="login.html">DISCOUNT</a> <a href="login.html">ORDER
 						HISTORY</a> -->
-				<h5>INFORMATION</h5>
+			<!-- 	<h5>INFORMATION</h5>
 				<a href="contact.html">CONTACT</a> <a href="register.html">REGISTRATION</a>
 				<a href="legal_notice.html">LEGAL NOTICE</a> <a href="tac.html">TERMS
 					AND CONDITIONS</a> <a href="faq.html">FAQ</a>
 			</div>
 			<div class="span3"></div>
-			<div class="span3">
+			<div class="span3"> -->
 				<!-- 	<h5>OUR OFFERS</h5>
 					<a href="#">NEW PRODUCTS</a> <a href="#">TOP SELLERS</a> <a
 						href="special_offer.html">SPECIAL OFFERS</a> <a href="#">MANUFACTURERS</a>

@@ -255,4 +255,24 @@ public class PersistenceService {
 		return subCategoriaRepository.findByCategoria(categoria);
 	}
 
+	/*
+	 * ##########################################################################
+	 * ############# DEVUELVE UNA SUBCATEGORIA
+	 */
+	public SubCategoria getSubCategoriaByNombre(String nombre) {
+		return subCategoriaRepository.findByNombre(nombre);
+	}
+
+	/*
+	 * ##########################################################################
+	 * ############# PERSISTE UN PRODUCTO
+	 */
+	public void saveProducto(Producto producto) {
+
+		productoRepository.save(producto);
+	}
+
+	public List<Producto> getProductosBySubCategoria(SubCategoria sub) {
+		return productoRepository.findAllBySubCategoria(sub);
+	}
 }

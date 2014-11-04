@@ -35,7 +35,7 @@ public class SubCategoria {
 	@JoinColumn(name = "categoria")
 	private Categoria categoria;
 
-	@OneToMany(mappedBy = "subCategoria")
+	@OneToMany(mappedBy = "subcategoria")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Producto> productos;
 

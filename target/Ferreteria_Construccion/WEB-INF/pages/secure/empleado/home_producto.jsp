@@ -16,6 +16,8 @@
 <link rel="stylesheet"
 	href="../../resources/css/admin-bootstrap-theme.min.css">
 <link rel="stylesheet" href="../../resources/css/dashboard.css">
+<link href="../../resources/css/font-awesome.css" rel="stylesheet"
+	type="text/css">
 
 <!-- Javascripts -->
 <script src="../../resources/js/jquery-1.2.11.0.js"></script>
@@ -41,9 +43,9 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Dashboard</a></li>
+					<!-- <li><a href="#">Dashboard</a></li>
 					<li><a href="#">Settings</a></li>
-					<li><a href="#">Profile</a></li>
+					<li><a href="#">Profile</a></li> -->
 					<li><a
 						href="/Ferreteria_Construccion/j_spring_security_logout">Logout</a></li>
 				</ul>
@@ -66,24 +68,24 @@
 					<li><a href="/Ferreteria_Construccion/secure/usuario_home/1">Usuarios</a></li>
 					<li class="active"><a
 						href="/Ferreteria_Construccion/secure/producto_home/1">Productos</a></li>
-					<li><a href="#">Pedidos</a></li>
+					<!-- <li><a href="#">Pedidos</a></li>
 				</ul>
 
 				<ul class="nav nav-sidebar">
 					<li><a href="">Reportes</a></li>
-				</ul>
+				</ul> -->
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Productos</h1>
+				<h3 class="page-header">Productos</h3>
 
 				<div class="row">
 					<div class="col-lg-6">
-						<div class="input-group">
+						<!--  --><div class="input-group">
 							<input type="text" class="form-control"> <span
 								class="input-group-btn">
 								<button class="btn btn-default" type="button">Buscar</button>
 							</span>
-						</div>
+						</div> -->
 					</div>
 					<div class="col-lg-6">
 						<a href="/Ferreteria_Construccion/secure/save_producto"
@@ -92,7 +94,7 @@
 				</div>
 				<h1 class="sub-header"></h1>
 
-				<h2 class="sub-header">Lista de productos</h2>
+				<h3 class="sub-header">Lista de productos</h3>
 
 
 
@@ -138,8 +140,9 @@
 									<td>${producto.nombre }</td>
 									<td>${producto.precioCompra }</td>
 									<td>${producto.precio }</td>
-									<td><a href="" class="btn btn-default"><span
-											class="icon-pencil"></span></a>
+									<td><a
+										href="/Ferreteria_Construccion/secure/update_producto?producto=${producto.codigo }"
+										class="btn btn-default"><span class="icon-pencil"></span></a>
 										<button data-toggle="modal"
 											data-target="#confirmacion${producto.codigo }"
 											class="btn btn-default">
