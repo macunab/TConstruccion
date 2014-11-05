@@ -130,16 +130,9 @@ public class EmpleadoController {
 		} else {
 
 			SubCategoria subCategoria = service.getSubCategoriaByNombre(cate);
-			producto.setSubCategoria(subCategoria);
+			producto.setSubcategoria(subCategoria);
 			producto.setUrlImage("../pictures/" + imageResolver(imagen));
-			// Categoria categoria = categoriaRepo.findByNombre(cate);
-			// producto.setCategoria(categoria);
-			/*
-			 * producto.setUrlImage("../pictures/" + imageResolver(imagen));
-			 * producto.setActivo(true); productoRepo.save(producto);
-			 */
-
-			// producto.setUrlImage("../pictures/" + imageResolver(imagen));
+			
 			producto.setActivo(true);
 			producto.setTag(getTags(tags, producto));
 			service.saveProducto(producto);

@@ -20,7 +20,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
 	public final static String FIND_ALL_ACTIVE = "SELECT p FROM Producto p WHERE p.activo = true";
 
-	public final static String FIND_ALL_BY_SUBCATEGORIA = "SELECT p FROM Producto p WHERE p.activo = true AND p.subcategoria = :subcategoria";
+	public final static String FIND_ALL_BY_SUBCATEGORIA = "SELECT p FROM Producto p WHERE p.subcategoria = :subcategoria";
 
 	public final static String SEARCH_BY_TAG_AN_CATEGORY = "SELECT p FROM Producto p LEFT JOIN p.tags t WHERE t.nombre = :tag AND p.categoria = :categoria";
 

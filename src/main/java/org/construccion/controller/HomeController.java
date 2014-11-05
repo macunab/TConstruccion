@@ -509,7 +509,6 @@ public class HomeController {
 		
 		SubCategoria subcategoria = service.getSubCategoriaByNombre(sub);
 		
-
 		List<Producto> productos = service.getProductosBySubCategoria(subcategoria);
 		
 		model.addAttribute("productos", productos);

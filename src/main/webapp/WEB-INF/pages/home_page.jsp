@@ -328,7 +328,7 @@
 								<li class="span3">
 									<div class="thumbnail">
 										<a href="get_producto?codigo=${producto.codigo }"><img
-											src="${producto.urlImage }" alt="" /></a>
+											style="max-width: 150px;" src="${producto.urlImage }" alt="" /></a>
 										<div class="caption">
 											<h5>${producto.nombre }</h5>
 											<p></p>
@@ -449,11 +449,12 @@
 			<div id="socialMedia" class="span3 pull-right">
 				<h5>SOCIAL MEDIA</h5>
 				<a href="#"><img width="60" height="60"
-					src="themes/images/facebook.png" title="facebook" alt="facebook" /></a>
+					src="resources/img/facebook.png" title="facebook" alt="facebook" /></a>
 				<a href="#"><img width="60" height="60"
-					src="themes/images/twitter.png" title="twitter" alt="twitter" /></a> <a
+					src="resources/img/twitter.png" title="twitter" alt="twitter" /></a>
+				<!--  <a
 					href="#"><img width="60" height="60"
-					src="themes/images/youtube.png" title="youtube" alt="youtube" /></a>
+					src="themes/images/youtube.png" title="youtube" alt="youtube" /></a> -->
 			</div>
 		</div>
 		<p class="pull-right">&copy; OneClick Company</p>

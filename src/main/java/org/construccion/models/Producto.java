@@ -143,11 +143,11 @@ public class Producto {
 		this.tags = tags;
 	}
 
-	public SubCategoria getSubCategoria() {
+	public SubCategoria getSubcategoria() {
 		return subcategoria;
 	}
 
-	public void setSubCategoria(SubCategoria subCategoria) {
+	public void setSubcategoria(SubCategoria subCategoria) {
 		this.subcategoria = subCategoria;
 	}
 
