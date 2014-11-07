@@ -11,6 +11,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Alta producto | admin</title>
+<link rel="shortcut icon" href="../resources/img/icono_oneclick.png"
+	type="image/png" />
 <link rel="stylesheet" href="../resources/css/admin-bootstrap.min.css">
 
 <!-- Optional theme -->
@@ -18,10 +20,6 @@
 	href="../resources/css/admin-bootstrap-theme.min.css">
 <link rel="stylesheet" href="../resources/css/dashboard.css">
 
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="../resources/js/jquery-1.2.11.0.js"></script>
-<script src="../resources/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -218,6 +216,9 @@
 				</form:form>
 			</div>
 		</div>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="../resources/js/jquery-1.2.11.0.js"></script>
+		<script src="../resources/js/bootstrap.min.js"></script>
 
 		<script TYPE="text/javascript">
 		// copyright 1999 Idocs, Inc. http://www.idocs.com

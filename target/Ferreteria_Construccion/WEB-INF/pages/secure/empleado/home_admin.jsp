@@ -17,9 +17,7 @@
 	href="../resources/css/admin-bootstrap-theme.min.css">
 <link rel="stylesheet" href="../resources/css/dashboard.css">
 
-<!-- Javascripts -->
-<script src="../resources/js/jquery-1.2.11.0.js"></script>
-<script src="../resources/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -163,6 +161,8 @@
 			</div>
 		</div>
 	</div>
-
+	<!-- Javascripts -->
+	<script src="../resources/js/jquery-1.2.11.0.js"></script>
+	<script src="../resources/js/bootstrap.min.js"></script>
 </body>
 </html>

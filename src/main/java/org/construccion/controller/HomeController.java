@@ -94,9 +94,10 @@ public class HomeController {
 		model.addAttribute("endIndex", end);
 		model.addAttribute("currentIndex", current);
 		model.addAttribute("productos", productos.getContent());
+		model.addAttribute("totalProductos", productos.getTotalElements());
 		model.addAttribute("categorias", categorias);
 
-		return "home_page";
+		return "client/home";
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -202,7 +203,7 @@ public class HomeController {
 		model.addAttribute("producto", producto);
 		model.addAttribute("categorias", categorias);
 
-		return "producto_detalle";
+		return "client/producto_detalle";
 	}
 
 	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -211,28 +212,40 @@ public class HomeController {
 	@RequestMapping(value = "/contacto", method = RequestMethod.GET)
 	public String getContacto(Model model) {
 
-		List<Categoria> categorias = categoriaRepo.findAll();
+		// List<Categoria> categorias = categoriaRepo.findAll();
 
-		model.addAttribute("categorias", categorias);
-		model.addAttribute("mensajeDto", new MensajeDto());
-		return "contacto_form";
+		// model.addAttribute("categorias", categorias);
+		model.addAttribute("contacto", new MensajeDto());
+		return "client/contacto";
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// POST CONTACTO
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/contacto", method = RequestMethod.POST)
-	public String postContacto(@Valid MensajeDto mensajeDto,
-			BindingResult result) {
+	public @ResponseBody ValidationResponse postContacto(
+			@Valid MensajeDto mensajeDto, BindingResult result)
+			throws MessagingException {
+
+		ValidationResponse res = new ValidationResponse();
 
 		if (result.hasErrors()) {
-			return "contacto_form";
+			res.setStatus("FAIL");
+			List<FieldError> allErrors = result.getFieldErrors();
+			List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
+			for (FieldError objectError : allErrors) {
+				errorMesages.add(new ErrorMessage(objectError.getField(), " "
+						+ objectError.getDefaultMessage()));
+			}
+			res.setErrorMessageList(errorMesages);
+			return res;
 		} else {
+			res.setStatus("SUCCESS");
 
 			System.out.println("PASO POR EL POST EXITOSAMENTE");
-			service.sendMail(mensajeDto, "ferreteria.oneclick@gmail.com");
+			service.sendHtmlMail(mensajeDto, "ferreteria.oneclick@gmail.com");
 
-			return "redirect:/1";
+			return res;
 		}
 	}
 
@@ -244,6 +257,7 @@ public class HomeController {
 
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
+		List<Categoria> categorias = service.getAllCategorias();
 
 		Pedido pedido = service.getCarrito(auth.getName());
 		if (pedido != null) {
@@ -256,11 +270,12 @@ public class HomeController {
 						.multiply(new BigDecimal(pp.get(i).getCantidad())));
 			}
 			model.addAttribute("total", total);
+			model.addAttribute("categorias", categorias);
 
 		}
 		model.addAttribute("pedido", pedido);
 
-		return "carrito_cliente";
+		return "client/carrito_compra";
 	}
 
 	@RequestMapping(value = "/generar_pedido", method = RequestMethod.GET)
@@ -374,7 +389,7 @@ public class HomeController {
 	@RequestMapping(value = "/cambio_passwd", method = RequestMethod.GET)
 	public String getCambioPassword() {
 
-		return "cambio_password";
+		return "client/cambio_password";
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -398,10 +413,19 @@ public class HomeController {
 
 			if (newPassword.equals(rePassword)) {
 
-				res.setStatus("SUCCESS");
+				if (newPassword.isEmpty()) {
+					res.setStatus("FAIL");
+					errorMessages.add(new ErrorMessage("passwordNuevo",
+							"Ingrese un nuevo password"));
+					res.setErrorMessageList(errorMessages);
+					return res;
+				} else {
 
-				usuario.setPassword(passwordEncoder.encode(newPassword));
-				service.saveUsuario(usuario);
+					res.setStatus("SUCCESS");
+
+					usuario.setPassword(passwordEncoder.encode(newPassword));
+					service.saveUsuario(usuario);
+				}
 
 			} else {
 
@@ -496,25 +520,59 @@ public class HomeController {
 		Usuario usuario = service.getUsuarioByUsername(auth.getName());
 
 		List<Pedido> pedidosProcesando = service.getPedidoProcesando(usuario);
+		List<Categoria> categorias = service.getAllCategorias();
 		model.addAttribute("procesando", pedidosProcesando);
+		model.addAttribute("categorias", categorias);
 
-		return "pedidos_page";
+		return "client/pedidos_usuario";
 	}
-	
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// GET LISTADO PRODUCTOS BY SUBCATEGORIA
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/producto_sub", method = RequestMethod.POST)
-	public String getProductosBySubCategoria(@RequestParam("subcategoria") String sub, Model model){
-		
+	public String getProductosBySubCategoria(
+			@RequestParam("subcategoria") String sub, Model model) {
+
 		SubCategoria subcategoria = service.getSubCategoriaByNombre(sub);
-		
-		List<Producto> productos = service.getProductosBySubCategoria(subcategoria);
-		
+
+		List<Producto> productos = service
+				.getProductosBySubCategoria(subcategoria);
+
 		model.addAttribute("productos", productos);
-		
+
 		return "producto_categoria";
-		
+
+	}
+
+	@RequestMapping(value = "home/{pageNumber}", method = RequestMethod.GET)
+	public String getOtherHome(@PathVariable Integer pageNumber, Model model) {
+
+		PageRequest request = new PageRequest(pageNumber - 1, 6,
+				Sort.Direction.DESC, "nombre");
+
+		Page<Producto> productos = service.getAllProductos(request);
+		List<Categoria> categorias = service.getAllCategorias();
+
+		int current = productos.getNumber() + 1;
+		int begin = Math.max(1, current - 5);
+		int end = Math.min(begin + 10, productos.getTotalPages());
+
+		model.addAttribute("page", productos);
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("currentIndex", current);
+		model.addAttribute("productos", productos.getContent());
+		model.addAttribute("categorias", categorias);
+
+		return "home";
+	}
+
+	@RequestMapping(value = "/registrarse", method = RequestMethod.GET)
+	public String getRegistrarse(Model model) {
+
+		model.addAttribute("usuario", new Usuario());
+		return "client/registrar_cuenta";
 	}
 
 }

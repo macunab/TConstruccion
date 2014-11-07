@@ -33,7 +33,7 @@ public class Pedido {
 	@Column(name = "activo")
 	private boolean activo;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<PedidoProducto> pedidoProductos;
 
 	@ManyToOne

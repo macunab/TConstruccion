@@ -310,6 +310,10 @@ public class EmpleadoController {
 				errorMesages.add(new ErrorMessage("passwordRepeat",
 						"No coincide con el password"));
 			}
+			if(password.isEmpty()){
+				errorMesages.add(new ErrorMessage("password",
+						"Ingrese un password"));
+			}
 			res.setErrorMessageList(errorMesages);
 			return res;
 
@@ -320,6 +324,14 @@ public class EmpleadoController {
 				List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
 				errorMesages.add(new ErrorMessage("passwordRepeat",
 						"No coincide con el password"));
+				res.setErrorMessageList(errorMesages);
+				return res;
+			}
+			if (password.isEmpty()) {
+				res.setStatus("FAIL");
+				List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
+				errorMesages.add(new ErrorMessage("password",
+						"Por favor ingrese un password"));
 				res.setErrorMessageList(errorMesages);
 				return res;
 			}

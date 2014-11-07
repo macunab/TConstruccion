@@ -10,6 +10,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Usuarios | admin</title>
+<link rel="shortcut icon" href="../resources/img/icono_oneclick.png"
+	type="image/png" />
 <!-- Estilos CSS -->
 <link rel="stylesheet"
 	href="../../resources/css/admin-bootstrap.min.css">
@@ -19,9 +21,6 @@
 <link href="../../resources/css/font-awesome.css" rel="stylesheet"
 	type="text/css">
 
-<!-- Javascripts -->
-<script src="../../resources/js/jquery-1.2.11.0.js"></script>
-<script src="../../resources/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<c:url var="firstUrl" value="/secure/usuario_home/1" />
@@ -195,5 +194,8 @@
 			</div>
 		</div>
 	</div>
+	<!-- Javascripts -->
+	<script src="../../resources/js/jquery-1.2.11.0.js"></script>
+	<script src="../../resources/js/bootstrap.min.js"></script>
 </body>
 </html>

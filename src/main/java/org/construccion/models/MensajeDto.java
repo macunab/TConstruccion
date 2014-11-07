@@ -9,14 +9,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 public class MensajeDto {
 
-	@NotEmpty
+	@NotEmpty(message="Tiene que ingresar un nombre.")
 	private String nombre;
 
-	@NotEmpty
-	@Email
+	@NotEmpty(message="Tiene que ingresar un email.")
+	@Email(message="Tiene que ser un email valido.")
 	private String email;
 
-	@NotEmpty
+	@NotEmpty(message="Tiene que ingresar un mensaje.")
 	private String mensaje;
 
 	public MensajeDto(String nombre, String email, String mensaje) {

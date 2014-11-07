@@ -1,9 +1,5 @@
 package org.construccion.controller;
 
-import java.util.List;
-
-import org.construccion.models.Categoria;
-import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,15 +23,12 @@ public class AccessController {
 			@RequestParam(required = false) String mensaje) {
 
 		if (mensaje != null) {
-			mensaje = "<div class='alert alert-danger' role='alert'>Usuario o contraseña incorrectos.</div>";
+			mensaje = "<div class='alert alert-danger alert-dismissible' role='alert'> <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'></span></button>  <strong>Ups!</strong> Username o password incorrectos.</div>";
 		}
-		List<Categoria> categorias = categoriaRepo.findAll();
-
-		model.addAttribute("categorias", categorias);
-		model.addAttribute("usuario", new Usuario());
+		
 		model.addAttribute("error", mensaje);
 
-		return "access/login";
+		return "access/ingreso_sistema";
 	}
 
 	@RequestMapping(value = "/login_error", method = RequestMethod.GET)

@@ -328,7 +328,7 @@
 								<li class="span3">
 									<div class="thumbnail">
 										<a href="get_producto?codigo=${producto.codigo }"><img
-											src="${producto.urlImage }" alt="" /></a>
+											style="max-width: 150px;" src="${producto.urlImage }" alt="" /></a>
 										<div class="caption">
 											<h5>${producto.nombre }</h5>
 											<p></p>
@@ -452,7 +452,7 @@
 					src="resources/img/facebook.png" title="facebook" alt="facebook" /></a>
 				<a href="#"><img width="60" height="60"
 					src="resources/img/twitter.png" title="twitter" alt="twitter" /></a>
-					<!--  <a
+				<!--  <a
 					href="#"><img width="60" height="60"
 					src="themes/images/youtube.png" title="youtube" alt="youtube" /></a> -->
 			</div>
