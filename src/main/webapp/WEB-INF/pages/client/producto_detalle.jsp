@@ -19,7 +19,7 @@
 <body>
 	<%@ include file="inc/header.jsp"%>
 
-	<div class="container">
+	<div id="container-principal" class="container">
 		<div class="row">
 			<div class="col-xs-0 col-sm-3">
 				<%@ include file="inc/sidebar.jsp"%>
@@ -85,15 +85,20 @@
 								<sec:authorize access="hasRole('ROLE_CLIENTE')">
 									<div class="row">
 										<div class="col-xs-12 col-sm-9">
-											<div class="input-group">
-												<span class="input-group-addon">Cantidad</span> <input
-													type="number" class="form-control"
-													placeholder="Indique la cantidad que desea">
+											<div class="form-group" id="cantidadcarritoControlGroup">
+												<div class="input-group">
+													<span class="input-group-addon">Cantidad</span> <input
+														type="number" id="cantidadcarrito" class="form-control"
+														onKeyPress="return numbersonly(this, event)" min="1"
+														placeholder="Indique la cantidad que desea">
+												</div>
+												<span class="help-inline"></span>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-3">
-									
-											<button type="button" class="btn btn-info">
+
+											<button onClick="agregarCarrito(${producto.codigo});"
+												type="button" class="btn btn-info">
 												<span class="glyphicon glyphicon-shopping-cart"></span>Carrito
 											</button>
 										</div>

@@ -80,10 +80,10 @@
 				<div class="input-group">
 					<span class="input-group-addon"> <span
 						class="glyphicon glyphicon-search"></span>
-					</span> <input type="text" class="form-control"
+					</span> <input id="busqueda" type="text" class="form-control"
 						placeholder="Busque el producto que necesita!" /> <span
 						class="input-group-btn">
-						<button class="btn btn-warning" type="button">Buscar</button>
+						<button OnClick="busquedaProducto();" class="btn btn-warning" type="button">Buscar</button>
 					</span>
 
 				</div>

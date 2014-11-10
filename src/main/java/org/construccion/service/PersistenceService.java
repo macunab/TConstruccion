@@ -259,8 +259,8 @@ public class PersistenceService {
 	 * ##########################################################################
 	 * ############# DEVUELVE UNA SUBCATEGORIA
 	 */
-	public SubCategoria getSubCategoriaByNombre(String nombre) {
-		return subCategoriaRepository.findByNombre(nombre);
+	public SubCategoria getSubCategoriaByCodigo(Integer codigo) {
+		return subCategoriaRepository.findOne(codigo);
 	}
 
 	/*

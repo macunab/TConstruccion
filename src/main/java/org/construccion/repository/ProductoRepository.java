@@ -25,7 +25,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 	public final static String SEARCH_BY_TAG_AN_CATEGORY = "SELECT p FROM Producto p LEFT JOIN p.tags t WHERE t.nombre = :tag AND p.categoria = :categoria";
 
 	@Query(SEARCH_BY_TAG_QUERY)
-	List<Producto> busquedaByTag(@Param("nombre") String nombre);
+	Page<Producto> busquedaByTag(@Param("nombre") String nombre, Pageable page);
 
 	@Query(FIND_ALL_ACTIVE)
 	Page<Producto> findAllActive(Pageable page);

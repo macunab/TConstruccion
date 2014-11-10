@@ -268,7 +268,7 @@
 	      		console.log(data.errorMessageList.length);
 
 	              for (var i = 0; i < data.errorMessageList.length; i++) {
-	                options += '<option value="' + data.errorMessageList[i].message + '">' + data.errorMessageList[i].message + '</option>';
+	                options += '<option value="' + data.errorMessageList[i].fieldName + '">' + data.errorMessageList[i].message + '</option>';
 	              }
 	              $("select#subCategoria").html(options);
 	            });

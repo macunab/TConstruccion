@@ -24,8 +24,8 @@ public class Usuario {
 
 	@Id
 	@Column(name = "username")
-	@NotEmpty
-	@Email
+	@NotEmpty(message = "Tiene que ingresar un email")
+	@Email(message = "Ingrese un mail valido")
 	private String username;
 
 	@Column(name = "password")
@@ -38,9 +38,11 @@ public class Usuario {
 	private Grupo rol;
 
 	@Column(name = "nombre")
+	@NotEmpty(message = "Tiene que ingresar un nombre")
 	private String nombre;
 
 	@Column(name = "apellido")
+	@NotEmpty(message = "Tiene que ingresar un apellido")
 	private String apellido;
 
 	@Column(name = "domicilio")

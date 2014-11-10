@@ -13,7 +13,6 @@ import org.construccion.models.MensajeDto;
 import org.construccion.models.Pedido;
 import org.construccion.models.PedidoProducto;
 import org.construccion.models.Producto;
-import org.construccion.models.SubCategoria;
 import org.construccion.models.Usuario;
 import org.construccion.repository.CategoriaRepository;
 import org.construccion.repository.ProductoRepository;
@@ -80,7 +79,7 @@ public class HomeController {
 	public String getHome(@PathVariable Integer pageNumber, Model model) {
 
 		PageRequest request = new PageRequest(pageNumber - 1, 6,
-				Sort.Direction.DESC, "nombre");
+				Sort.Direction.ASC, "precio");
 
 		Page<Producto> productos = service.getAllProductos(request);
 		List<Categoria> categorias = service.getAllCategorias();
@@ -100,95 +99,33 @@ public class HomeController {
 		return "client/home";
 	}
 
-	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	// REGISTRAR USUARIO
-	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	@RequestMapping(value = "/save_usuario", method = RequestMethod.POST)
-	public @ResponseBody ValidationResponse postSaveUsuario(
-			@Valid Usuario usuario, BindingResult result)
-			throws MessagingException {
-		validator.validate(usuario, result);
-		ValidationResponse res = new ValidationResponse();
-
-		if (result.hasErrors()) {
-			res.setStatus("FAIL");
-			List<FieldError> allErrors = result.getFieldErrors();
-			List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
-			for (FieldError objectError : allErrors) {
-				errorMesages.add(new ErrorMessage(objectError.getField(), " "
-						+ objectError.getDefaultMessage()));
-			}
-			res.setErrorMessageList(errorMesages);
-			return res;
-		} else {
-			PasswordGenerator generarPassword = new PasswordGenerator();
-			String password = generarPassword.GeneratedPassword();
-			Pedido pedido = new Pedido();
-
-			usuario.setEnable(false);
-			usuario.setRol(new Grupo(2, usuario));
-			usuario.setPassword(passwordEncoder.encode(password));
-
-			service.saveUsuario(usuario);
-
-			pedido.setActivo(true);
-			pedido.setEstado("carrito");
-			pedido.setUsuario(usuario);
-			service.savePedido(pedido);
-
-			MensajeDto mensajeDto = new MensajeDto();
-			mensajeDto.setEmail("mn.acunab@gmail.com");
-			mensajeDto
-					.setMensaje("<p>Gracias por registrarse en OneClick.com.</p></br>"
-							+ "<p>Por favor confirme su cuenta por medio del siguiente enlace para empezar a comprar y "
-							+ "disfrutar de todos los beneficios que solo OneClick.com le puede ofrecer.</p></br>"
-							+ "<li><a href='http://localhost:8080/Ferreteria_Construccion/validate_register?username="
-							+ usuario.getUsername()
-							+ "' >Confirmar cuenta!</a></li></br>"
-							+ "<b>Su password es: " + password + "</b>");
-			mensajeDto.setNombre("OneClick.com");
-			service.sendHtmlMail(mensajeDto, usuario.getUsername());
-
-			res.setStatus("SUCCESS");
-			return res;
-
-		}
-
-	}
-
-	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	// ACTIVACION DE CUENTA
-	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	@RequestMapping(value = "/validate_register", method = RequestMethod.GET)
-	public String validateRegister(@RequestParam("username") String username) {
-
-		Usuario usuario = service.getUsuarioByUsername(username);
-		if (usuario.isEnable()) {
-
-			return "";
-		} else {
-			usuario.setEnable(true);
-			service.saveUsuario(usuario);
-			return "redirect:/1";
-		}
-
-	}
-
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// BUSQUEDA PRODUCTO
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	@RequestMapping(value = "/busqueda_producto", method = RequestMethod.GET)
+	@RequestMapping(value = "/busqueda_producto/{pageNumber}", method = RequestMethod.GET)
 	public String getBusqueda(@RequestParam("busqueda") String busqueda,
-			@RequestParam("filtro") String filtro, Model model) {
+			@PathVariable Integer pageNumber, Model model) {
 
-		if (filtro.equals("All")) {
-			List<Producto> productos = productoRepo.busquedaByTag(busqueda);
-			model.addAttribute("productos", productos);
-		} else {
+		PageRequest request = new PageRequest(pageNumber - 1, 6,
+				Sort.Direction.ASC, "precio");
 
-		}
+		Page<Producto> productos = productoRepo
+				.busquedaByTag(busqueda, request);
+		List<Categoria> categorias = service.getAllCategorias();
 
-		return "busqueda_page";
+		int current = productos.getNumber() + 1;
+		int begin = Math.max(1, current - 5);
+		int end = Math.min(begin + 10, productos.getTotalPages());
+
+		model.addAttribute("page", productos);
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("currentIndex", current);
+		model.addAttribute("productos", productos.getContent());
+		model.addAttribute("totalProductos", productos.getTotalElements());
+		model.addAttribute("categorias", categorias);
+
+		return "client/resultado_busqueda";
 	}
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -292,8 +229,12 @@ public class HomeController {
 	// ADD PRODUCTO A CARRITO
 	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/add_carrito", method = RequestMethod.POST)
-	public String cantidadCarrito(@RequestParam("producto") Integer codigo,
+	public @ResponseBody ValidationResponse cantidadCarrito(
+			@RequestParam("producto") Integer codigo,
 			@RequestParam("cantidad") String cantidad) {
+
+		ValidationResponse res = new ValidationResponse();
+		List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
 		Authentication auth = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -301,37 +242,137 @@ public class HomeController {
 		Pedido pedido = service.getCarrito(auth.getName());
 		Producto producto = service.getProducto(codigo);
 
-		PedidoProducto pp = new PedidoProducto();
-		pp.setProducto(producto);
-		pp.setCantidad(Integer.parseInt(cantidad));
-		pp.setPedido(pedido);
+		if (cantidad.isEmpty()) {
+			res.setStatus("FAIL");
 
-		List<PedidoProducto> pedidoProductos = service
-				.getPedidoProductoByPedido(pedido);
+			errorMessages.add(new ErrorMessage("cantidadcarrito",
+					"Tiene que ingresar una cantidad"));
+			res.setErrorMessageList(errorMessages);
 
-		pedidoProductos.add(pp);
-		pedido.setPedidoProductos(pedidoProductos);
-
-		if (service.existPedidoProductoByProducto(producto, pedido)) {
-
-			PedidoProducto pedidoP = service.getPedidoProductoByProducto(
-					producto, pedido);
-			pedidoP.setCantidad(Integer.parseInt(cantidad));
-			service.updatePedidoProductoByProducto(pedidoP);
-
-		} else {
-			service.savePedido(pedido);
+			return res;
 		}
 
-		/*
-		 * SimpleDateFormat("dd-MM-yyyy h:mm a")
-		 * SimpleDateFormat("dd/MMM/yy HH:mm:ss")
-		 * SimpleDateFormat("EEEE dd 'de' MMMM 'de' yyyy h:mm:ss:SSS")
-		 */
-		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		int temp = producto.getStock() - Integer.parseInt(cantidad);
+		System.out.println("##################################   -" + cantidad);
+		if (temp < 0) {
+			res.setStatus("FAIL");
 
-		return "home_page";
+			errorMessages.add(new ErrorMessage("cantidadcarrito",
+					"La cantidad es superior a la existente en stock."));
+			res.setErrorMessageList(errorMessages);
+
+			return res;
+
+		} else {
+
+			res.setStatus("SUCCES");
+			//producto.setStock(temp);
+			//service.saveProducto(producto);
+			
+			PedidoProducto pp = new PedidoProducto();
+			pp.setProducto(producto);
+			pp.setCantidad(Integer.parseInt(cantidad));
+			pp.setPedido(pedido);
+
+			List<PedidoProducto> pedidoProductos = service
+					.getPedidoProductoByPedido(pedido);
+
+			pedidoProductos.add(pp);
+			pedido.setPedidoProductos(pedidoProductos);
+
+			if (service.existPedidoProductoByProducto(producto, pedido)) {
+
+				PedidoProducto pedidoP = service.getPedidoProductoByProducto(
+						producto, pedido);
+				pedidoP.setCantidad(Integer.parseInt(cantidad));
+				service.updatePedidoProductoByProducto(pedidoP);
+
+			} else {
+				service.savePedido(pedido);
+			}
+
+			return res;
+			/*
+			 * SimpleDateFormat("dd-MM-yyyy h:mm a")
+			 * SimpleDateFormat("dd/MMM/yy HH:mm:ss")
+			 * SimpleDateFormat("EEEE dd 'de' MMMM 'de' yyyy h:mm:ss:SSS")
+			 */
+			// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		}
+
+		// return "home_page";
 	}
+	
+	@RequestMapping(value = "/add_carritol", method = RequestMethod.POST)
+	public @ResponseBody ValidationResponse cantidadCarritoList(
+			@RequestParam("producto") Integer codigo,
+			@RequestParam("cantidad") String cantidad) {
+
+		ValidationResponse res = new ValidationResponse();
+		List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+
+		Authentication auth = SecurityContextHolder.getContext()
+				.getAuthentication();
+
+		Pedido pedido = service.getCarrito(auth.getName());
+		Producto producto = service.getProducto(codigo);
+
+		if (cantidad.isEmpty()) {
+			res.setStatus("FAIL");
+
+			errorMessages.add(new ErrorMessage("cantidadl" + codigo,
+					"Tiene que ingresar una cantidad"));
+			res.setErrorMessageList(errorMessages);
+
+			return res;
+		}
+
+		int temp = producto.getStock() - Integer.parseInt(cantidad);
+		System.out.println("##################################   -" + cantidad);
+		if (temp < 0) {
+			res.setStatus("FAIL");
+
+			errorMessages.add(new ErrorMessage("cantidadl" + codigo,
+					"La cantidad es superior a la existente en stock."));
+			res.setErrorMessageList(errorMessages);
+
+			return res;
+
+		} else {
+
+			res.setStatus("SUCCES");
+			producto.setStock(temp);
+			service.saveProducto(producto);
+			
+			PedidoProducto pp = new PedidoProducto();
+			pp.setProducto(producto);
+			pp.setCantidad(Integer.parseInt(cantidad));
+			pp.setPedido(pedido);
+
+			List<PedidoProducto> pedidoProductos = service
+					.getPedidoProductoByPedido(pedido);
+
+			pedidoProductos.add(pp);
+			pedido.setPedidoProductos(pedidoProductos);
+
+			if (service.existPedidoProductoByProducto(producto, pedido)) {
+
+				PedidoProducto pedidoP = service.getPedidoProductoByProducto(
+						producto, pedido);
+				pedidoP.setCantidad(Integer.parseInt(cantidad));
+				service.updatePedidoProductoByProducto(pedidoP);
+
+			} else {
+				service.savePedido(pedido);
+			}
+
+			return res;
+		
+		}
+
+	
+	}
+
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// GET CANTIDAD PRODUCTOS CARRITO
@@ -534,13 +575,14 @@ public class HomeController {
 	public String getProductosBySubCategoria(
 			@RequestParam("subcategoria") String sub, Model model) {
 
-		SubCategoria subcategoria = service.getSubCategoriaByNombre(sub);
+		// SubCategoria subcategoria = service.getSubCategoriaByNombre(sub);
 
-		List<Producto> productos = service
-				.getProductosBySubCategoria(subcategoria);
-
-		model.addAttribute("productos", productos);
-
+		/*
+		 * List<Producto> productos = service
+		 * .getProductosBySubCategoria(subcategoria);
+		 * 
+		 * model.addAttribute("productos", productos);
+		 */
 		return "producto_categoria";
 
 	}
@@ -568,11 +610,88 @@ public class HomeController {
 		return "home";
 	}
 
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// GET REGISTRAR USUARIO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/registrarse", method = RequestMethod.GET)
 	public String getRegistrarse(Model model) {
 
 		model.addAttribute("usuario", new Usuario());
 		return "client/registrar_cuenta";
+	}
+
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// POST REGISTRAR USUARIO
+	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/registrarse", method = RequestMethod.POST)
+	public @ResponseBody ValidationResponse postSaveUsuario(
+			@Valid Usuario usuario, BindingResult result)
+			throws MessagingException {
+		validator.validate(usuario, result);
+		ValidationResponse res = new ValidationResponse();
+
+		if (result.hasErrors()) {
+			res.setStatus("FAIL");
+			List<FieldError> allErrors = result.getFieldErrors();
+			List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
+			for (FieldError objectError : allErrors) {
+				errorMesages.add(new ErrorMessage(objectError.getField(), " "
+						+ objectError.getDefaultMessage()));
+			}
+			res.setErrorMessageList(errorMesages);
+			return res;
+		} else {
+			PasswordGenerator generarPassword = new PasswordGenerator();
+			String password = generarPassword.GeneratedPassword();
+			Pedido pedido = new Pedido();
+
+			usuario.setEnable(false);
+			usuario.setRol(new Grupo(2, usuario));
+			usuario.setPassword(passwordEncoder.encode(password));
+
+			service.saveUsuario(usuario);
+
+			pedido.setActivo(true);
+			pedido.setEstado("carrito");
+			pedido.setUsuario(usuario);
+			service.savePedido(pedido);
+
+			MensajeDto mensajeDto = new MensajeDto();
+			mensajeDto.setEmail("Activacion de cuenta - OneClick.com");
+			mensajeDto
+					.setMensaje("<p>Gracias por registrarse en OneClick.com.</p></br>"
+							+ "<p>Por favor confirme su cuenta por medio del siguiente enlace para empezar a comprar y "
+							+ "disfrutar de todos los beneficios que solo OneClick.com le puede ofrecer.</p></br>"
+							+ "<li><a href='http://localhost:8080/Ferreteria_Construccion/validate_register?username="
+							+ usuario.getUsername()
+							+ "' >Confirmar cuenta!</a></li></br>"
+							+ "<b>Su password es: " + password + "</b>");
+			mensajeDto.setNombre("OneClick.com");
+			service.sendHtmlMail(mensajeDto, usuario.getUsername());
+
+			res.setStatus("SUCCESS");
+			return res;
+
+		}
+
+	}
+
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// ACTIVACION DE CUENTA
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/validate_register", method = RequestMethod.GET)
+	public String validateRegister(@RequestParam("username") String username) {
+
+		Usuario usuario = service.getUsuarioByUsername(username);
+		if (usuario.isEnable()) {
+
+			return "";
+		} else {
+			usuario.setEnable(true);
+			service.saveUsuario(usuario);
+			return "redirect:/1";
+		}
+
 	}
 
 }

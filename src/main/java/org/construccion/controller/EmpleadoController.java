@@ -103,7 +103,7 @@ public class EmpleadoController {
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/secure/save_producto", method = RequestMethod.POST)
 	public String postSaveProducto(@RequestParam("tags") String tags,
-			@RequestParam("subCategoria") String cate,
+			@RequestParam("subCategoria") Integer sub,
 			@RequestParam("imagen") CommonsMultipartFile imagen,
 			@Valid Producto producto, BindingResult result, Model model)
 			throws IOException {
@@ -113,10 +113,11 @@ public class EmpleadoController {
 			res.setStatus("FAIL");
 			List<Categoria> categorias = categoriaRepo.findAll();
 
-			System.out.println("################################"
-					+ "############################################3"
-					+ "######################### " + tags + " ######### "
-					+ cate);
+			System.out
+					.println("################################"
+							+ "############################################3"
+							+ "######################### " + tags
+							+ " ######### " + sub);
 			model.addAttribute("categorias", categorias);
 			List<FieldError> allErrors = result.getFieldErrors();
 			List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
@@ -129,12 +130,23 @@ public class EmpleadoController {
 			return "secure/empleado/add_producto";
 		} else {
 
-			SubCategoria subCategoria = service.getSubCategoriaByNombre(cate);
-			producto.setSubcategoria(subCategoria);
+			System.out
+					.println("################################"
+							+ "############################################3"
+							+ "######################### " + tags
+							+ " ######### " + sub);
+			SubCategoria subCategoria = service.getSubCategoriaByCodigo(sub);
+			// producto.setSubcategoria(subCategoria);
+			System.out.println("################################"
+					+ "############################################3"
+					+ "##########################################"
+					+ subCategoria.getNombre());
 			producto.setUrlImage("../pictures/" + imageResolver(imagen));
-			
+
 			producto.setActivo(true);
 			producto.setTag(getTags(tags, producto));
+			subCategoria.getProductos().add(producto);
+			producto.setSubcategoria(subCategoria);
 			service.saveProducto(producto);
 
 			return "redirect:/secure/producto_home/1";
@@ -310,7 +322,7 @@ public class EmpleadoController {
 				errorMesages.add(new ErrorMessage("passwordRepeat",
 						"No coincide con el password"));
 			}
-			if(password.isEmpty()){
+			if (password.isEmpty()) {
 				errorMesages.add(new ErrorMessage("password",
 						"Ingrese un password"));
 			}
@@ -379,7 +391,7 @@ public class EmpleadoController {
 		List<ErrorMessage> errorMesages = new ArrayList<ErrorMessage>();
 
 		for (int i = 0; i < cat.getSubCategorias().size(); i++) {
-			errorMesages.add(new ErrorMessage(subs.get(i).getNombre(), " "
+			errorMesages.add(new ErrorMessage("" + subs.get(i).getCodigo(), " "
 					+ subs.get(i).getNombre()));
 		}
 		res.setErrorMessageList(errorMesages);
