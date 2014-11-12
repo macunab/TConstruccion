@@ -5,6 +5,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="org.springframework.security.core.context.SecurityContextHolder"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,7 +26,7 @@
 
 	<%@ include file="inc/header.jsp"%>
 
-	<div class="container">
+	<div id="container-principal" class="container">
 
 		<div class="row">
 
@@ -87,37 +88,6 @@
 
 								<c:forEach items="${productos }" var="producto">
 
-									<!-- MODAL DE AGREGAR AL CARRITO -->
-									<div id="confirmacion${producto.codigo }"
-										class="modal hide fade in" tabindex="-1" role="dialog"
-										aria-labelledby="login" aria-hidden="false">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal"
-												aria-hidden="true">×</button>
-											<h3>Cuantos ${producto.nombre } desea sumar a su
-												carrito.</h3>
-										</div>
-										<div class="modal-body">
-											<form class="form-horizontal loginFrm">
-												<div class="control-group">
-
-													<label class="col-md-4 control-label" for="cantidad">Cantidad</label>
-
-													<input id="cantidad_${producto.codigo }"
-														placeholder="cantidad de articulos" class="form-control"
-														type="text" />
-												</div>
-
-
-											</form>
-											<button onClick="addCarrito(${producto.codigo});"
-												class="btn btn-primary" data-dismiss="modal">Agregar</button>
-											<button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-										</div>
-									</div>
-
-									<!-- FIN DE AGREGAR CARRITO -->
-
 									<div class="row">
 										<div class="col-xs-6 col-sm-3">
 											<div class="span2">
@@ -148,12 +118,9 @@
 													<c:choose>
 														<c:when test="${producto.stock >= 1 }">
 															<sec:authorize access="hasRole('ROLE_CLIENTE')">
-																<button data-toggle="modal"
-																	data-target="#confirmacion${producto.codigo }"
-																	class="btn btn-success button-right">
-																	<span class="glyphicon glyphicon-shopping-cart"></span>
-																	<strong>Comprar</strong>
-																</button>
+																<a OnClick="getModal(${producto.codigo});"
+																	class="btn btn-success">Comprar</a>
+
 															</sec:authorize>
 															<sec:authorize access="isAnonymous()">
 																<button class="btn btn-success button-right" disabled>
@@ -172,8 +139,7 @@
 
 													</c:choose>
 
-													<!-- <a href="product_details.html" class="btn btn-large"><i
-												class="icon-zoom-in"></i></a> -->
+
 													<a href="get_producto?codigo=${producto.codigo }"
 														class="btn btn-default"> <span
 														class="glyphicon glyphicon-zoom-in"></span> <strong
@@ -190,7 +156,7 @@
 								</c:forEach>
 
 							</div>
-
+							<!-- ************************************************** -->
 							<!-- Vista en bloques -->
 							<!-- ****************************************** -->
 							<div class="tab-pane  active" id="blockView">
@@ -198,47 +164,6 @@
 								<ul class="thumbnails">
 									<div class="row">
 										<c:forEach items="${productos }" var="producto">
-
-											<!-- MODAL DE AGREGAR AL CARRITO -->
-											<div id="confirmacion_bloque${producto.codigo }"
-												class="modal fade">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal"
-																aria-hidden="true">&times;</button>
-															<h4 class="modal-title">Agregue un articulo a su
-																carrito</h4>
-														</div>
-														<div class="modal-body">
-															<div class="row">
-																<div class="col-xs-9">
-																	<div class="input-group">
-																		<span class="input-group-addon">Cantidad</span> <input
-																			type="number" id="cantidad_bloque${producto.codigo }"
-																			class="form-control"
-																			placeholder="Indique la cantidad que desea">
-																	</div>
-																</div>
-																<div class="col-xs-3">
-																	<button type="button" class="btn btn-info disabled">
-																		<span class="glyphicon glyphicon-shopping-cart"></span>Carrito
-																	</button>
-																</div>
-															</div>
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-default"
-																data-dismiss="modal">No</button>
-															<button type="button" class="btn btn-primary"
-																onClick="addCarrito(${producto.codigo});">Si</button>
-														</div>
-													</div>
-												</div>
-											</div>
-
-											<!-- FIN DE AGREGAR CARRITO -->
-
 
 											<div class="col-xs-12 col-sm-4">
 
@@ -257,10 +182,9 @@
 																<c:when test="${producto.stock >= 1 }">
 																	<sec:authorize access="hasRole('ROLE_CLIENTE')">
 
-																		<button data-toggle="modal"
-																			data-target="#confirmacion_bloque${producto.codigo }"
+																		<button OnClick="getModal(${producto.codigo});"
 																			class="btn btn-success button-right">
-																			Add to <span class="icon-shopping-cart"></span>
+																			Comprar <span class="icon-shopping-cart"></span>
 																		</button>
 																	</sec:authorize>
 																	<sec:authorize access="isAnonymous()">
@@ -281,48 +205,7 @@
 														</p>
 													</div>
 												</div>
-												<!-- <li class="span3">
-													<div class="thumbnail">
-														<a href="get_producto?codigo=${producto.codigo }"><img
-															style="max-width: 150px;" src="${producto.urlImage }"
-															alt="" /></a>
-														<div class="caption">
-															<h5>${producto.nombre }</h5>
-															<p></p>
-															<h4 style="text-align: center">
-																<a class="btn"
-																	href="get_producto?codigo=${producto.codigo }"> <i
-																	class="icon-zoom-in"></i></a>
 
-																<c:choose>
-																	<c:when test="${producto.stock >= 1 }">
-																		<sec:authorize access="hasRole('ROLE_CLIENTE')">
-																			
-																			<button data-toggle="modal"
-																				data-target="#confirmacion_bloque${producto.codigo }"
-																				class="btn btn-success button-right">
-																				Add to <span class="icon-shopping-cart"></span>
-																			</button>
-																		</sec:authorize>
-																		<sec:authorize access="isAnonymous()">
-																			<button class="btn btn-success button-right" disabled>
-																				<span class="icon-ok"></span> En Stock
-																			</button>
-																		</sec:authorize>
-																	</c:when>
-																	<c:otherwise>
-																		<button class="btn btn-danger button-right" disabled>
-																			<span class="icon-remove"></span> Sin stock
-																		</button>
-																	</c:otherwise>
-																</c:choose>
-
-																<a class="btn btn-primary" href="#">$${producto.precio
-																	}</a>
-															</h4>
-														</div>
-													</div>
-												</li> -->
 											</div>
 
 										</c:forEach>
@@ -331,15 +214,16 @@
 								</ul>
 								<hr class="soft" />
 							</div>
+							<!-- ************************************************** -->
 							<!-- Fin de Vista en Bloque -->
-
+							<!-- ************************************************** -->
 						</div>
-
+						<!-- ************************************************** -->
 						<!-- Paginacion -->
 						<!-- *********************************************** -->
-						<nav>
+						<nav class="text-center">
 						<ul class="pagination">
-							<!-- <li><a href="#">&laquo;</a></li> -->
+
 							<c:choose>
 								<c:when test="${currentIndex == 1}">
 									<li class="disabled"><a href="#">&lt;&lt;</a></li>
@@ -372,31 +256,69 @@
 									<li><a href="${lastUrl}">&gt;&gt;</a></li>
 								</c:otherwise>
 							</c:choose>
-							<!-- <li><a href="#">&raquo;</a></li> -->
+
 						</ul>
 						</nav>
-
+						<!-- ************************************************** -->
 						<!-- Fin Paginacion -->
-
+						<!-- ************************************************** -->
 						<br class="clr" />
-
 
 					</div>
 				</div>
-
-
 
 			</div>
 		</div>
 
 
 	</div>
+	<!-- MODAL DE AGREGAR AL CARRITO -->
+	<div id="agregarCarrito" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Agregue un articulo a su carrito</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div id="modalcarrito" class="col-xs-9">
+							<div class="form-group" id="cantidadcarritoControlGroup">
+								<div class="input-group">
+									<span class="input-group-addon">Cantidad</span> <input
+										type="number" id="cantidadcarrito" class="form-control"
+										onKeyPress="return numbersonly(this, event)" min="1"
+										placeholder="Indique la cantidad que desea">
+								</div>
+								<span class="help-inline"></span>
+							</div>
+						</div>
+						<div class="col-xs-3">
+							<button type="button" class="btn btn-info disabled">
+								<span class="glyphicon glyphicon-shopping-cart"></span>
+
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+					<button id="btnConfirmacion" type="button" class="btn btn-primary"
+						onClick="">Si</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- FIN DE AGREGAR CARRITO -->
 	<%@ include file="inc/footer.jsp"%>
 	<script src="resources/js/jquery-1.2.11.0.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script src="resources/js/ferreteria.js"></script>
+
 
 </body>
 </html>

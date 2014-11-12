@@ -20,7 +20,7 @@
 <body>
 	<%@ include file="../client/inc/header.jsp"%>
 
-	<div class="container">
+	<div id="container-principal" class="container">
 
 		<div class="panel panel-default">
 			<div class="panel-heading">

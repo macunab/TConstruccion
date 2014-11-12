@@ -180,7 +180,12 @@ public class HomeController {
 			res.setStatus("SUCCESS");
 
 			System.out.println("PASO POR EL POST EXITOSAMENTE");
+			String mensaje = mensajeDto.getMensaje();
+			mensajeDto.setMensaje(mensaje + "</br> <p>Responder: </p>"
+					+ mensajeDto.getEmail());
 			service.sendHtmlMail(mensajeDto, "ferreteria.oneclick@gmail.com");
+			System.out
+					.println("#########################################  HA TERMINADO EL ENVIO");
 
 			return res;
 		}
@@ -266,9 +271,9 @@ public class HomeController {
 		} else {
 
 			res.setStatus("SUCCES");
-			//producto.setStock(temp);
-			//service.saveProducto(producto);
-			
+			// producto.setStock(temp);
+			// service.saveProducto(producto);
+
 			PedidoProducto pp = new PedidoProducto();
 			pp.setProducto(producto);
 			pp.setCantidad(Integer.parseInt(cantidad));
@@ -302,77 +307,6 @@ public class HomeController {
 
 		// return "home_page";
 	}
-	
-	@RequestMapping(value = "/add_carritol", method = RequestMethod.POST)
-	public @ResponseBody ValidationResponse cantidadCarritoList(
-			@RequestParam("producto") Integer codigo,
-			@RequestParam("cantidad") String cantidad) {
-
-		ValidationResponse res = new ValidationResponse();
-		List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
-
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-
-		Pedido pedido = service.getCarrito(auth.getName());
-		Producto producto = service.getProducto(codigo);
-
-		if (cantidad.isEmpty()) {
-			res.setStatus("FAIL");
-
-			errorMessages.add(new ErrorMessage("cantidadl" + codigo,
-					"Tiene que ingresar una cantidad"));
-			res.setErrorMessageList(errorMessages);
-
-			return res;
-		}
-
-		int temp = producto.getStock() - Integer.parseInt(cantidad);
-		System.out.println("##################################   -" + cantidad);
-		if (temp < 0) {
-			res.setStatus("FAIL");
-
-			errorMessages.add(new ErrorMessage("cantidadl" + codigo,
-					"La cantidad es superior a la existente en stock."));
-			res.setErrorMessageList(errorMessages);
-
-			return res;
-
-		} else {
-
-			res.setStatus("SUCCES");
-			producto.setStock(temp);
-			service.saveProducto(producto);
-			
-			PedidoProducto pp = new PedidoProducto();
-			pp.setProducto(producto);
-			pp.setCantidad(Integer.parseInt(cantidad));
-			pp.setPedido(pedido);
-
-			List<PedidoProducto> pedidoProductos = service
-					.getPedidoProductoByPedido(pedido);
-
-			pedidoProductos.add(pp);
-			pedido.setPedidoProductos(pedidoProductos);
-
-			if (service.existPedidoProductoByProducto(producto, pedido)) {
-
-				PedidoProducto pedidoP = service.getPedidoProductoByProducto(
-						producto, pedido);
-				pedidoP.setCantidad(Integer.parseInt(cantidad));
-				service.updatePedidoProductoByProducto(pedidoP);
-
-			} else {
-				service.savePedido(pedido);
-			}
-
-			return res;
-		
-		}
-
-	
-	}
-
 
 	// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// GET CANTIDAD PRODUCTOS CARRITO
@@ -667,6 +601,8 @@ public class HomeController {
 							+ "' >Confirmar cuenta!</a></li></br>"
 							+ "<b>Su password es: " + password + "</b>");
 			mensajeDto.setNombre("OneClick.com");
+
+			// HACER ESTO EN SEGUNDO PLANO...
 			service.sendHtmlMail(mensajeDto, usuario.getUsername());
 
 			res.setStatus("SUCCESS");
@@ -692,6 +628,15 @@ public class HomeController {
 			return "redirect:/1";
 		}
 
+	}
+	
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// REGISTRO DE USUARIO COMPLETADO
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	@RequestMapping(value = "/registro_completado", method = RequestMethod.GET)
+	public String registroCompletado(){
+		
+		return "client/cuenta_creada";
 	}
 
 }

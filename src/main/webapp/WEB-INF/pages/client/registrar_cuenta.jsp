@@ -179,7 +179,7 @@
 																		}
 																	} else {
 
-																		window.location.href = "1";
+																		window.location.href = "registro_completado";
 																	}
 																}, 'json');
 

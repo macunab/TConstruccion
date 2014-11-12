@@ -27,7 +27,7 @@
 
 			<div class="col-xs-12 col-sm-9">
 				<ol class="breadcrumb">
-					<li><a href="">Home</a></li>
+					<li><a href="1">Home</a></li>
 					<li class="active">Detalle de producto</li>
 				</ol>
 

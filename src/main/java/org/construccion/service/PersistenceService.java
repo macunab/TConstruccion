@@ -104,6 +104,7 @@ public class PersistenceService {
 	 * ##########################################################################
 	 * ############# ENVIA UN EMAIL TIPO HTML
 	 */
+
 	public boolean sendHtmlMail(MensajeDto mail, String to)
 			throws MessagingException {
 

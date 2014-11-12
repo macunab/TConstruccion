@@ -6,6 +6,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //MailService Implementation
@@ -44,6 +45,7 @@ public class MailServiceImpl implements MailService {
 
 	}
 
+	@Async
 	public void sendHtml(final String from, final String subject,
 			final String text, final String to) throws MessagingException {
 
