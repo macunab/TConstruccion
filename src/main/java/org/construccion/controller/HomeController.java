@@ -2,6 +2,7 @@ package org.construccion.controller;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -81,20 +82,40 @@ public class HomeController {
 		PageRequest request = new PageRequest(pageNumber - 1, 6,
 				Sort.Direction.ASC, "precio");
 
+		PageRequest requestDate1 = new PageRequest(0, 4, Sort.Direction.DESC,
+				"fechaAlta");
+		PageRequest requestDate2 = new PageRequest(1, 4, Sort.Direction.DESC,
+				"fechaAlta");
+		PageRequest requestDate3 = new PageRequest(2, 4, Sort.Direction.DESC,
+				"fechaAlta");
+
+		Page<Producto> productosDate1 = service.getAllProductos(requestDate1);
+		Page<Producto> productosDate2 = service.getAllProductos(requestDate2);
+		Page<Producto> productosDate3 = service.getAllProductos(requestDate3);
+
 		Page<Producto> productos = service.getAllProductos(request);
+
 		List<Categoria> categorias = service.getAllCategorias();
 
 		int current = productos.getNumber() + 1;
 		int begin = Math.max(1, current - 5);
 		int end = Math.min(begin + 10, productos.getTotalPages());
+		System.out.println(productosDate1.getSize());
 
 		model.addAttribute("page", productos);
 		model.addAttribute("beginIndex", begin);
 		model.addAttribute("endIndex", end);
 		model.addAttribute("currentIndex", current);
 		model.addAttribute("productos", productos.getContent());
+		model.addAttribute("carousel1", productosDate1.getContent());
+		model.addAttribute("carousel2", productosDate2.getContent());
+		model.addAttribute("carousel3", productosDate3.getContent());
 		model.addAttribute("totalProductos", productos.getTotalElements());
 		model.addAttribute("categorias", categorias);
+
+		// SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+		System.out.println("FECHA :   " + new Date());
 
 		return "client/home";
 	}
@@ -629,13 +650,13 @@ public class HomeController {
 		}
 
 	}
-	
+
 	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	// REGISTRO DE USUARIO COMPLETADO
 	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	@RequestMapping(value = "/registro_completado", method = RequestMethod.GET)
-	public String registroCompletado(){
-		
+	public String registroCompletado() {
+
 		return "client/cuenta_creada";
 	}
 

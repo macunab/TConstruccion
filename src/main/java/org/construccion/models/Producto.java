@@ -69,6 +69,9 @@ public class Producto {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "producto")
 	Set<PedidoProducto> pedidoProductos = new HashSet<PedidoProducto>(0);
 
+	@Column(name = "fecha_alta")
+	private String fechaAlta;
+
 	public Producto() {
 
 	}
@@ -173,6 +176,18 @@ public class Producto {
 
 	public void setPedidoProductos(Set<PedidoProducto> pedidoProductos) {
 		this.pedidoProductos = pedidoProductos;
+	}
+
+	public String getFechaAlta() {
+		return fechaAlta;
+	}
+
+	public void setFechaAlta(String fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 }

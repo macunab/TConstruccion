@@ -19,62 +19,64 @@
 <body>
 	<%@ include file="inc/header.jsp"%>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-0 col-sm-3">
-				<%@ include file="inc/sidebar.jsp"%>
-			</div>
+	<div id="main-body">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-0 col-sm-3">
+					<%@ include file="inc/sidebar.jsp"%>
+				</div>
 
-			<div class="col-xs-12 col-sm-9">
-				<ol class="breadcrumb">
-					<li><a href="">Home</a></li>
-					<li class="active">Pedidos</li>
-				</ol>
+				<div class="col-xs-12 col-sm-9">
+					<ol class="breadcrumb">
+						<li><a href="">Home</a></li>
+						<li class="active">Pedidos</li>
+					</ol>
 
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							<strong>Historial de pedidos</strong>
-						</h3>
-					</div>
-					<div class="panel-body">
-						<h3>
-							Pedidos procesando: [ <small>${fn:length(procesando)}
-								pedido(s) </small>]
-						</h3>
-						<hr class="soft" />
-						<table class="table table-bordered">
-							<thead>
-								<tr>
-									<th>Codigo</th>
-									<th>Estado</th>
-									<th>Accion</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach items="${procesando }" var="pedidos">
-
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								<strong>Historial de pedidos</strong>
+							</h3>
+						</div>
+						<div class="panel-body">
+							<h3>
+								Pedidos procesando: [ <small>${fn:length(procesando)}
+									pedido(s) </small>]
+							</h3>
+							<hr class="soft" />
+							<table class="table table-bordered">
+								<thead>
 									<tr>
-										<td>${pedidos.codigoPedido }</td>
-										<td>Procesando validacion ...<br />
-										</td>
-										<td>
-											<button class="btn btn-danger" type="button">
-												<span class="glyphicon glyphicon-remove"></span>Cancelar
-											</button>
-										</td>
-
+										<th>Codigo</th>
+										<th>Estado</th>
+										<th>Accion</th>
 									</tr>
-								</c:forEach>
+								</thead>
+								<tbody>
+									<c:forEach items="${procesando }" var="pedidos">
+
+										<tr>
+											<td>${pedidos.codigoPedido }</td>
+											<td>Procesando validacion ...<br />
+											</td>
+											<td>
+												<button class="btn btn-danger" type="button">
+													<span class="glyphicon glyphicon-remove"></span>Cancelar
+												</button>
+											</td>
+
+										</tr>
+									</c:forEach>
 
 
-							</tbody>
-						</table>
+								</tbody>
+							</table>
+						</div>
+
 					</div>
 
 				</div>
-
 			</div>
 		</div>
 	</div>

@@ -19,7 +19,7 @@
 <body>
 	<%@ include file="../client/inc/header.jsp"%>
 
-
+	<div id="main-body">
 	<div class="container">
 
 		<div class="panel panel-default">
@@ -118,6 +118,7 @@
 		</div>
 	</div>
 
+</div>
 
 	<%@ include file="../client/inc/footer.jsp"%>
 	<script src="resources/js/jquery-1.2.11.0.js"></script>

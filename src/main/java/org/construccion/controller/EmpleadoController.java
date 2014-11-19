@@ -3,7 +3,9 @@ package org.construccion.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -108,6 +110,7 @@ public class EmpleadoController {
 			@Valid Producto producto, BindingResult result, Model model)
 			throws IOException {
 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		ValidationResponse res = new ValidationResponse();
 		if (result.hasErrors()) {
 			res.setStatus("FAIL");
@@ -147,6 +150,7 @@ public class EmpleadoController {
 			producto.setTag(getTags(tags, producto));
 			subCategoria.getProductos().add(producto);
 			producto.setSubcategoria(subCategoria);
+			producto.setFechaAlta(sdf.format(new Date()));
 			service.saveProducto(producto);
 
 			return "redirect:/secure/producto_home/1";

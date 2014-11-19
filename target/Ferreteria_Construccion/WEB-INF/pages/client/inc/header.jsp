@@ -3,18 +3,41 @@
 <%@ page
 	import="org.springframework.security.core.context.SecurityContextHolder"%>
 
-<header>
+<header id="main-header">
 	<div class="container">
 
 		<div class="row">
 
-			<div class="col-xs-6 col-sm-3">
+			<div class="col-xs-6 col-sm-2">
 				<h1 id="main-logo">
-					<a href="1"><img src="resources/img/OneClick.png" width="200"
-						alt=""> <span>Todo lo que necesitas a un solo click</span></a>
+					<a class="hidden-xs" href="1"><img src="resources/img/logo.png"
+						width="70" alt=""></a> 
+						<a class="visible-xs logo-mobile" href="1"> <img
+						src="resources/img/logo.png" width="40" alt="logo">
+					</a>
 				</h1>
+
 			</div>
-			<div class="col-xs-6 col-sm-9">
+			<div class="col-xs-0 col-sm-5">
+
+
+
+				<div class="input-group hidden-xs search-input">
+					<span class="input-group-addon"> <span
+						class="glyphicon glyphicon-search"></span>
+					</span> <input id="busqueda" type="text" class="form-control"
+						placeholder="Busque el producto que necesita!" /> <span
+						class="input-group-btn">
+						<button OnClick="busquedaProducto();" class="btn btn-success"
+							type="button">Buscar</button>
+					</span>
+
+				</div>
+
+
+			</div>
+
+			<div class="col-xs-6 col-sm-5">
 
 				<ul id="main-menu" class="nav nav-pills hidden-xs">
 
@@ -37,7 +60,7 @@
 					</sec:authorize>
 				</ul>
 
-				<a href="#" id="mobile-menu" class="btn btn-default visible-xs">
+				<a href="#" id="mobile-menu" class="btn btn-info visible-xs">
 					<span class="glyphicon glyphicon-th-list"></span>
 				</a>
 			</div>
@@ -73,21 +96,5 @@
 	</div>
 </header>
 
-<div class="container">
-	<div id="main-search">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="input-group">
-					<span class="input-group-addon"> <span
-						class="glyphicon glyphicon-search"></span>
-					</span> <input id="busqueda" type="text" class="form-control"
-						placeholder="Busque el producto que necesita!" /> <span
-						class="input-group-btn">
-						<button OnClick="busquedaProducto();" class="btn btn-warning" type="button">Buscar</button>
-					</span>
 
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+

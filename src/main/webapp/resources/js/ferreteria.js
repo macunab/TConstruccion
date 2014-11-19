@@ -277,3 +277,18 @@ function numbersonly(myfield, e, dec) {
 	} else
 		return false;
 }
+
+
+$( "div.te" )
+.mouseover(function() {
+ 
+  $( this ).find( "button" ).show();
+})
+.mouseout(function() {
+  $( this ).find( "button" ).hide();
+});
+
+
+function test(){
+	console.log("HOLA SE HIZO CLICK EN EL BUTTON");
+}

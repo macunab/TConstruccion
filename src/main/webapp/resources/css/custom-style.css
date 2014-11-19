@@ -24,12 +24,15 @@ ul li {
 	margin-bottom: 5px;
 }
 
-.wrapper {
-	min-height: 100%;
-	height: 100%;
-	margin: 0 auto -155px;
-	/* the bottom margin is the negative value of the footer's height */
+header {
+	box-shadow: 2px 5px 5px #888888;
+	-webkit-box-shadow: 2px 2px 5px #999;
+	-moz-box-shadow: 2px 2px 5px #999;
+	background: url(../img/footer_lodyas.png);
+	margin-bottom: 60px;
 }
+
+
 /**************************************
 ************* HEADER ******************
 ***************************************/
@@ -50,12 +53,13 @@ ul li {
 
 #main-logo {
 	width: 100%;
-	height: 80px;
-	padding: 2px 0 0 20px;
-	margin: 0;
+	/*height: 80px;*/
+	padding: 0;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	/*background-color: #A3D900;*/
 }
-
+/*
 #main-logo>a {
 	font-size: 20px;
 	font-size: 2rem;
@@ -69,7 +73,7 @@ ul li {
 	color: #333;
 	font-size: 13px;
 	font-size: 1.3rem;
-}
+}*/
 
 /*********************************************
 ************ Main Navigation *****************
@@ -77,6 +81,7 @@ ul li {
 #main-menu {
 	float: right;
 	margin-top: 30px;
+	margin-bottom: 0;
 }
 
 #main-menu a {
@@ -105,7 +110,7 @@ ul li {
 #mobile-menu {
 	float: right;
 	width: 44px;
-	margin: 20px 0;
+	margin-top: 11px;
 }
 
 #mobile-main-menu {
@@ -132,6 +137,15 @@ ul li {
 	background-color: #a3d900;
 }
 
+.search-input {
+	margin-top: 30px;
+}
+
+.logo-mobile {
+	padding: 0;
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
 /******************************************
 ************* SideBar **********************
 ******************************************/
@@ -139,14 +153,12 @@ ul li {
 	text-decoration: none;
 }
 
-
-
 /******************************************
 ************* Footer **********************
 ******************************************/
 footer {
 	padding: 30px 0;
-	background-color: #333;
+	background:  url(../img/footer_lodyas.png);;
 }
 
 #ws>header {
@@ -161,4 +173,74 @@ footer {
 
 .help-inline {
 	color: #a84543;
+}
+
+/**************************************************************
+************* Caption imagen de Carousel **********************
+**************************************************************/
+/* Removes the default 20px margin and creates some padding space for the indicators and controls */
+.carousel {
+	margin-bottom: 0;
+	padding: 0 40px 30px 40px;
+}
+
+.carousel-control {
+	position: absolute;
+	top: 40%;
+	left: -15px;
+	width: 40px;
+	height: 40px;
+	margin-top: -20px;
+	font-size: 60px;
+	font-weight: 100;
+	line-height: 30px;
+	color: #ffffff;
+	text-align: center;
+	background: #222222;
+	border: 3px solid #ffffff;
+	-webkit-border-radius: 23px;
+	-moz-border-radius: 23px;
+	border-radius: 23px;
+	opacity: 0.5;
+	filter: alpha(opacity = 50);
+}
+
+.carousel-control.right {
+	right: -15px;
+	left: auto;
+}
+
+/* Changes the position of the indicators */
+.carousel-indicators {
+	right: 50%;
+	top: auto;
+	bottom: 0px;
+	margin-right: -19px;
+}
+/* Changes the colour of the indicators */
+.carousel-indicators li {
+	background: #c0c0c0;
+}
+
+.carousel-indicators .active {
+	background: #333333;
+}
+
+.carousel-control.left, .carousel-control.right {
+	background-image: none
+}
+
+.btn-item-carousel {
+	position: absolute;
+	bottom: 40px;
+	left: 15px;
+	width: 90%;
+}
+
+#ca {
+	padding: 20px;
+}
+
+#main-body {
+	margin-top: 130px;
 }
