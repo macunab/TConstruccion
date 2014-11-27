@@ -28,8 +28,7 @@ header {
 	box-shadow: 2px 5px 5px #888888;
 	-webkit-box-shadow: 2px 2px 5px #999;
 	-moz-box-shadow: 2px 2px 5px #999;
-	background: url(../img/footer_lodyas.png);
-	margin-bottom: 60px;
+
 }
 
 
@@ -38,17 +37,20 @@ header {
 ***************************************/
 #main-header {
 	position: fixed;
+		background: url(../img/footer_lodyas.png);
+	margin-bottom: 0px;
 	top: 0;
 	width: 100%;
-	background-color: #fff;
+	/*background-color: #fff;*/
 	z-index: 99;
-	background-color: rgb(255, 255, 255);
-	background-color: rgba(255, 255, 255, 0.95);
+	/*background-color: rgb(255, 255, 255);
+	background-color: rgba(255, 255, 255, 0.95);*/
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#11000000,
 		endColorstr=#11000000)";
 	-moz-box-shadow: 0 1px 5px #999;
 	-webkit-box-shadow: 0 1px 5px #999;
 	box-shadow: 0 1px 5px #999;
+
 }
 
 #main-logo {
@@ -59,21 +61,6 @@ header {
 	margin-bottom: 10px;
 	/*background-color: #A3D900;*/
 }
-/*
-#main-logo>a {
-	font-size: 20px;
-	font-size: 2rem;
-	font-weight: 600;
-	color: #fff;
-	text-decoration: none;
-}
-
-#main-logo>a>span {
-	display: block;
-	color: #333;
-	font-size: 13px;
-	font-size: 1.3rem;
-}*/
 
 /*********************************************
 ************ Main Navigation *****************
@@ -242,5 +229,6 @@ footer {
 }
 
 #main-body {
-	margin-top: 130px;
+	margin-top: 80px;
+	background: url(../img/pw_maze_white.png);
 }

@@ -31,7 +31,7 @@ public class Usuario {
 	@Column(name = "password")
 	private String password;
 
-	@Column(name = "enable")
+	@Column(name = "activo")
 	private boolean enable;
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -45,9 +45,6 @@ public class Usuario {
 	@NotEmpty(message = "Tiene que ingresar un apellido")
 	private String apellido;
 
-	@Column(name = "domicilio")
-	private String domicilio;
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Pedido> pedidos;
 
@@ -56,15 +53,14 @@ public class Usuario {
 	}
 
 	public Usuario(String username, String password, boolean enable, Grupo rol,
-			String nombre, String apellido, String domicilio) {
+			String nombre, String apellido) {
 		this.username = username;
 		this.password = password;
 		this.enable = enable;
 		this.rol = rol;
 		this.apellido = apellido;
 		this.nombre = nombre;
-		this.domicilio = domicilio;
-
+		
 	}
 
 	public String getUsername() {
@@ -113,14 +109,6 @@ public class Usuario {
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
-	}
-
-	public String getDomicilio() {
-		return domicilio;
-	}
-
-	public void setDomicilio(String domicilio) {
-		this.domicilio = domicilio;
 	}
 
 	public List<Pedido> getPedidos() {

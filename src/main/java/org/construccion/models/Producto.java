@@ -63,13 +63,13 @@ public class Producto {
 	@JoinColumn(name = "subcategoria")
 	private SubCategoria subcategoria;
 
-	@Column(name = "active")
+	@Column(name = "activo")
 	private boolean activo;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "producto")
 	Set<PedidoProducto> pedidoProductos = new HashSet<PedidoProducto>(0);
 
-	@Column(name = "fecha_alta")
+	@Column(name = "fecha_ingreso")
 	private String fechaAlta;
 
 	public Producto() {

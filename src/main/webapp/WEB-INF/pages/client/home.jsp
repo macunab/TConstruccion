@@ -256,16 +256,21 @@
 
 
 											<div class="te col-xs-12 col-sm-4">
+													<p class="text-center">
+													<strong>${producto.nombre }</strong>
+												</p>
 												<a href="get_producto?codigo=${producto.codigo }"
 													class="thumbnail"> <img
 													src="resources/img/martill01000.jpg" alt="Image"
 													style="max-width: 100%;" />
 
 												</a>
-												<button type="button"
-													class="btn btn-warning btn-item-carousel"
-													style="display: none;"
-													OnClick="getModal(${producto.codigo});">Agregar</button>
+												<sec:authorize access="hasRole('ROLE_CLIENTE')">
+													<button type="button"
+														class="btn btn-warning btn-item-carousel"
+														style="display: none;"
+														OnClick="getModal(${producto.codigo});">Agregar</button>
+												</sec:authorize>
 												<p class="text-center">$${producto.precio }</p>
 											</div>
 

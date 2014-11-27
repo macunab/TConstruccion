@@ -40,7 +40,7 @@
 	<div class="thumbnail">
 		<img src="resources/img/payment_methods.png"
 			title="Bootshop Payment Methods" alt="Payments Methods">
-		<div class="caption">
+		<div class="caption text-center">
 			<h5>Metodos de pago</h5>
 		</div>
 	</div>
